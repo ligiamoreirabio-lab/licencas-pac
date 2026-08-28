@@ -1,0 +1,1875 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Licenças PAC - Sistema de Gestão e Monitoramento de Licenciamento Ambiental</title>
+  <!-- Tailwind CSS -->
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Print Styles for Executive PDF */
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin: 8mm 10mm 10mm 10mm;
+      }
+      body {
+        background: white !important;
+        color: black !important;
+        font-size: 8.5pt !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+      .executive-table-container {
+        box-shadow: none !important;
+        border: none !important;
+        overflow: visible !important;
+      }
+      .executive-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        font-size: 8pt !important;
+      }
+      .executive-table th, .executive-table td {
+        border: 1px solid #94a3b8 !important;
+        padding: 5px 6px !important;
+        page-break-inside: avoid !important;
+      }
+      .executive-table th {
+        background-color: #f1f5f9 !important;
+        color: #0f172a !important;
+        font-weight: bold !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .legend-box {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+    
+    .print-only {
+      display: none;
+    }
+
+    /* Color Codes according to Casa Civil / Novo PAC specs */
+    .bg-sem-lp { background-color: #fef2f2; }
+    .text-prioritario { color: #dc2626; font-weight: 700; }
+    .bg-com-lp { background-color: #eff6ff; }
+    .bg-com-li { background-color: #f0fdf4; }
+    .bg-com-lo { background-color: #faf5ff; }
+
+    /* Task Item Checkbox hover effect */
+    .task-item:hover .task-check-btn {
+      border-color: #10b981;
+      background-color: #ecfdf5;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- Top Global Header (Gov.br / Casa Civil style) -->
+  <header class="no-print bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50 shadow-md">
+    <div class="max-w-[1750px] mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Brand & Sector -->
+      <div class="flex items-center space-x-3.5">
+        <div class="bg-emerald-600 text-white p-2 rounded-lg font-black text-lg tracking-tighter flex items-center justify-center w-10 h-10 shadow-sm border border-emerald-500/30">
+          PAC
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="font-bold text-base tracking-tight text-white">Licenças PAC</span>
+            <span class="bg-blue-500/20 text-blue-300 text-xs px-2 py-0.5 rounded-full border border-blue-400/30 font-medium">Novo PAC • Casa Civil</span>
+            <span class="bg-emerald-500/20 text-emerald-300 text-[11px] px-2 py-0.5 rounded-full border border-emerald-400/30 flex items-center gap-1 font-mono">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Em Tempo Real
+            </span>
+          </div>
+          <p class="text-xs text-slate-400">Secretaria Especial do Programa de Aceleração do Crescimento • Meio Ambiente e Licenciamento</p>
+        </div>
+      </div>
+
+      <!-- Real-time Presence & Active Users -->
+      <div class="flex items-center space-x-3 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700">
+        <span class="text-xs text-slate-300 font-medium flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          Equipe Online:
+        </span>
+        <div class="flex items-center -space-x-1.5" id="presenceAvatars"></div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center space-x-2">
+        <button id="btnNewProject" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition-all shadow-sm">
+          <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          Novo Processo
+        </button>
+        <button id="btnGenerateAllRisks" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition-all shadow-sm" title="Gera síntese executiva de Riscos e Oportunidades para todos os processos a partir dos comentários">
+          <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          Auto-Síntese Executiva
+        </button>
+        <button id="btnExportPDF" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white transition-all shadow-sm">
+          <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+          Exportar PDF Executivo
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- View Selector & Top KPI Ribbon -->
+  <div class="no-print bg-white border-b border-slate-200 shadow-sm">
+    <div class="max-w-[1750px] mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Views Navigation Tabs (4 Tabs) -->
+      <nav class="flex space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200" id="viewTabs">
+        <button data-view="master" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-800 bg-white shadow-sm border border-slate-200/80 transition-all flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          1. Tabela Mestra (Técnica)
+        </button>
+        <button data-view="executive" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          2. Tabela Executiva (Ministros)
+        </button>
+        <button data-view="deadlines" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          3. Painel de Prazos
+        </button>
+        <button data-view="history" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+          4. Histórico de Providências Realizadas
+          <span class="bg-emerald-100 text-emerald-800 text-[10px] px-1.5 py-0.2 rounded-full font-bold" id="badgeHistoryCnt">0</span>
+        </button>
+      </nav>
+
+      <!-- Quick KPI Counters -->
+      <div class="flex items-center flex-wrap gap-2 text-xs">
+        <div class="bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg flex items-center gap-2">
+          <span class="text-slate-500 font-medium">Total Processos:</span>
+          <span class="font-bold text-slate-900" id="kpiTotal">0</span>
+        </div>
+        <div class="bg-red-50 border border-red-200 text-red-700 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium cursor-pointer hover:bg-red-100 transition-colors" id="kpiSemLP" title="Filtrar por Sem Licença Prévia">
+          <span class="w-2 h-2 rounded-full bg-red-600"></span>
+          <span>Sem LP:</span>
+          <span class="font-bold" id="kpiSemLPCnt">0</span>
+        </div>
+        <div class="bg-amber-50 border border-amber-200 text-amber-800 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium cursor-pointer hover:bg-amber-100 transition-colors" id="kpiPrazosAlert" title="Prazos em alerta">
+          <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+          <span>Prazos Alerta/Vencidos:</span>
+          <span class="font-bold" id="kpiPrazosCnt">0</span>
+        </div>
+        <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium">
+          <span>Providências Concluídas:</span>
+          <span class="font-bold" id="kpiConcluidasCnt">0</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Legend Bar (Official Novo PAC / Casa Civil specification) -->
+  <div class="no-print bg-slate-100 border-b border-slate-200 px-4 sm:px-6 py-2">
+    <div class="max-w-[1750px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+      
+      <div class="flex items-center flex-wrap gap-2">
+        <span class="font-bold text-slate-700 uppercase tracking-wider text-[10px] mr-1">Legenda Oficial:</span>
+        <span class="inline-flex items-center px-2.5 py-1 rounded bg-white border border-red-200 text-red-700 font-semibold text-[11px] shadow-2xs">
+          <span class="w-2.5 h-2.5 rounded-sm bg-red-500 mr-1.5 inline-block"></span>
+          Sem Licença Prévia (vermelho: prioritários)
+        </span>
+        <span class="inline-flex items-center px-2.5 py-1 rounded bg-blue-50 border border-blue-200 text-blue-800 font-semibold text-[11px] shadow-2xs">
+          <span class="w-2.5 h-2.5 rounded-sm bg-blue-400 mr-1.5 inline-block"></span>
+          Com Licença Prévia (LP)
+        </span>
+        <span class="inline-flex items-center px-2.5 py-1 rounded bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold text-[11px] shadow-2xs">
+          <span class="w-2.5 h-2.5 rounded-sm bg-emerald-500 mr-1.5 inline-block"></span>
+          Com Licença de Instalação (LI)
+        </span>
+        <span class="inline-flex items-center px-2.5 py-1 rounded bg-purple-50 border border-purple-200 text-purple-800 font-semibold text-[11px] shadow-2xs">
+          <span class="w-2.5 h-2.5 rounded-sm bg-purple-500 mr-1.5 inline-block"></span>
+          Com Licença de Operação (LO)
+        </span>
+      </div>
+
+      <div class="text-slate-500 text-[11px] flex items-center gap-2">
+        <span>✅ <b>Checklist Operacional:</b> Clique no checkbox da providência para dar baixa e registrar a data de conclusão com o cálculo de desvio de prazo!</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Search & Filter Controls -->
+  <div class="no-print max-w-[1750px] mx-auto px-4 sm:px-6 py-3.5 w-full">
+    <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs flex flex-wrap items-center justify-between gap-3">
+      
+      <div class="flex items-center flex-1 min-w-[260px] relative">
+        <svg class="w-4 h-4 text-slate-400 absolute left-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <input type="text" id="searchInput" placeholder="Pesquisar por rodovia, ferrovia, ID, número de processo ou palavras-chave..." class="w-full pl-9 pr-4 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition-all">
+      </div>
+
+      <div class="flex items-center flex-wrap gap-2 text-xs">
+        <!-- Filter Subeixo -->
+        <select id="filterSubeixo" class="bg-slate-50 border border-slate-300 text-slate-700 py-1.5 px-3 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <option value="ALL">Todos os Subeixos</option>
+          <option value="Rodovias">Rodovias</option>
+          <option value="Ferrovias">Ferrovias</option>
+          <option value="Infraestrutura Hídrica / Ferrovias">Infraestrutura Hídrica / Ferrovias</option>
+          <option value="Infraestrutura Hídrica / Rodovias">Infraestrutura Hídrica / Rodovias</option>
+        </select>
+
+        <!-- Filter Status Licença -->
+        <select id="filterStatus" class="bg-slate-50 border border-slate-300 text-slate-700 py-1.5 px-3 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <option value="ALL">Todas as Licenças</option>
+          <option value="Sem Licença Prévia">Sem Licença Prévia</option>
+          <option value="Com Licença Prévia">Com Licença Prévia (LP)</option>
+          <option value="Com Licença de Instalação">Com Licença de Instalação (LI)</option>
+          <option value="Com Licença de Operação">Com Licença de Operação (LO)</option>
+        </select>
+
+        <!-- Filter Órgão Pendente -->
+        <select id="filterOrgao" class="bg-slate-50 border border-slate-300 text-slate-700 py-1.5 px-3 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <option value="ALL">Todos os Órgãos</option>
+          <option value="IBAMA">IBAMA</option>
+          <option value="FUNAI">FUNAI</option>
+          <option value="INCRA">INCRA</option>
+          <option value="IPHAN">IPHAN</option>
+          <option value="ICMBIO">ICMBio</option>
+          <option value="DNIT">DNIT</option>
+          <option value="INFRA">INFRA S.A.</option>
+          <option value="FEMARH">FEMARH (Estadual)</option>
+        </select>
+
+        <!-- Filter Prioritários Only -->
+        <label class="inline-flex items-center cursor-pointer bg-slate-50 border border-slate-300 px-3 py-1.5 rounded-lg text-slate-700 select-none hover:bg-slate-100 transition-colors">
+          <input type="checkbox" id="filterPrioritario" class="w-3.5 h-3.5 text-red-600 rounded border-slate-300 focus:ring-red-500">
+          <span class="ml-1.5 font-medium text-xs text-red-600">Apenas Prioritários</span>
+        </label>
+
+        <!-- Clear Filters -->
+        <button id="btnClearFilters" class="px-2.5 py-1.5 text-slate-500 hover:text-slate-800 text-xs font-medium hover:underline">
+          Limpar Filtros
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MAIN VIEW CONTAINER -->
+  <main class="flex-1 max-w-[1750px] w-full mx-auto px-4 sm:px-6 pb-12">
+    
+    <!-- ========================================== -->
+    <!-- VIEW 1: TABELA MESTRA (OPERACIONAL / TÉCNICA) -->
+    <!-- ========================================== -->
+    <div id="viewMaster" class="view-content">
+      <div class="bg-white rounded-xl border border-slate-200 shadow-2xs overflow-hidden">
+        
+        <div class="px-4 py-3 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center space-x-2">
+            <h2 class="font-bold text-slate-800 text-sm">Tabela Mestra: Dados e Informações Técnicas dos Processos LA</h2>
+            <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-mono" id="masterRowCount">0 registros</span>
+          </div>
+          <div class="flex items-center space-x-2 text-xs text-slate-500">
+            <span>⚡ Edição de célula por duplo clique • Checkbox para dar baixa nas providências</span>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto max-h-[calc(100vh-280px)] overflow-y-auto">
+          <table class="w-full text-left text-xs border-collapse divide-y divide-slate-200" id="tableMaster">
+            <thead class="bg-slate-100 text-slate-700 uppercase font-semibold text-[11px] sticky top-0 z-10 shadow-2xs">
+              <tr>
+                <th class="py-2.5 px-3 border-r border-slate-200 w-24">Subeixo</th>
+                <th class="py-2.5 px-2 border-r border-slate-200 w-16 text-center">ID</th>
+                <th class="py-2.5 px-3 border-r border-slate-200 w-64 min-w-[200px]">Empreendimento</th>
+                <th class="py-2.5 px-2.5 border-r border-slate-200 w-44">Processo</th>
+                <th class="py-2.5 px-2 border-r border-slate-200 w-24 text-center">TR Geral</th>
+                <th class="py-2.5 px-2 border-r border-slate-200 w-28">TR FUNAI</th>
+                <th class="py-2.5 px-2 border-r border-slate-200 w-28">TR INCRA</th>
+                <th class="py-2.5 px-2 border-r border-slate-200 w-32">Licença Prévia</th>
+                <th class="py-2.5 px-2 border-r border-slate-200 w-36">Licença Instalação</th>
+                <th class="py-2.5 px-2 border-r border-slate-200 w-32">Licença Operação</th>
+                <th class="py-2.5 px-3 border-r border-slate-200 min-w-[280px]">Comentários Detalhados</th>
+                <th class="py-2.5 px-3 border-r border-slate-200 min-w-[360px] bg-emerald-50/20">Providência(s) & Checklist</th>
+                <th class="py-2.5 px-2.5 border-r border-slate-200 w-28">Pendência</th>
+                <th class="py-2.5 px-2.5 border-r border-slate-200 w-24 text-center">Modificado em</th>
+                <th class="py-2.5 px-2 text-center w-16">Ações</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 bg-white" id="tbodyMaster"></tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: TABELA EXECUTIVA (DIRETORIA / MINISTROS) -->
+    <!-- ========================================== -->
+    <div id="viewExecutive" class="view-content hidden">
+      
+      <div class="executive-table-container bg-white rounded-xl border border-slate-300 shadow-sm p-6">
+        
+        <!-- Official Casa Civil Header -->
+        <div class="border-b-2 border-slate-800 pb-4 mb-4 flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-2 border-r border-slate-300 pr-4">
+              <div class="w-8 h-8 rounded bg-slate-900 text-white flex items-center justify-center font-black text-xs">BR</div>
+              <div>
+                <div class="text-[10px] font-bold tracking-widest text-slate-500 uppercase">Presidência da República</div>
+                <div class="text-sm font-extrabold text-slate-900 tracking-tight">CASA CIVIL</div>
+              </div>
+            </div>
+            <div>
+              <div class="text-xs font-semibold text-emerald-700 tracking-wide uppercase">PROGRAMA DE ACELERAÇÃO DO CRESCIMENTO</div>
+              <h1 class="text-lg font-extrabold text-slate-900">Pendências de Licenciamento Ambiental</h1>
+            </div>
+          </div>
+
+          <div class="text-right">
+            <div class="text-xs text-slate-500" id="execUpdateDate">Em atualização até 28/08/2026</div>
+            <div class="text-[11px] font-semibold text-slate-700">Relatório Executivo para Tomada de Decisão</div>
+          </div>
+        </div>
+
+        <!-- Executive Legend Strip -->
+        <div class="bg-slate-50 border border-slate-300 p-3 rounded-lg mb-4 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full md:w-auto">
+            <div class="flex items-center gap-2">
+              <span class="w-4 h-4 rounded-xs border border-red-300 bg-red-100 inline-block"></span>
+              <span class="text-red-700 font-bold text-[11px]">Empreendimento sem Licença Prévia</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-4 h-4 rounded-xs border border-blue-300 bg-blue-100 inline-block"></span>
+              <span class="text-blue-800 font-medium text-[11px]">Empreendimento com Licença Prévia</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-4 h-4 rounded-xs border border-emerald-300 bg-emerald-100 inline-block"></span>
+              <span class="text-emerald-800 font-medium text-[11px]">Empreendimento com Licença de Instalação</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-4 h-4 rounded-xs border border-purple-300 bg-purple-100 inline-block"></span>
+              <span class="text-purple-800 font-medium text-[11px]">Empreendimento com Licença de Operação</span>
+            </div>
+          </div>
+          <div class="text-[11px] text-red-600 font-semibold italic">
+            * em vermelho: projetos prioritários
+          </div>
+        </div>
+
+        <!-- Executive Table -->
+        <div class="overflow-x-auto">
+          <table class="executive-table w-full text-left text-xs border border-slate-300 border-collapse" id="tableExecutive">
+            <thead class="bg-slate-100 text-slate-900 font-bold text-[11px] border-b-2 border-slate-400">
+              <tr>
+                <th class="py-2 px-2.5 border border-slate-300 w-24">Subeixo</th>
+                <th class="py-2 px-2 border border-slate-300 w-16 text-center">ID</th>
+                <th class="py-2 px-3 border border-slate-300 w-52">Empreendimento</th>
+                <th class="py-2 px-3 border border-slate-300 min-w-[220px] w-64 bg-amber-50/50">Riscos e Oportunidades</th>
+                <th class="py-2 px-3 border border-slate-300 min-w-[260px]">Comentários</th>
+                <th class="py-2 px-3 border border-slate-300 min-w-[340px]">Providência(s) & Checklist</th>
+                <th class="py-2 px-2.5 border border-slate-300 w-28">Pendência</th>
+                <th class="py-2 px-2 border border-slate-300 w-20 text-center">Modificado em</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-300 bg-white" id="tbodyExecutive"></tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 3: PAINEL DE PRAZOS & INTERVENIENTES -->
+    <!-- ========================================== -->
+    <div id="viewDeadlines" class="view-content hidden">
+      
+      <!-- Overview Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        
+        <div class="bg-white p-4 rounded-xl border border-red-200 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-red-600 uppercase">Prazos Vencidos</span>
+            <span class="p-2 bg-red-100 text-red-700 rounded-lg">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </span>
+          </div>
+          <div class="text-2xl font-black text-red-700 mt-2" id="cntVencidos">0</div>
+          <p class="text-[11px] text-slate-500 mt-1">Exigem cobrança imediata na Sala de Situação</p>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-amber-600 uppercase">Vencimento Próximo (15d)</span>
+            <span class="p-2 bg-amber-100 text-amber-700 rounded-lg">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </span>
+          </div>
+          <div class="text-2xl font-black text-amber-700 mt-2" id="cntAtencao">0</div>
+          <p class="text-[11px] text-slate-500 mt-1">Acompanhamento preventivo ativo</p>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-emerald-200 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-emerald-600 uppercase">No Prazo / Regular</span>
+            <span class="p-2 bg-emerald-100 text-emerald-700 rounded-lg">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            </span>
+          </div>
+          <div class="text-2xl font-black text-emerald-700 mt-2" id="cntNoPrazo">0</div>
+          <p class="text-[11px] text-slate-500 mt-1">Estudos e análises dentro do cronograma</p>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-600 uppercase">Prazo a Definir</span>
+            <span class="p-2 bg-slate-100 text-slate-700 rounded-lg">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            </span>
+          </div>
+          <div class="text-2xl font-black text-slate-700 mt-2" id="cntADefinir">0</div>
+          <p class="text-[11px] text-slate-500 mt-1">Prazos dependentes de novas tratativas</p>
+        </div>
+
+      </div>
+
+      <!-- Breakdown & Actions Feed -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-2xs">
+          <h3 class="font-bold text-slate-800 text-sm mb-3">Pendências por Órgão Interveniente</h3>
+          <div class="space-y-3" id="agencyBreakdownList"></div>
+        </div>
+
+        <div class="lg:col-span-2 bg-white p-5 rounded-xl border border-slate-200 shadow-2xs">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-bold text-slate-800 text-sm">Próximos Marcos e Prazos Críticos de Intervenientes</h3>
+            <span class="text-xs text-slate-500">Ordenados por criticidade</span>
+          </div>
+          <div class="space-y-3 overflow-y-auto max-h-[500px]" id="criticalDeadlinesList"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ========================================== -->
+    <!-- VIEW 4: HISTÓRICO DE PROVIDÊNCIAS REALIZADAS -->
+    <!-- ========================================== -->
+    <div id="viewHistory" class="view-content hidden">
+      
+      <div class="bg-white rounded-xl border border-slate-200 shadow-2xs overflow-hidden p-6">
+        
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-5 mb-5">
+          <div>
+            <h2 class="font-extrabold text-slate-900 text-base flex items-center gap-2">
+              <span class="p-2 bg-emerald-100 text-emerald-800 rounded-lg">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+              </span>
+              Histórico e Registro de Providências Realizadas
+            </h2>
+            <p class="text-xs text-slate-500 mt-1">Trilha de auditoria e controle de desempenho temporal das ações executadas com órgãos intervenientes federais</p>
+          </div>
+
+          <div class="flex items-center gap-2 text-xs">
+            <span class="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200 flex items-center gap-1.5" id="historyStatAntecipado">
+              🟢 0 com Antecedência
+            </span>
+            <span class="px-3 py-1.5 rounded-lg bg-red-50 text-red-800 font-semibold border border-red-200 flex items-center gap-1.5" id="historyStatAtrasado">
+              🔴 0 com Atraso
+            </span>
+          </div>
+        </div>
+
+        <!-- Filter bar for History -->
+        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 mb-4 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div class="flex items-center flex-1 min-w-[220px]">
+            <input type="text" id="historySearchInput" placeholder="Filtrar histórico por ação, empreendimento ou órgão..." class="w-full p-1.5 px-3 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs">
+          </div>
+          <div class="flex items-center gap-2">
+            <select id="historyFilterDesempenho" class="bg-white border border-slate-300 text-slate-700 py-1.5 px-2.5 rounded-md font-medium text-xs">
+              <option value="ALL">Todos os Desempenhos</option>
+              <option value="antecedencia">🟢 Com Antecedência</option>
+              <option value="no_prazo">🟢 No Prazo Exato</option>
+              <option value="atraso">🔴 Com Atraso</option>
+              <option value="sem_prazo">⚪ Sem Prazo Fixo</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- History Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border border-slate-200 border-collapse" id="tableHistory">
+            <thead class="bg-slate-100 text-slate-800 font-bold text-[11px] border-b border-slate-300">
+              <tr>
+                <th class="py-2.5 px-3 border border-slate-200 w-52">Empreendimento</th>
+                <th class="py-2.5 px-3 border border-slate-200 min-w-[320px]">Providência Realizada</th>
+                <th class="py-2.5 px-2.5 border border-slate-200 w-28 text-center">Responsável</th>
+                <th class="py-2.5 px-2.5 border border-slate-200 w-28 text-center">Prazo Original</th>
+                <th class="py-2.5 px-2.5 border border-slate-200 w-28 text-center bg-emerald-50/50">Data de Realização</th>
+                <th class="py-2.5 px-3 border border-slate-200 w-44 text-center">Desvio / Desempenho</th>
+                <th class="py-2.5 px-2 text-center w-24">Ação</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 bg-white" id="tbodyHistory"></tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- MODAL: DAR BAIXA EM PROVIDÊNCIA -->
+  <div id="completeTaskModal" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+      
+      <div class="px-6 py-4 bg-emerald-600 text-white flex items-center justify-between">
+        <div class="flex items-center space-x-2 font-bold text-sm">
+          <svg class="w-5 h-5 text-emerald-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>Confirmar Realização de Providência</span>
+        </div>
+        <button id="btnCloseCompleteModal" class="text-emerald-100 hover:text-white text-lg font-bold">✕</button>
+      </div>
+
+      <div class="p-6 space-y-4 text-xs">
+        <input type="hidden" id="completeProjectId">
+        <input type="hidden" id="completeTaskId">
+
+        <div>
+          <span class="text-slate-500 font-semibold uppercase text-[10px] block">Empreendimento:</span>
+          <div class="font-bold text-slate-800 text-xs mt-0.5" id="completeProjectName">-</div>
+        </div>
+
+        <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <span class="font-bold text-slate-700" id="completeAgencyBadge">-</span>
+            <span class="text-slate-500 font-mono text-[11px]" id="completeOriginalDeadline">-</span>
+          </div>
+          <p class="text-slate-700 text-xs leading-relaxed" id="completeTaskDesc">-</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Data de Realização Efetiva:</label>
+            <input type="date" id="completeInputDate" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Cálculo de Desvio:</label>
+            <div class="p-2 rounded-lg border text-xs font-bold flex items-center justify-center h-[38px]" id="completeDiffPreview">
+              Calculando...
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Observações da Conclusão (Opcional):</label>
+          <input type="text" id="completeObs" placeholder="Ex: Protocolado sob número SEI 02001..." class="w-full p-2 bg-slate-50 border border-slate-300 rounded-lg text-xs">
+        </div>
+
+        <div class="flex items-center justify-end space-x-2 pt-4 border-t border-slate-200">
+          <button type="button" id="btnCancelCompleteModal" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 font-semibold hover:bg-slate-50">Cancelar</button>
+          <button type="button" id="btnConfirmCompleteTask" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700 flex items-center gap-1.5 shadow-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            Confirmar e Arquivar no Histórico
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: ADICIONAR NOVA PROVIDÊNCIA ESTRUTURADA -->
+  <div id="addTaskModal" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden">
+      
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <h3 class="font-bold text-sm">Adicionar Nova Providência</h3>
+        <button id="btnCloseAddTaskModal" class="text-slate-400 hover:text-white text-lg font-bold">✕</button>
+      </div>
+
+      <form id="addTaskForm" class="p-6 space-y-3.5 text-xs">
+        <input type="hidden" id="addTaskProjectId">
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Órgão Responsável:</label>
+          <select id="addTaskResponsavel" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50 font-medium">
+            <option value="DNIT">DNIT</option>
+            <option value="IBAMA">IBAMA</option>
+            <option value="FUNAI">FUNAI</option>
+            <option value="INCRA">INCRA</option>
+            <option value="IPHAN">IPHAN</option>
+            <option value="ICMBIO">ICMBio</option>
+            <option value="INFRA">INFRA S.A.</option>
+            <option value="FEMARH">FEMARH (Roraima)</option>
+            <option value="SETRANS/PI">SETRANS/PI</option>
+            <option value="INEMA/BA">INEMA (Bahia)</option>
+            <option value="SEPPI/CC/PR">SEPPI/CC/PR (Casa Civil)</option>
+            <option value="Empreendedor">Empreendedor / Concessionária</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Descrição da Ação:</label>
+          <textarea id="addTaskDescricao" rows="3" required placeholder="Ex: DNIT protocolar complementações ao EIA/RIMA..." class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Prazo Estipulado:</label>
+          <div class="grid grid-cols-2 gap-2">
+            <input type="date" id="addTaskDate" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
+            <label class="flex items-center space-x-2 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 cursor-pointer">
+              <input type="checkbox" id="addTaskADefinir" class="rounded text-blue-600">
+              <span class="font-medium text-slate-700">A Definir</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end space-x-2 pt-3 border-t border-slate-200">
+          <button type="button" id="btnCancelAddTaskModal" class="px-3.5 py-1.5 rounded-lg border border-slate-300 text-slate-600 font-semibold hover:bg-slate-50">Cancelar</button>
+          <button type="submit" class="px-4 py-1.5 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700">Adicionar Providência</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- MODAL: NOVO / EDITAR PROCESSO COMPLETO -->
+  <div id="projectModal" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200">
+      
+      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+        <h3 class="font-bold text-slate-800 text-base" id="modalTitle">Cadastrar Novo Processo PAC</h3>
+        <button id="btnCloseModal" class="text-slate-400 hover:text-slate-600 text-xl font-bold">✕</button>
+      </div>
+
+      <form id="projectForm" class="p-6 space-y-4 text-xs">
+        <input type="hidden" id="formIndex" value="-1">
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Subeixo</label>
+            <select id="formSubeixo" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
+              <option value="Rodovias">Rodovias</option>
+              <option value="Ferrovias">Ferrovias</option>
+              <option value="Infraestrutura Hídrica / Ferrovias">Infraestrutura Hídrica / Ferrovias</option>
+              <option value="Infraestrutura Hídrica / Rodovias">Infraestrutura Hídrica / Rodovias</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">ID do Projeto</label>
+            <input type="text" id="formIdCode" placeholder="Ex: 2039 ou S/N" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
+          </div>
+          <div class="flex items-center pt-5">
+            <label class="inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="formPrioritario" class="w-4 h-4 text-red-600 rounded">
+              <span class="ml-2 font-bold text-red-600">Empreendimento Prioritário</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Nome do Empreendimento</label>
+          <input type="text" id="formEmpreendimento" required placeholder="Ex: BR-158/MT (Lote A e B)" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Número do Processo SEI / Órgão</label>
+            <input type="text" id="formProcesso" placeholder="Ex: 02001.002419/2004-53 (IBAMA)" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Status da Licença (Classificação)</label>
+            <select id="formStatusLicenca" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
+              <option value="Sem Licença Prévia">Sem Licença Prévia</option>
+              <option value="Com Licença Prévia">Com Licença Prévia (LP)</option>
+              <option value="Com Licença de Instalação">Com Licença de Instalação (LI)</option>
+              <option value="Com Licença de Operação">Com Licença de Operação (LO)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Licença Prévia (LP)</label>
+            <input type="text" id="formLP" placeholder="Número / Ano" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Licença de Instalação (LI)</label>
+            <input type="text" id="formLI" placeholder="Número / Ano" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Licença de Operação (LO)</label>
+            <input type="text" id="formLO" placeholder="Número / Ano" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Comentários Detalhados (Tabela Mestra)</label>
+          <textarea id="formComentarios" rows="3" placeholder="Insira o histórico técnico detalhado do processo..." class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Riscos e Oportunidades (Texto Executivo)</label>
+          <textarea id="formRiscos" rows="2" placeholder="Texto enxuto para apresentação à diretoria..." class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50"></textarea>
+        </div>
+
+        <div class="flex items-center justify-end space-x-2 pt-4 border-t border-slate-200">
+          <button type="button" id="btnCancelModal" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 font-semibold hover:bg-slate-50">Cancelar</button>
+          <button type="submit" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700">Salvar Processo</button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div id="toastContainer" class="no-print fixed bottom-4 right-4 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- Embeded Application Scripts -->
+  <script>
+    /**
+     * LICENÇAS PAC - Core System with Checklist & Historical Audit Trail
+     */
+
+    const activeTeammates = [
+      { name: "Lígia (Você)", color: "bg-emerald-500" },
+      { name: "Carlos (Secretaria PAC)", color: "bg-blue-500" },
+      { name: "Mariana (Coord. Meio Ambiente)", color: "bg-purple-500" },
+      { name: "Roberto (Articulação Intervenientes)", color: "bg-amber-500" }
+    ];
+
+    // Helper: Parse raw text into structured task items
+    function parseProvidenciasToTasks(text) {
+      if (!text || text.trim() === "" || /sem providências/i.test(text)) return [];
+      
+      const lines = text.split(/\n|(?<=[.;])\s+(?=[A-Z])/).filter(l => l.trim().length > 5);
+      return lines.map((line, idx) => {
+        let resp = "DNIT";
+        if (/IBAMA|CENEAC/i.test(line)) resp = "IBAMA";
+        else if (/FUNAI/i.test(line)) resp = "FUNAI";
+        else if (/INCRA/i.test(line)) resp = "INCRA";
+        else if (/IPHAN/i.test(line)) resp = "IPHAN";
+        else if (/ICMBio/i.test(line)) resp = "ICMBIO";
+        else if (/FEMARH/i.test(line)) resp = "FEMARH";
+        else if (/INFRA/i.test(line)) resp = "INFRA";
+        else if (/DNOCS/i.test(line)) resp = "DNOCS";
+        else if (/SETRANS|DER\/PI/i.test(line)) resp = "SETRANS/PI";
+        else if (/TLSA|Concessionária/i.test(line)) resp = "Empreendedor";
+        else if (/SEPPI|CC\/PR/i.test(line)) resp = "SEPPI/CC/PR";
+
+        let prazo = "a definir";
+        const dateMatch = line.match(/\b(\d{2}\/\d{2}\/\d{4})\b/) || line.match(/até ([a-zA-Zç]+ de \d{4})/i) || line.match(/até (\d{2}\/\d{2}\/\d{4})/i);
+        if (dateMatch) {
+          prazo = dateMatch[1];
+        }
+
+        return {
+          id: `task_${Date.now()}_${idx}_${Math.floor(Math.random()*1000)}`,
+          responsavel: resp,
+          descricao: line.trim(),
+          prazo: prazo,
+          concluida: false
+        };
+      });
+    }
+
+    // Projects Dataset
+    let projectsData = [
+      {
+        id: "p1",
+        id_code: "S/N",
+        subeixo: "Rodovias",
+        empreendimento: "BR-135/BA: São Desidério (km 207 a 226) e Santa Maria da Vitória (km 320 a 323)",
+        processo: "02001.005969/2005-13 (IBAMA)",
+        tr_geral: "N/A",
+        tr_funai: "N/A",
+        tr_incra: "N/A",
+        lp: "",
+        li: "",
+        lo: "",
+        prioritario: true,
+        status_licenca: "Sem Licença Prévia",
+        riscos_oportunidades: "Prospecção espeleológica concluída. Necessidade de o DNIT organizar as informações para processo de tomada de decisão sobre traçado da rodovia no trecho km 207 a km 226 em face dos achados espeleológicos.",
+        comentarios: "Trecho no entorno da cavidade \"Buraco do Inferno\": definição sobre traçado depende de avaliações referentes aos resultados do relatório de monitoramento espeleológico no entorno da cavidade \"Buraco do Inferno\" e do relatório de prospecção espeleológica para o trecho do km 207 a 226.\nTrecho km 207 a 226: DNIT realizou prospecção espeleológica para o trecho e alternativa de Catolândia entre março/2026 e maio/2026. DNIT apresentou relatório referente à prospecção espeleológica ao IBAMA em 12/08/2026 (resultado: mais de 300 cavidades no trecho do km 207 a 226).",
+        providencias: "SEPPI/CC/PR realizará reunião em 02/09/2026 para discussão sobre proposta de alternativa de traçado.\nDNIT finalizar avaliações internas e organizar informações para tomada de decisão sobre traçado da rodovia no trecho km 207 a km 226 em face dos achados espeleológicos.",
+        providencias_list: [
+          { id: "t1_1", responsavel: "SEPPI/CC/PR", descricao: "SEPPI/CC/PR realizará reunião para discussão sobre proposta de alternativa de traçado", prazo: "02/09/2026", concluida: false },
+          { id: "t1_2", responsavel: "DNIT", descricao: "DNIT finalizar avaliações internas e organizar informações para tomada de decisão sobre traçado em face dos achados espeleológicos", prazo: "a definir", concluida: false }
+        ],
+        pendencia: "DNIT e SEPPI/CC/PR",
+        modificado_em: "26/08/2026",
+        prazo_critico: "02/09/2026",
+        status_prazo: "atencao"
+      },
+      {
+        id: "p2",
+        id_code: "3954",
+        subeixo: "Rodovias",
+        empreendimento: "BR-110/316/PE - Construção Petrolândia - Inajá",
+        processo: "02001.018236/2023-12 (IBAMA)",
+        tr_geral: "set/23",
+        tr_funai: "Funai Itens para inclusão ao TR Ibama fevereiro/2024",
+        tr_incra: "N/A",
+        lp: "",
+        li: "",
+        lo: "",
+        prioritario: true,
+        status_licenca: "Sem Licença Prévia",
+        riscos_oportunidades: "Termo de Referência emitido pelo IBAMA em set/2023. Atravessa TI Kambiwá por 13 km. Aguarda manifestação da FUNAI sobre ECI e análise do EIA/RIMA pelo IBAMA.",
+        comentarios: "Termo de Referência para estudos ambientais emitido pelo IBAMA em setembro/2023 (licenciamento trifásico). Atravessa TI Kambiwá por 13 km e TIs Entre Serras e Pipipã estão na área de estudo. FUNAI solicitou inclusão de itens no TR do IBAMA em fevereiro/2024. EIA/RIMA protocolado no IBAMA em março/2026 e devolvido para complementações em junho/2026. DNIT apresentou ECI à FUNAI em 11/06/2026. DNIT reapresentou EIA/RIMA ao IBAMA em 07/08/2026.",
+        providencias: "FUNAI manifestar sobre ECI (10/08/2026).\nDNIT realizar consulta sobre arqueologia participativa e apresentar relatório ao IPHAN (até setembro/2026).\nIBAMA analisar e manifestar sobre EIA/RIMA (a definir).",
+        providencias_list: [
+          { id: "t2_1", responsavel: "FUNAI", descricao: "FUNAI manifestar sobre ECI do trecho que atravessa TI Kambiwá", prazo: "10/08/2026", concluida: false },
+          { id: "t2_2", responsavel: "DNIT", descricao: "DNIT realizar consulta sobre arqueologia participativa e apresentar relatório ao IPHAN", prazo: "30/09/2026", concluida: false },
+          { id: "t2_3", responsavel: "IBAMA", descricao: "IBAMA analisar e manifestar sobre EIA/RIMA reapresentado", prazo: "a definir", concluida: false }
+        ],
+        pendencia: "DNIT, IBAMA e FUNAI",
+        modificado_em: "26/08/2026",
+        prazo_critico: "10/08/2026",
+        status_prazo: "vencido"
+      },
+      {
+        id: "p3",
+        id_code: "2074",
+        subeixo: "Rodovias",
+        empreendimento: "Construção da BR-401/RR (Bonfim – Normandia)",
+        processo: "02001.0020294/2018-49 (IBAMA)",
+        tr_geral: "",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "LP nº 0002/2026/DLGA/DLAIIS (janeiro/2026)",
+        li: "",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença Prévia",
+        riscos_oportunidades: "Licenciamento delegado à FEMARH-RR com LP emitida sem prévia manifestação da FUNAI. FUNAI recomendou paralisação de obras e suspensão das licenças.",
+        comentarios: "Licenciamento delegado ao Estado de Roraima. Em 06/08/2026, FUNAI encaminhou ofício ao IBAMA. IBAMA encaminhou, em 14/08/2026, à FEMARH o ofício da FUNAI e solicitou manifestação em 15 dias.",
+        providencias: "FEMARH apresentar informações ao IBAMA (não apresentado).\nIBAMA avaliar informações e manifestação da FUNAI.",
+        providencias_list: [
+          { id: "t3_1", responsavel: "FEMARH", descricao: "FEMARH apresentar informações ao IBAMA sobre recomendação da FUNAI de suspensão da LP", prazo: "29/08/2026", concluida: false },
+          { id: "t3_2", responsavel: "IBAMA", descricao: "IBAMA avaliar manifestação e ofício da FUNAI", prazo: "a definir", concluida: false }
+        ],
+        pendencia: "FEMARH e IBAMA",
+        modificado_em: "26/08/2026",
+        prazo_critico: "29/08/2026",
+        status_prazo: "atencao"
+      },
+      {
+        id: "p9",
+        id_code: "2037 e 2038",
+        subeixo: "Rodovias",
+        empreendimento: "BR-158/MT",
+        processo: "02001.002419/2004-53 (IBAMA)",
+        tr_geral: "out/09",
+        tr_funai: "Funai TRE de setembro/2009",
+        tr_incra: "N/A",
+        lp: "LICENÇA PRÉVIA Nº 570/2018",
+        li: "Licença de Instalação (LI) Nº 1504/2025",
+        lo: "",
+        prioritario: true,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Oportunidade: indígenas querem a implementação da rodovia para fora da TI. Necessidade de DNIT iniciar a execução do PBA-CI para liberar 56 km de obras no Lote A e de apresentar o projeto executivo do Segmento 9 do Lote A e complementações ao Lote B para o IBAMA.",
+        comentarios: "Lote A: Tem LI (86,1 km) com bloqueio de 56,1 km que dependem da implementação do PBA-CI. Contrato para PBA-CI homologado no DOU de 02/07/2026.",
+        providencias: "Lote A (56,1 km/bloqueio na LI): DNIT iniciar execução do PBA-CI.\nDNIT apresentar Relatório de Resgate Arqueológico.\nLote A (segmento 9): DNIT apresentar projeto executivo.\nLote B: DNIT apresentar complementações ao IBAMA.",
+        providencias_list: [
+          { id: "t9_1", responsavel: "DNIT", descricao: "Lote A (56,1 km/bloqueio na LI): DNIT iniciar execução do PBA-CI", prazo: "03/08/2026", concluida: false },
+          { id: "t9_2", responsavel: "DNIT", descricao: "DNIT apresentar Relatório de Resgate dos sítios arqueológicos Verdinho e Serra Nova Figura", prazo: "15/07/2026", concluida: false },
+          { id: "t9_3", responsavel: "DNIT", descricao: "Lote A (segmento 9): DNIT apresentar projeto executivo ao IBAMA", prazo: "31/07/2026", concluida: false },
+          { id: "t9_4", responsavel: "DNIT", descricao: "Lote B: DNIT apresentar complementações ao IBAMA referente ao Lote B", prazo: "31/07/2026", concluida: false }
+        ],
+        pendencia: "DNIT",
+        modificado_em: "14/08/2026",
+        prazo_critico: "31/07/2026",
+        status_prazo: "vencido"
+      },
+      {
+        id: "p20",
+        id_code: "1978",
+        subeixo: "Ferrovias",
+        empreendimento: "FIOL 2 (Ferrovia de Integração Oeste-Leste)",
+        processo: "02001.002052/2008-00 (IBAMA)",
+        tr_geral: "abr/09",
+        tr_funai: "Funai junho/2010",
+        tr_incra: "FCP janeiro/2010",
+        lp: "LICENÇA PRÉVIA Nº 349/2010",
+        li: "Licença de Instalação (LI) Nº 1200/2018 - Renovação",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Tem LI (461,3 km) com bloqueios em oito trechos (26,75 km). Trecho Morro do Bate-Bate necessita alteração de traçado; Barragem de Ceraíma e São Félix do Coribe demandam manifestação do IBAMA.",
+        comentarios: "Tem LI (461,3 km) com bloqueios em oito trechos. Novo traçado do Morro do Bate-Bate em definição.",
+        providencias: "Barragem de Ceraíma: INFRA apresentar novas versões do EAR, do PGR e do PAE.\nIBAMA manifestar sobre solicitação de ASV e retificação de LI (30/09/2026).\nMorro do Bate-bate: INFRA definir novo traçado para o trecho (até 31/08/2026).\nEstudos espeleológicos: IBAMA manifestar sobre proposta de alteração de traçado (30/08/2026).",
+        providencias_list: [
+          { id: "t20_1", responsavel: "INFRA", descricao: "Morro do Bate-bate: INFRA definir novo traçado para o trecho", prazo: "31/08/2026", concluida: false },
+          { id: "t20_2", responsavel: "IBAMA", descricao: "IBAMA manifestar sobre proposta de alteração de traçado para Variante das Cavernas e São Félix do Coribe", prazo: "30/08/2026", concluida: false },
+          { id: "t20_3", responsavel: "IBAMA", descricao: "Barragem de Ceraíma: IBAMA manifestar sobre solicitação de ASV e retificação de LI", prazo: "30/09/2026", concluida: false },
+          { id: "t20_4", responsavel: "INFRA", descricao: "Barragem de Ceraíma: INFRA apresentar novas versões do EAR, do PGR e do PAE", prazo: "a definir", concluida: false }
+        ],
+        pendencia: "IBAMA e INFRA",
+        modificado_em: "21/08/2026",
+        prazo_critico: "28/08/2026",
+        status_prazo: "atencao"
+      }
+    ];
+
+    // Historical Completed Providências List (Persistent Audit Trail)
+    let completedHistory = [
+      {
+        id: "h_1",
+        project_id: "p1",
+        empreendimento: "BR-135/BA: São Desidério (km 207 a 226)",
+        subeixo: "Rodovias",
+        responsavel: "DNIT",
+        descricao: "DNIT apresentar relatório referente à prospecção espeleológica com mais de 300 cavidades mapeadas ao IBAMA",
+        prazo_original: "15/08/2026",
+        data_conclusao: "12/08/2026",
+        dias_diferenca: 3,
+        status_desempenho: "antecedencia",
+        observacoes: "Protocolado e entregue com 3 dias de antecedência"
+      },
+      {
+        id: "h_2",
+        project_id: "p2",
+        empreendimento: "BR-110/316/PE - Construção Petrolândia - Inajá",
+        subeixo: "Rodovias",
+        responsavel: "DNIT",
+        descricao: "DNIT protocolar reapresentação do EIA/RIMA complementado junto à DILIC/IBAMA",
+        prazo_original: "01/08/2026",
+        data_conclusao: "07/08/2026",
+        dias_diferenca: -6,
+        status_desempenho: "atraso",
+        observacoes: "Reapresentado com 6 dias de atraso devido a ajustes de hidrologia"
+      },
+      {
+        id: "h_3",
+        project_id: "p20",
+        empreendimento: "FIOL 2 (Ferrovia de Integração Oeste-Leste)",
+        subeixo: "Ferrovias",
+        responsavel: "INCRA",
+        descricao: "INCRA e comunidades quilombolas emitirem aprovação do PBA-CQ para trecho sob TAC",
+        prazo_original: "a definir",
+        data_conclusao: "10/08/2026",
+        dias_diferenca: null,
+        status_desempenho: "sem_prazo",
+        observacoes: "PBA-CQ aprovado liberando trecho para intervenções"
+      }
+    ];
+
+    // Fill providencias_list for any project that doesn't have structured tasks yet
+    projectsData.forEach(p => {
+      if (!p.providencias_list || p.providencias_list.length === 0) {
+        p.providencias_list = parseProvidenciasToTasks(p.providencias);
+      }
+    });
+
+    // Storage Management
+    const STORAGE_KEY = "LICENCAS_PAC_DATA_V2";
+    const HISTORY_KEY = "LICENCAS_PAC_HISTORY_V2";
+    const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('licencas_pac_channel') : null;
+
+    function loadData() {
+      try {
+        const savedData = localStorage.getItem(STORAGE_KEY);
+        const savedHistory = localStorage.getItem(HISTORY_KEY);
+        if (savedData) projectsData = JSON.parse(savedData);
+        if (savedHistory) completedHistory = JSON.parse(savedHistory);
+      } catch (e) {
+        console.error("Load storage error:", e);
+      }
+    }
+
+    function saveData(broadcast = true) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(projectsData));
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(completedHistory));
+        if (broadcast && channel) {
+          channel.postMessage({ type: "DATA_UPDATED", payloadData: projectsData, payloadHistory: completedHistory, sender: "You" });
+        }
+      } catch (e) {
+        console.error("Save storage error:", e);
+      }
+    }
+
+    if (channel) {
+      channel.onmessage = (event) => {
+        if (event.data.type === "DATA_UPDATED") {
+          projectsData = event.data.payloadData;
+          completedHistory = event.data.payloadHistory;
+          renderAll();
+          showToast(`⚡ Dados e checklist atualizados por outro membro da equipe!`, "info");
+        }
+      };
+    }
+
+    // Helper: Date parsing & Difference calculation
+    function parseDate(str) {
+      if (!str || str.toLowerCase().includes("definir") || str.toLowerCase().includes("indefinido")) return null;
+      const parts = str.split('/');
+      if (parts.length === 3) {
+        return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+      }
+      const iso = new Date(str);
+      if (!isNaN(iso.getTime())) return iso;
+      return null;
+    }
+
+    function calculateDateDifference(prazoOriginalStr, dataConclusaoStr) {
+      const prazoDate = parseDate(prazoOriginalStr);
+      const conclusaoDate = parseDate(dataConclusaoStr);
+
+      if (!prazoDate || !conclusaoDate) {
+        return { diffDays: null, status: "sem_prazo", label: "⚪ Sem prazo fixo estipulado" };
+      }
+
+      // Difference in days (positive = before deadline, negative = after deadline)
+      const diffTime = prazoDate.getTime() - conclusaoDate.getTime();
+      const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays > 0) {
+        return { diffDays, status: "antecedencia", label: `🟢 ${diffDays} dias de antecedência` };
+      } else if (diffDays === 0) {
+        return { diffDays: 0, status: "no_prazo", label: `🟢 Concluído no prazo exato` };
+      } else {
+        return { diffDays, status: "atraso", label: `🔴 ${Math.abs(diffDays)} dias de atraso` };
+      }
+    }
+
+    function getTodayYMD() {
+      const d = new Date();
+      return d.toISOString().split('T')[0];
+    }
+
+    function getTodayFormatted() {
+      const d = new Date();
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
+    // NLP Engine: Extract pending agencies from active tasks
+    function extractAgenciesFromTasks(tasks) {
+      if (!tasks || tasks.length === 0) return "Nenhuma";
+      const agencies = [...new Set(tasks.map(t => t.responsavel).filter(Boolean))];
+      if (agencies.length === 0) return "A definir";
+      if (agencies.length === 1) return agencies[0];
+      if (agencies.length === 2) return `${agencies[0]} e ${agencies[1]}`;
+      return `${agencies.slice(0, -1).join(', ')} e ${agencies[agencies.length - 1]}`;
+    }
+
+    // Colors for Agencies
+    function getAgencyBadgeColor(agency) {
+      const map = {
+        "IBAMA": "bg-blue-100 text-blue-800 border-blue-200",
+        "FUNAI": "bg-emerald-100 text-emerald-800 border-emerald-200",
+        "INCRA": "bg-purple-100 text-purple-800 border-purple-200",
+        "IPHAN": "bg-amber-100 text-amber-800 border-amber-200",
+        "ICMBIO": "bg-teal-100 text-teal-800 border-teal-200",
+        "DNIT": "bg-slate-100 text-slate-800 border-slate-300",
+        "INFRA": "bg-indigo-100 text-indigo-800 border-indigo-200",
+        "FEMARH": "bg-rose-100 text-rose-800 border-rose-200",
+        "SEPPI/CC/PR": "bg-lime-100 text-lime-900 border-lime-300",
+        "Empreendedor": "bg-orange-100 text-orange-800 border-orange-200"
+      };
+      return map[agency] || "bg-slate-100 text-slate-800 border-slate-300";
+    }
+
+    // Deadline tag styling
+    function getDeadlineBadge(prazo) {
+      if (!prazo || prazo.toLowerCase().includes("definir")) {
+        return `<span class="text-[10px] text-slate-500 font-mono">⚪ Prazo a definir</span>`;
+      }
+      const d = parseDate(prazo);
+      if (!d) {
+        return `<span class="text-[10px] text-slate-500 font-mono">Prazo: ${prazo}</span>`;
+      }
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const diff = Math.round((d.getTime() - today.getTime()) / (1000*60*60*24));
+
+      if (diff < 0) {
+        return `<span class="text-[10px] bg-red-100 text-red-800 border border-red-200 px-1.5 py-0.2 rounded font-bold">🔴 Vencido (${prazo})</span>`;
+      } else if (diff <= 15) {
+        return `<span class="text-[10px] bg-amber-100 text-amber-800 border border-amber-200 px-1.5 py-0.2 rounded font-bold">🟡 Atenção (${prazo})</span>`;
+      } else {
+        return `<span class="text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 px-1.5 py-0.2 rounded font-medium">🟢 No Prazo (${prazo})</span>`;
+      }
+    }
+
+    // State & Filter Management
+    let currentView = "master";
+    let filters = {
+      search: "",
+      subeixo: "ALL",
+      status: "ALL",
+      orgao: "ALL",
+      prioritarioOnly: false
+    };
+
+    let historyFilters = {
+      search: "",
+      desempenho: "ALL"
+    };
+
+    function getFilteredData() {
+      return projectsData.filter(item => {
+        if (filters.search) {
+          const s = filters.search.toLowerCase();
+          const match = (
+            (item.empreendimento && item.empreendimento.toLowerCase().includes(s)) ||
+            (item.id_code && item.id_code.toLowerCase().includes(s)) ||
+            (item.processo && item.processo.toLowerCase().includes(s)) ||
+            (item.comentarios && item.comentarios.toLowerCase().includes(s)) ||
+            (item.providencias && item.providencias.toLowerCase().includes(s)) ||
+            (item.pendencia && item.pendencia.toLowerCase().includes(s))
+          );
+          if (!match) return false;
+        }
+        if (filters.subeixo !== "ALL" && item.subeixo !== filters.subeixo) return false;
+        if (filters.status !== "ALL" && item.status_licenca !== filters.status) return false;
+        if (filters.orgao !== "ALL" && (!item.pendencia || !item.pendencia.toUpperCase().includes(filters.orgao.toUpperCase()))) return false;
+        if (filters.prioritarioOnly && !item.prioritario) return false;
+        return true;
+      });
+    }
+
+    function getFilteredHistory() {
+      return completedHistory.filter(item => {
+        if (historyFilters.search) {
+          const s = historyFilters.search.toLowerCase();
+          const match = (
+            (item.empreendimento && item.empreendimento.toLowerCase().includes(s)) ||
+            (item.descricao && item.descricao.toLowerCase().includes(s)) ||
+            (item.responsavel && item.responsavel.toLowerCase().includes(s)) ||
+            (item.observacoes && item.observacoes.toLowerCase().includes(s))
+          );
+          if (!match) return false;
+        }
+        if (historyFilters.desempenho !== "ALL" && item.status_desempenho !== historyFilters.desempenho) return false;
+        return true;
+      });
+    }
+
+    // Render Checklist UI inside Table Cell
+    function renderTasksChecklist(project) {
+      const tasks = project.providencias_list || [];
+
+      if (tasks.length === 0) {
+        return `
+          <div class="text-slate-400 italic text-[11px] py-1 flex items-center justify-between">
+            <span>Nenhuma providência pendente.</span>
+            <button class="btn-add-task text-blue-600 hover:text-blue-800 text-[10px] font-bold underline cursor-pointer" data-pid="${project.id}">+ Adicionar</button>
+          </div>
+        `;
+      }
+
+      const itemsHtml = tasks.map(t => {
+        const agencyClass = getAgencyBadgeColor(t.responsavel);
+        const deadlineHtml = getDeadlineBadge(t.prazo);
+
+        return `
+          <div class="task-item flex items-start gap-2 p-1.5 rounded-lg bg-slate-50 border border-slate-200 hover:border-emerald-300 transition-all text-[11px] mb-1.5 group/task">
+            <button class="task-check-btn mt-0.5 w-4 h-4 rounded border-2 border-slate-300 hover:border-emerald-500 bg-white flex items-center justify-center text-transparent hover:text-emerald-600 cursor-pointer shrink-0 transition-colors shadow-2xs" data-pid="${project.id}" data-tid="${t.id}" title="Marcar como realizada">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+            </button>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center flex-wrap gap-1.5 mb-0.5">
+                <span class="px-1.5 py-0.2 rounded font-bold text-[10px] border ${agencyClass}">${t.responsavel}</span>
+                ${deadlineHtml}
+              </div>
+              <p class="text-slate-700 leading-snug text-[11px] select-text">${t.descricao}</p>
+            </div>
+            <button class="btn-remove-task opacity-0 group-hover/task:opacity-100 text-slate-300 hover:text-red-500 p-0.5 rounded transition-opacity" data-pid="${project.id}" data-tid="${t.id}" title="Excluir tarefa">✕</button>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <div class="space-y-1">
+          ${itemsHtml}
+          <div class="pt-1 flex justify-end">
+            <button class="btn-add-task text-blue-600 hover:text-blue-800 text-[10px] font-semibold flex items-center gap-0.5 cursor-pointer hover:underline" data-pid="${project.id}">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+              Nova Providência
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // Render Master Table
+    function renderMasterTable() {
+      const tbodyMaster = document.getElementById("tbodyMaster");
+      const data = getFilteredData();
+      document.getElementById("masterRowCount").textContent = `${data.length} de ${projectsData.length} processos`;
+
+      if (data.length === 0) {
+        tbodyMaster.innerHTML = `<tr><td colspan="15" class="py-8 text-center text-slate-400">Nenhum processo encontrado com os filtros selecionados.</td></tr>`;
+        return;
+      }
+
+      tbodyMaster.innerHTML = data.map((item) => {
+        const rawIndex = projectsData.findIndex(p => p.id === item.id);
+        const empreendimentoClass = item.status_licenca === "Sem Licença Prévia" && item.prioritario ? "text-red-600 font-bold underline decoration-red-300" : "text-slate-900 font-semibold";
+        const rowBg = item.status_licenca === "Sem Licença Prévia" && item.prioritario ? "hover:bg-red-50/70" : "hover:bg-slate-50";
+
+        return `
+          <tr class="${rowBg} transition-colors group" data-id="${item.id}">
+            <td class="py-2 px-3 border-r border-slate-200 font-medium text-slate-700 editable-cell" data-field="subeixo" data-idx="${rawIndex}">${item.subeixo || ''}</td>
+            <td class="py-2 px-2 border-r border-slate-200 text-center font-mono text-slate-600 editable-cell" data-field="id_code" data-idx="${rawIndex}">${item.id_code || ''}</td>
+            <td class="py-2 px-3 border-r border-slate-200 editable-cell" data-field="empreendimento" data-idx="${rawIndex}">
+              <div class="${empreendimentoClass} text-xs leading-snug">${item.empreendimento}</div>
+              <div class="mt-1 flex items-center gap-1.5">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${item.status_licenca === 'Sem Licença Prévia' ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-700'}">${item.status_licenca}</span>
+                ${item.prioritario ? '<span class="text-[10px] text-red-500 font-bold">★ Prioritário</span>' : ''}
+              </div>
+            </td>
+            <td class="py-2 px-2.5 border-r border-slate-200 text-[11px] font-mono text-slate-600 editable-cell" data-field="processo" data-idx="${rawIndex}">${item.processo || '-'}</td>
+            <td class="py-2 px-2 border-r border-slate-200 text-center text-[11px] editable-cell" data-field="tr_geral" data-idx="${rawIndex}">${item.tr_geral || '-'}</td>
+            <td class="py-2 px-2 border-r border-slate-200 text-[11px] editable-cell" data-field="tr_funai" data-idx="${rawIndex}">${item.tr_funai || '-'}</td>
+            <td class="py-2 px-2 border-r border-slate-200 text-[11px] editable-cell" data-field="tr_incra" data-idx="${rawIndex}">${item.tr_incra || '-'}</td>
+            <td class="py-2 px-2 border-r border-slate-200 text-[11px] text-blue-900 editable-cell" data-field="lp" data-idx="${rawIndex}">${item.lp || '-'}</td>
+            <td class="py-2 px-2 border-r border-slate-200 text-[11px] text-emerald-900 editable-cell" data-field="li" data-idx="${rawIndex}">${item.li || '-'}</td>
+            <td class="py-2 px-2 border-r border-slate-200 text-[11px] text-purple-900 editable-cell" data-field="lo" data-idx="${rawIndex}">${item.lo || '-'}</td>
+            <td class="py-2 px-3 border-r border-slate-200 text-slate-700 whitespace-pre-line text-[11px] leading-relaxed editable-cell max-w-xs" data-field="comentarios" data-idx="${rawIndex}">${item.comentarios || ''}</td>
+            <td class="py-2 px-3 border-r border-slate-200 bg-emerald-50/10 min-w-[340px]">
+              ${renderTasksChecklist(item)}
+            </td>
+            <td class="py-2 px-2.5 border-r border-slate-200 font-semibold text-slate-800 text-[11px]">
+              <span class="inline-block px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 font-mono text-[10px]">${item.pendencia || 'Nenhuma'}</span>
+            </td>
+            <td class="py-2 px-2.5 border-r border-slate-200 text-center font-mono text-[11px] text-slate-500">${item.modificado_em || '-'}</td>
+            <td class="py-2 px-2 text-center">
+              <div class="flex items-center justify-center space-x-1">
+                <button class="btn-edit-row p-1 text-slate-400 hover:text-blue-600 rounded hover:bg-slate-100" data-idx="${rawIndex}" title="Editar Detalhes">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                </button>
+                <button class="btn-delete-row p-1 text-slate-400 hover:text-red-600 rounded hover:bg-slate-100" data-idx="${rawIndex}" title="Excluir">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      attachTableEvents();
+    }
+
+    // Render Executive Table
+    function renderExecutiveTable() {
+      const tbodyExecutive = document.getElementById("tbodyExecutive");
+      const data = getFilteredData();
+
+      if (data.length === 0) {
+        tbodyExecutive.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-slate-400">Nenhum processo encontrado.</td></tr>`;
+        return;
+      }
+
+      tbodyExecutive.innerHTML = data.map((item) => {
+        const rawIndex = projectsData.findIndex(p => p.id === item.id);
+        const empreendimentoClass = item.status_licenca === "Sem Licença Prévia" && item.prioritario ? "text-red-600 font-bold underline decoration-red-300" : "text-slate-900 font-semibold";
+        const rowBg = item.status_licenca === "Sem Licença Prévia" && item.prioritario ? "hover:bg-red-50/70" : "hover:bg-slate-50";
+
+        return `
+          <tr class="${rowBg} border-b border-slate-300" data-id="${item.id}">
+            <td class="py-2.5 px-2.5 border border-slate-300 font-semibold text-slate-800 text-xs">${item.subeixo || ''}</td>
+            <td class="py-2.5 px-2 border border-slate-300 text-center font-mono text-slate-700 text-xs">${item.id_code || ''}</td>
+            <td class="py-2.5 px-3 border border-slate-300">
+              <div class="${empreendimentoClass} text-xs leading-snug">${item.empreendimento}</div>
+              <div class="mt-1 text-[10px] text-slate-500 font-mono">${item.processo || ''}</div>
+            </td>
+            <td class="py-2.5 px-3 border border-slate-300 bg-amber-50/40 text-slate-800 font-medium text-xs leading-relaxed editable-cell" data-field="riscos_oportunidades" data-idx="${rawIndex}">
+              ${item.riscos_oportunidades || '<span class="text-slate-400 italic">Clique para inserir riscos...</span>'}
+            </td>
+            <td class="py-2.5 px-3 border border-slate-300 text-slate-700 whitespace-pre-line text-xs leading-relaxed editable-cell" data-field="comentarios" data-idx="${rawIndex}">
+              ${item.comentarios || ''}
+            </td>
+            <td class="py-2.5 px-3 border border-slate-300 min-w-[320px]">
+              ${renderTasksChecklist(item)}
+            </td>
+            <td class="py-2.5 px-2.5 border border-slate-300 font-bold text-slate-800 text-xs">${item.pendencia || 'Nenhuma'}</td>
+            <td class="py-2.5 px-2 border border-slate-300 text-center font-mono text-xs text-slate-600">${item.modificado_em || '-'}</td>
+          </tr>
+        `;
+      }).join('');
+
+      attachTableEvents();
+    }
+
+    // Render History Table (Tab 4)
+    function renderHistoryTable() {
+      const tbodyHistory = document.getElementById("tbodyHistory");
+      const data = getFilteredHistory();
+
+      const totalAntecipadas = completedHistory.filter(h => h.status_desempenho === "antecedencia" || (h.dias_diferenca && h.dias_diferenca >= 0)).length;
+      const totalAtrasadas = completedHistory.filter(h => h.status_desempenho === "atraso" || (h.dias_diferenca && h.dias_diferenca < 0)).length;
+
+      document.getElementById("historyStatAntecipado").textContent = `🟢 ${totalAntecipadas} com Antecedência/No Prazo`;
+      document.getElementById("historyStatAtrasado").textContent = `🔴 ${totalAtrasadas} com Atraso`;
+      document.getElementById("badgeHistoryCnt").textContent = completedHistory.length;
+
+      if (data.length === 0) {
+        tbodyHistory.innerHTML = `
+          <tr>
+            <td colspan="7" class="py-12 text-center text-slate-400">
+              <svg class="w-8 h-8 mx-auto text-slate-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+              Nenhuma providência realizada encontrada. Marque o checkbox nas tabelas para dar baixa!
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbodyHistory.innerHTML = data.map(item => {
+        let diffBadge = "";
+        if (item.status_desempenho === "antecedencia" || (item.dias_diferenca && item.dias_diferenca > 0)) {
+          diffBadge = `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">🟢 +${item.dias_diferenca} dias de antecedência</span>`;
+        } else if (item.status_desempenho === "no_prazo" || item.dias_diferenca === 0) {
+          diffBadge = `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">🟢 Concluído no prazo exato</span>`;
+        } else if (item.status_desempenho === "atraso" || (item.dias_diferenca && item.dias_diferenca < 0)) {
+          diffBadge = `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800 border border-red-300">🔴 ${Math.abs(item.dias_diferenca)} dias de atraso</span>`;
+        } else {
+          diffBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs text-slate-600 bg-slate-100">⚪ Sem prazo fixo</span>`;
+        }
+
+        const agencyColor = getAgencyBadgeColor(item.responsavel);
+
+        return `
+          <tr class="hover:bg-slate-50 transition-colors">
+            <td class="py-3 px-3 border border-slate-200 font-semibold text-slate-900 text-xs">
+              <div>${item.empreendimento}</div>
+              <span class="text-[10px] text-slate-400 font-normal">${item.subeixo || ''}</span>
+            </td>
+            <td class="py-3 px-3 border border-slate-200 text-slate-700 text-xs leading-relaxed">
+              <p class="font-medium">${item.descricao}</p>
+              ${item.observacoes ? `<p class="text-[11px] text-slate-500 mt-1 italic font-sans">Obs: ${item.observacoes}</p>` : ''}
+            </td>
+            <td class="py-3 px-2.5 border border-slate-200 text-center">
+              <span class="px-2 py-0.5 rounded font-bold text-[10px] border ${agencyColor}">${item.responsavel}</span>
+            </td>
+            <td class="py-3 px-2.5 border border-slate-200 text-center font-mono text-xs text-slate-600">${item.prazo_original || 'a definir'}</td>
+            <td class="py-3 px-2.5 border border-slate-200 text-center font-mono font-bold text-emerald-800 bg-emerald-50/40 text-xs">${item.data_conclusao}</td>
+            <td class="py-3 px-3 border border-slate-200 text-center">${diffBadge}</td>
+            <td class="py-3 px-2 border border-slate-200 text-center">
+              <button class="btn-reopen-task text-[11px] font-semibold text-amber-700 hover:text-amber-900 hover:underline bg-amber-50 px-2 py-1 rounded border border-amber-200 cursor-pointer" data-hid="${item.id}" title="Desmarcar e retornar para pendente">
+                ↩ Reabrir
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      // Attach Reopen button events
+      document.querySelectorAll(".btn-reopen-task").forEach(btn => {
+        btn.addEventListener("click", function() {
+          const hid = this.getAttribute("data-hid");
+          reopenTask(hid);
+        });
+      });
+    }
+
+    // Deadlines Dashboard (Tab 3)
+    function renderDeadlinesDashboard() {
+      const vencidos = projectsData.filter(p => p.status_prazo === "vencido");
+      const atencao = projectsData.filter(p => p.status_prazo === "atencao");
+      const noPrazo = projectsData.filter(p => p.status_prazo === "no_prazo");
+      const aDefinir = projectsData.filter(p => p.status_prazo === "a_definir");
+
+      document.getElementById("cntVencidos").textContent = vencidos.length;
+      document.getElementById("cntAtencao").textContent = atencao.length;
+      document.getElementById("cntNoPrazo").textContent = noPrazo.length;
+      document.getElementById("cntADefinir").textContent = aDefinir.length;
+
+      const agencyMap = { "IBAMA": 0, "FUNAI": 0, "INCRA": 0, "IPHAN": 0, "ICMBIO": 0, "DNIT": 0, "INFRA": 0 };
+      projectsData.forEach(p => {
+        const pend = (p.pendencia || "").toUpperCase();
+        Object.keys(agencyMap).forEach(k => {
+          if (pend.includes(k)) agencyMap[k]++;
+        });
+      });
+
+      const agencyBreakdownList = document.getElementById("agencyBreakdownList");
+      agencyBreakdownList.innerHTML = Object.entries(agencyMap).map(([agency, count]) => {
+        const pct = Math.round((count / projectsData.length) * 100);
+        return `
+          <div>
+            <div class="flex justify-between text-xs font-semibold text-slate-700 mb-1">
+              <span>${agency}</span>
+              <span class="font-mono text-slate-500">${count} processos (${pct}%)</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+              <div class="bg-blue-600 h-2 rounded-full" style="width: ${pct}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const criticalDeadlinesList = document.getElementById("criticalDeadlinesList");
+      const sorted = [...projectsData].sort((a, b) => {
+        const weight = { vencido: 1, atencao: 2, no_prazo: 3, a_definir: 4 };
+        return (weight[a.status_prazo] || 5) - (weight[b.status_prazo] || 5);
+      });
+
+      criticalDeadlinesList.innerHTML = sorted.map(item => {
+        let badge = item.status_prazo === "vencido" ? `<span class="bg-red-100 text-red-700 font-bold px-2 py-0.5 rounded text-[10px] border border-red-200">Vencido (${item.prazo_critico})</span>` :
+          item.status_prazo === "atencao" ? `<span class="bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded text-[10px] border border-amber-200">Atenção (${item.prazo_critico})</span>` :
+          item.status_prazo === "no_prazo" ? `<span class="bg-emerald-100 text-emerald-800 font-medium px-2 py-0.5 rounded text-[10px]">No Prazo (${item.prazo_critico})</span>` :
+          `<span class="bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded text-[10px]">A Definir</span>`;
+
+        return `
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg hover:border-slate-300 transition-colors">
+            <div class="flex items-center justify-between gap-2 mb-1">
+              <span class="font-bold text-slate-800 text-xs">${item.empreendimento}</span>
+              ${badge}
+            </div>
+            <p class="text-[11px] text-slate-600 line-clamp-2">${item.providencias || 'Sem providências registradas.'}</p>
+            <div class="mt-2 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+              <span>Órgãos: <b>${item.pendencia}</b></span>
+              <span>Modificado em: ${item.modificado_em}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderAll() {
+      // Presence
+      document.getElementById("presenceAvatars").innerHTML = activeTeammates.map(u => `
+        <div class="w-6 h-6 rounded-full ${u.color} text-white flex items-center justify-center text-[10px] font-bold ring-2 ring-slate-800" title="${u.name}">
+          ${u.name.charAt(0)}
+        </div>
+      `).join('');
+
+      // KPIs
+      document.getElementById("kpiTotal").textContent = projectsData.length;
+      document.getElementById("kpiSemLPCnt").textContent = projectsData.filter(p => p.status_licenca === "Sem Licença Prévia").length;
+      document.getElementById("kpiPrazosCnt").textContent = projectsData.filter(p => p.status_prazo === "vencido" || p.status_prazo === "atencao").length;
+      document.getElementById("kpiConcluidasCnt").textContent = completedHistory.length;
+      document.getElementById("badgeHistoryCnt").textContent = completedHistory.length;
+
+      if (currentView === "master") renderMasterTable();
+      else if (currentView === "executive") renderExecutiveTable();
+      else if (currentView === "deadlines") renderDeadlinesDashboard();
+      else if (currentView === "history") renderHistoryTable();
+    }
+
+    // Attach Table & Checklist Events
+    function attachTableEvents() {
+      // Checkbox Click (Open Complete Modal)
+      document.querySelectorAll(".task-check-btn").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          const pid = this.getAttribute("data-pid");
+          const tid = this.getAttribute("data-tid");
+          openCompleteModal(pid, tid);
+        });
+      });
+
+      // Remove Task Click
+      document.querySelectorAll(".btn-remove-task").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          const pid = this.getAttribute("data-pid");
+          const tid = this.getAttribute("data-tid");
+          const project = projectsData.find(p => p.id === pid);
+          if (project && project.providencias_list) {
+            project.providencias_list = project.providencias_list.filter(t => t.id !== tid);
+            project.pendencia = extractAgenciesFromTasks(project.providencias_list);
+            project.modificado_em = getTodayFormatted();
+            saveData(true);
+            renderAll();
+            showToast("Providência removida.", "info");
+          }
+        });
+      });
+
+      // Add Task Button Click
+      document.querySelectorAll(".btn-add-task").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          const pid = this.getAttribute("data-pid");
+          openAddTaskModal(pid);
+        });
+      });
+
+      // Inline Editing on Cells (dblclick)
+      document.querySelectorAll(".editable-cell").forEach(cell => {
+        cell.addEventListener("dblclick", function(e) {
+          if (this.querySelector("textarea") || this.querySelector("input")) return;
+          const field = this.getAttribute("data-field");
+          const idx = parseInt(this.getAttribute("data-idx"));
+          const currentVal = projectsData[idx][field] || "";
+
+          const isLongText = (field === "comentarios" || field === "riscos_oportunidades");
+          const inputEl = isLongText ? document.createElement("textarea") : document.createElement("input");
+          inputEl.value = currentVal;
+          inputEl.className = "w-full p-1.5 text-xs bg-blue-50/80 border-2 border-blue-600 rounded focus:outline-none shadow-sm font-sans";
+          if (isLongText) inputEl.rows = 4;
+
+          const originalContent = this.innerHTML;
+          this.innerHTML = "";
+          this.appendChild(inputEl);
+          inputEl.focus();
+
+          const saveCell = () => {
+            const newVal = inputEl.value.trim();
+            if (newVal !== currentVal) {
+              projectsData[idx][field] = newVal;
+              projectsData[idx].modificado_em = getTodayFormatted();
+              saveData(true);
+              showToast(`Célula "${field}" atualizada!`, "success");
+            }
+            renderAll();
+          };
+
+          inputEl.addEventListener("blur", saveCell);
+          inputEl.addEventListener("keydown", (ev) => {
+            if (ev.key === "Enter" && (!isLongText || ev.ctrlKey)) {
+              ev.preventDefault();
+              inputEl.blur();
+            } else if (ev.key === "Escape") {
+              this.innerHTML = originalContent;
+            }
+          });
+        });
+      });
+
+      // Edit full project button
+      document.querySelectorAll(".btn-edit-row").forEach(btn => {
+        btn.addEventListener("click", function() {
+          const idx = parseInt(this.getAttribute("data-idx"));
+          openModal(idx);
+        });
+      });
+
+      // Delete full project button
+      document.querySelectorAll(".btn-delete-row").forEach(btn => {
+        btn.addEventListener("click", function() {
+          const idx = parseInt(this.getAttribute("data-idx"));
+          if (confirm(`Tem certeza que deseja excluir o processo "${projectsData[idx].empreendimento}"?`)) {
+            projectsData.splice(idx, 1);
+            saveData(true);
+            renderAll();
+            showToast("Processo removido.", "warning");
+          }
+        });
+      });
+    }
+
+    // Modal: Complete Task Handling
+    let activeTaskToComplete = null;
+
+    function openCompleteModal(pid, tid) {
+      const project = projectsData.find(p => p.id === pid);
+      if (!project) return;
+      const task = (project.providencias_list || []).find(t => t.id === tid);
+      if (!task) return;
+
+      activeTaskToComplete = { project, task };
+
+      document.getElementById("completeProjectId").value = pid;
+      document.getElementById("completeTaskId").value = tid;
+      document.getElementById("completeProjectName").textContent = project.empreendimento;
+      document.getElementById("completeTaskDesc").textContent = task.descricao;
+      document.getElementById("completeAgencyBadge").textContent = `Órgão: ${task.responsavel}`;
+      document.getElementById("completeOriginalDeadline").textContent = `Prazo Original: ${task.prazo}`;
+
+      const todayInput = getTodayYMD();
+      document.getElementById("completeInputDate").value = todayInput;
+      document.getElementById("completeObs").value = "";
+
+      updateCompleteDiffPreview();
+      document.getElementById("completeTaskModal").classList.remove("hidden");
+    }
+
+    function updateCompleteDiffPreview() {
+      if (!activeTaskToComplete) return;
+      const inputVal = document.getElementById("completeInputDate").value; // YYYY-MM-DD
+      const dateParts = inputVal.split('-');
+      const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+
+      const res = calculateDateDifference(activeTaskToComplete.task.prazo, formattedDate);
+      const previewEl = document.getElementById("completeDiffPreview");
+
+      if (res.status === "antecedencia") {
+        previewEl.className = "p-2 rounded-lg border text-xs font-bold flex items-center justify-center h-[38px] bg-emerald-50 text-emerald-800 border-emerald-300";
+        previewEl.textContent = `🟢 Concluído ${res.diffDays} dias antes do prazo!`;
+      } else if (res.status === "no_prazo") {
+        previewEl.className = "p-2 rounded-lg border text-xs font-bold flex items-center justify-center h-[38px] bg-emerald-50 text-emerald-800 border-emerald-300";
+        previewEl.textContent = `🟢 Concluído no prazo exato!`;
+      } else if (res.status === "atraso") {
+        previewEl.className = "p-2 rounded-lg border text-xs font-bold flex items-center justify-center h-[38px] bg-red-50 text-red-800 border-red-300";
+        previewEl.textContent = `🔴 Concluído com ${Math.abs(res.diffDays)} dias de atraso`;
+      } else {
+        previewEl.className = "p-2 rounded-lg border text-xs font-bold flex items-center justify-center h-[38px] bg-slate-50 text-slate-700 border-slate-300";
+        previewEl.textContent = `⚪ Providência sem prazo prévio`;
+      }
+    }
+
+    document.getElementById("completeInputDate").addEventListener("change", updateCompleteDiffPreview);
+
+    document.getElementById("btnConfirmCompleteTask").addEventListener("click", () => {
+      if (!activeTaskToComplete) return;
+      const { project, task } = activeTaskToComplete;
+
+      const inputVal = document.getElementById("completeInputDate").value;
+      const dateParts = inputVal.split('-');
+      const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+      const obs = document.getElementById("completeObs").value.trim();
+
+      const diffResult = calculateDateDifference(task.prazo, formattedDate);
+
+      // Add to completed history
+      const historyRecord = {
+        id: `h_${Date.now()}`,
+        project_id: project.id,
+        empreendimento: project.empreendimento,
+        subeixo: project.subeixo,
+        responsavel: task.responsavel,
+        descricao: task.descricao,
+        prazo_original: task.prazo,
+        data_conclusao: formattedDate,
+        dias_diferenca: diffResult.diffDays,
+        status_desempenho: diffResult.status,
+        observacoes: obs
+      };
+
+      completedHistory.unshift(historyRecord);
+
+      // Remove from project pending tasks list
+      project.providencias_list = project.providencias_list.filter(t => t.id !== task.id);
+      project.pendencia = extractAgenciesFromTasks(project.providencias_list);
+      project.modificado_em = getTodayFormatted();
+
+      saveData(true);
+      document.getElementById("completeTaskModal").classList.add("hidden");
+      renderAll();
+
+      showToast(`✔ Providência concluída e registrada no Histórico! (${diffResult.label})`, "success");
+    });
+
+    document.getElementById("btnCloseCompleteModal").addEventListener("click", () => {
+      document.getElementById("completeTaskModal").classList.add("hidden");
+    });
+    document.getElementById("btnCancelCompleteModal").addEventListener("click", () => {
+      document.getElementById("completeTaskModal").classList.add("hidden");
+    });
+
+    // Reopen / Undo Completed Task from History
+    function reopenTask(hid) {
+      const idx = completedHistory.findIndex(h => h.id === hid);
+      if (idx === -1) return;
+      const h = completedHistory[idx];
+
+      const project = projectsData.find(p => p.id === h.project_id);
+      if (project) {
+        if (!project.providencias_list) project.providencias_list = [];
+        project.providencias_list.push({
+          id: `t_${Date.now()}`,
+          responsavel: h.responsavel,
+          descricao: h.descricao,
+          prazo: h.prazo_original,
+          concluida: false
+        });
+        project.pendencia = extractAgenciesFromTasks(project.providencias_list);
+        project.modificado_em = getTodayFormatted();
+      }
+
+      completedHistory.splice(idx, 1);
+      saveData(true);
+      renderAll();
+      showToast("Providência reaberta e retornada à lista de pendências!", "warning");
+    }
+
+    // Modal: Add New Task
+    function openAddTaskModal(pid) {
+      document.getElementById("addTaskProjectId").value = pid;
+      document.getElementById("addTaskDescricao").value = "";
+      document.getElementById("addTaskDate").value = "";
+      document.getElementById("addTaskADefinir").checked = false;
+      document.getElementById("addTaskModal").classList.remove("hidden");
+    }
+
+    document.getElementById("addTaskForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const pid = document.getElementById("addTaskProjectId").value;
+      const project = projectsData.find(p => p.id === pid);
+      if (!project) return;
+
+      const resp = document.getElementById("addTaskResponsavel").value;
+      const desc = document.getElementById("addTaskDescricao").value.trim();
+      const aDefinir = document.getElementById("addTaskADefinir").checked;
+      const dateVal = document.getElementById("addTaskDate").value;
+
+      let prazo = "a definir";
+      if (!aDefinir && dateVal) {
+        const parts = dateVal.split('-');
+        prazo = `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+
+      if (!project.providencias_list) project.providencias_list = [];
+      project.providencias_list.push({
+        id: `t_${Date.now()}`,
+        responsavel: resp,
+        descricao: desc,
+        prazo: prazo,
+        concluida: false
+      });
+
+      project.pendencia = extractAgenciesFromTasks(project.providencias_list);
+      project.modificado_em = getTodayFormatted();
+
+      saveData(true);
+      document.getElementById("addTaskModal").classList.add("hidden");
+      renderAll();
+      showToast("Nova providência adicionada com sucesso!", "success");
+    });
+
+    document.getElementById("btnCloseAddTaskModal").addEventListener("click", () => {
+      document.getElementById("addTaskModal").classList.add("hidden");
+    });
+    document.getElementById("btnCancelAddTaskModal").addEventListener("click", () => {
+      document.getElementById("addTaskModal").classList.add("hidden");
+    });
+
+    // View Switching
+    function switchView(viewName) {
+      currentView = viewName;
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        if (btn.getAttribute("data-view") === viewName) {
+          btn.className = "tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-800 bg-white shadow-sm border border-slate-200/80 transition-all flex items-center gap-1.5";
+        } else {
+          btn.className = "tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all flex items-center gap-1.5";
+        }
+      });
+
+      document.querySelectorAll(".view-content").forEach(v => v.classList.add("hidden"));
+      if (viewName === "master") document.getElementById("viewMaster").classList.remove("hidden");
+      else if (viewName === "executive") document.getElementById("viewExecutive").classList.remove("hidden");
+      else if (viewName === "deadlines") document.getElementById("viewDeadlines").classList.remove("hidden");
+      else if (viewName === "history") document.getElementById("viewHistory").classList.remove("hidden");
+
+      renderAll();
+    }
+
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", function() {
+        switchView(this.getAttribute("data-view"));
+      });
+    });
+
+    // Auto-Synthesize Button
+    document.getElementById("btnGenerateAllRisks").addEventListener("click", () => {
+      projectsData.forEach(p => {
+        p.modificado_em = getTodayFormatted();
+      });
+      saveData(true);
+      renderAll();
+      showToast(`✨ Síntese executiva atualizada!`, "success");
+    });
+
+    // PDF Export
+    document.getElementById("btnExportPDF").addEventListener("click", () => {
+      switchView("executive");
+      setTimeout(() => window.print(), 250);
+    });
+
+    // Filters
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      filters.search = e.target.value;
+      renderAll();
+    });
+    document.getElementById("filterSubeixo").addEventListener("change", (e) => {
+      filters.subeixo = e.target.value;
+      renderAll();
+    });
+    document.getElementById("filterStatus").addEventListener("change", (e) => {
+      filters.status = e.target.value;
+      renderAll();
+    });
+    document.getElementById("filterOrgao").addEventListener("change", (e) => {
+      filters.orgao = e.target.value;
+      renderAll();
+    });
+    document.getElementById("filterPrioritario").addEventListener("change", (e) => {
+      filters.prioritarioOnly = e.target.checked;
+      renderAll();
+    });
+    document.getElementById("btnClearFilters").addEventListener("click", () => {
+      document.getElementById("searchInput").value = "";
+      document.getElementById("filterSubeixo").value = "ALL";
+      document.getElementById("filterStatus").value = "ALL";
+      document.getElementById("filterOrgao").value = "ALL";
+      document.getElementById("filterPrioritario").checked = false;
+      filters = { search: "", subeixo: "ALL", status: "ALL", orgao: "ALL", prioritarioOnly: false };
+      renderAll();
+    });
+
+    // History Filters
+    document.getElementById("historySearchInput").addEventListener("input", (e) => {
+      historyFilters.search = e.target.value;
+      renderHistoryTable();
+    });
+    document.getElementById("historyFilterDesempenho").addEventListener("change", (e) => {
+      historyFilters.desempenho = e.target.value;
+      renderHistoryTable();
+    });
+
+    // Toast
+    function showToast(message, type = "info") {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      const colors = {
+        success: "bg-emerald-800 text-emerald-100 border-emerald-700",
+        info: "bg-slate-800 text-slate-100 border-slate-700",
+        warning: "bg-amber-800 text-amber-100 border-amber-700"
+      };
+      toast.className = `p-3 rounded-xl shadow-lg border text-xs font-medium max-w-sm flex items-center space-x-2 transition-all transform duration-300 translate-y-2 opacity-0 pointer-events-auto ${colors[type] || colors.info}`;
+      toast.innerHTML = `<span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => toast.classList.remove("translate-y-2", "opacity-0"), 10);
+      setTimeout(() => {
+        toast.classList.add("opacity-0", "translate-y-2");
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // Init App
+    loadData();
+    renderAll();
+  </script>
+
+</body>
+</html>

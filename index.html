@@ -15,7 +15,6 @@
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
     }
     
-    /* Custom Scrollbars */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -40,7 +39,7 @@
       body {
         background: white !important;
         color: black !important;
-        font-size: 8.5pt !important;
+        font-size: 8pt !important;
       }
       .no-print {
         display: none !important;
@@ -56,11 +55,11 @@
       .executive-table {
         width: 100% !important;
         border-collapse: collapse !important;
-        font-size: 8pt !important;
+        font-size: 7.5pt !important;
       }
       .executive-table th, .executive-table td {
         border: 1px solid #94a3b8 !important;
-        padding: 5px 6px !important;
+        padding: 4px 5px !important;
         page-break-inside: avoid !important;
       }
       .executive-table th {
@@ -80,14 +79,12 @@
       display: none;
     }
 
-    /* Color Codes according to Casa Civil / Novo PAC specs */
     .bg-sem-lp { background-color: #fef2f2; }
     .text-prioritario { color: #dc2626; font-weight: 700; }
     .bg-com-lp { background-color: #eff6ff; }
     .bg-com-li { background-color: #f0fdf4; }
     .bg-com-lo { background-color: #faf5ff; }
 
-    /* Task Item Checkbox hover effect */
     .task-item:hover .task-check-btn {
       border-color: #10b981;
       background-color: #ecfdf5;
@@ -110,7 +107,7 @@
             <span class="font-bold text-base tracking-tight text-white">Licenças PAC</span>
             <span class="bg-blue-500/20 text-blue-300 text-xs px-2 py-0.5 rounded-full border border-blue-400/30 font-medium">Novo PAC • Casa Civil</span>
             <span class="bg-emerald-500/20 text-emerald-300 text-[11px] px-2 py-0.5 rounded-full border border-emerald-400/30 flex items-center gap-1 font-mono">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Em Tempo Real
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 34 Processos Carregados
             </span>
           </div>
           <p class="text-xs text-slate-400">Secretaria Especial do Programa de Aceleração do Crescimento • Meio Ambiente e Licenciamento</p>
@@ -149,7 +146,7 @@
   <div class="no-print bg-white border-b border-slate-200 shadow-sm">
     <div class="max-w-[1750px] mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-4">
       
-      <!-- Views Navigation Tabs (4 Tabs) -->
+      <!-- Views Navigation Tabs -->
       <nav class="flex space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200" id="viewTabs">
         <button data-view="master" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-800 bg-white shadow-sm border border-slate-200/80 transition-all flex items-center gap-1.5">
           <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -174,7 +171,7 @@
       <div class="flex items-center flex-wrap gap-2 text-xs">
         <div class="bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg flex items-center gap-2">
           <span class="text-slate-500 font-medium">Total Processos:</span>
-          <span class="font-bold text-slate-900" id="kpiTotal">0</span>
+          <span class="font-bold text-slate-900" id="kpiTotal">34</span>
         </div>
         <div class="bg-red-50 border border-red-200 text-red-700 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium cursor-pointer hover:bg-red-100 transition-colors" id="kpiSemLP" title="Filtrar por Sem Licença Prévia">
           <span class="w-2 h-2 rounded-full bg-red-600"></span>
@@ -265,6 +262,8 @@
           <option value="DNIT">DNIT</option>
           <option value="INFRA">INFRA S.A.</option>
           <option value="FEMARH">FEMARH (Estadual)</option>
+          <option value="SETRANS">SETRANS/PI</option>
+          <option value="INEMA">INEMA/BA</option>
         </select>
 
         <!-- Filter Prioritários Only -->
@@ -294,7 +293,7 @@
         <div class="px-4 py-3 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
           <div class="flex items-center space-x-2">
             <h2 class="font-bold text-slate-800 text-sm">Tabela Mestra: Dados e Informações Técnicas dos Processos LA</h2>
-            <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-mono" id="masterRowCount">0 registros</span>
+            <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-mono" id="masterRowCount">34 processos</span>
           </div>
           <div class="flex items-center space-x-2 text-xs text-slate-500">
             <span>⚡ Edição de célula por duplo clique • Checkbox para dar baixa nas providências</span>
@@ -663,103 +662,13 @@
     </div>
   </div>
 
-  <!-- MODAL: NOVO / EDITAR PROCESSO COMPLETO -->
-  <div id="projectModal" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200">
-      
-      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
-        <h3 class="font-bold text-slate-800 text-base" id="modalTitle">Cadastrar Novo Processo PAC</h3>
-        <button id="btnCloseModal" class="text-slate-400 hover:text-slate-600 text-xl font-bold">✕</button>
-      </div>
-
-      <form id="projectForm" class="p-6 space-y-4 text-xs">
-        <input type="hidden" id="formIndex" value="-1">
-
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div>
-            <label class="block font-semibold text-slate-700 mb-1">Subeixo</label>
-            <select id="formSubeixo" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
-              <option value="Rodovias">Rodovias</option>
-              <option value="Ferrovias">Ferrovias</option>
-              <option value="Infraestrutura Hídrica / Ferrovias">Infraestrutura Hídrica / Ferrovias</option>
-              <option value="Infraestrutura Hídrica / Rodovias">Infraestrutura Hídrica / Rodovias</option>
-            </select>
-          </div>
-          <div>
-            <label class="block font-semibold text-slate-700 mb-1">ID do Projeto</label>
-            <input type="text" id="formIdCode" placeholder="Ex: 2039 ou S/N" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
-          </div>
-          <div class="flex items-center pt-5">
-            <label class="inline-flex items-center cursor-pointer">
-              <input type="checkbox" id="formPrioritario" class="w-4 h-4 text-red-600 rounded">
-              <span class="ml-2 font-bold text-red-600">Empreendimento Prioritário</span>
-            </label>
-          </div>
-        </div>
-
-        <div>
-          <label class="block font-semibold text-slate-700 mb-1">Nome do Empreendimento</label>
-          <input type="text" id="formEmpreendimento" required placeholder="Ex: BR-158/MT (Lote A e B)" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="block font-semibold text-slate-700 mb-1">Número do Processo SEI / Órgão</label>
-            <input type="text" id="formProcesso" placeholder="Ex: 02001.002419/2004-53 (IBAMA)" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
-          </div>
-          <div>
-            <label class="block font-semibold text-slate-700 mb-1">Status da Licença (Classificação)</label>
-            <select id="formStatusLicenca" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
-              <option value="Sem Licença Prévia">Sem Licença Prévia</option>
-              <option value="Com Licença Prévia">Com Licença Prévia (LP)</option>
-              <option value="Com Licença de Instalação">Com Licença de Instalação (LI)</option>
-              <option value="Com Licença de Operação">Com Licença de Operação (LO)</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div>
-            <label class="block font-semibold text-slate-700 mb-1">Licença Prévia (LP)</label>
-            <input type="text" id="formLP" placeholder="Número / Ano" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
-          </div>
-          <div>
-            <label class="block font-semibold text-slate-700 mb-1">Licença de Instalação (LI)</label>
-            <input type="text" id="formLI" placeholder="Número / Ano" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
-          </div>
-          <div>
-            <label class="block font-semibold text-slate-700 mb-1">Licença de Operação (LO)</label>
-            <input type="text" id="formLO" placeholder="Número / Ano" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
-          </div>
-        </div>
-
-        <div>
-          <label class="block font-semibold text-slate-700 mb-1">Comentários Detalhados (Tabela Mestra)</label>
-          <textarea id="formComentarios" rows="3" placeholder="Insira o histórico técnico detalhado do processo..." class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50"></textarea>
-        </div>
-
-        <div>
-          <label class="block font-semibold text-slate-700 mb-1">Riscos e Oportunidades (Texto Executivo)</label>
-          <textarea id="formRiscos" rows="2" placeholder="Texto enxuto para apresentação à diretoria..." class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50"></textarea>
-        </div>
-
-        <div class="flex items-center justify-end space-x-2 pt-4 border-t border-slate-200">
-          <button type="button" id="btnCancelModal" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 font-semibold hover:bg-slate-50">Cancelar</button>
-          <button type="submit" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700">Salvar Processo</button>
-        </div>
-
-      </form>
-
-    </div>
-  </div>
-
   <!-- Toast Notification System -->
   <div id="toastContainer" class="no-print fixed bottom-4 right-4 z-50 flex flex-col space-y-2 pointer-events-none"></div>
 
   <!-- Embeded Application Scripts -->
   <script>
     /**
-     * LICENÇAS PAC - Core System with Checklist & Historical Audit Trail
+     * LICENÇAS PAC - Full 34 Projects Database from PDF Document
      */
 
     const activeTeammates = [
@@ -776,17 +685,18 @@
       const lines = text.split(/\n|(?<=[.;])\s+(?=[A-Z])/).filter(l => l.trim().length > 5);
       return lines.map((line, idx) => {
         let resp = "DNIT";
-        if (/IBAMA|CENEAC/i.test(line)) resp = "IBAMA";
+        if (/IBAMA|CENEAC|DILIC/i.test(line)) resp = "IBAMA";
         else if (/FUNAI/i.test(line)) resp = "FUNAI";
         else if (/INCRA/i.test(line)) resp = "INCRA";
         else if (/IPHAN/i.test(line)) resp = "IPHAN";
         else if (/ICMBio/i.test(line)) resp = "ICMBIO";
         else if (/FEMARH/i.test(line)) resp = "FEMARH";
-        else if (/INFRA/i.test(line)) resp = "INFRA";
+        else if (/INFRA|VALEC/i.test(line)) resp = "INFRA";
         else if (/DNOCS/i.test(line)) resp = "DNOCS";
         else if (/SETRANS|DER\/PI/i.test(line)) resp = "SETRANS/PI";
-        else if (/TLSA|Concessionária/i.test(line)) resp = "Empreendedor";
-        else if (/SEPPI|CC\/PR/i.test(line)) resp = "SEPPI/CC/PR";
+        else if (/INEMA/i.test(line)) resp = "INEMA/BA";
+        else if (/TLSA|Concessionária|Empreendedor/i.test(line)) resp = "Empreendedor";
+        else if (/SEPPI|CC\/PR|SEPAC/i.test(line)) resp = "SEPPI/CC/PR";
 
         let prazo = "a definir";
         const dateMatch = line.match(/\b(\d{2}\/\d{2}\/\d{4})\b/) || line.match(/até ([a-zA-Zç]+ de \d{4})/i) || line.match(/até (\d{2}\/\d{2}\/\d{4})/i);
@@ -804,8 +714,8 @@
       });
     }
 
-    // Projects Dataset
-    let projectsData = [
+    // ALL 34 PROJECTS INGESTED FROM BOTH PDF DOCUMENTS
+    const masterInitialProjects = [
       {
         id: "p1",
         id_code: "S/N",
@@ -823,11 +733,7 @@
         riscos_oportunidades: "Prospecção espeleológica concluída. Necessidade de o DNIT organizar as informações para processo de tomada de decisão sobre traçado da rodovia no trecho km 207 a km 226 em face dos achados espeleológicos.",
         comentarios: "Trecho no entorno da cavidade \"Buraco do Inferno\": definição sobre traçado depende de avaliações referentes aos resultados do relatório de monitoramento espeleológico no entorno da cavidade \"Buraco do Inferno\" e do relatório de prospecção espeleológica para o trecho do km 207 a 226.\nTrecho km 207 a 226: DNIT realizou prospecção espeleológica para o trecho e alternativa de Catolândia entre março/2026 e maio/2026. DNIT apresentou relatório referente à prospecção espeleológica ao IBAMA em 12/08/2026 (resultado: mais de 300 cavidades no trecho do km 207 a 226).",
         providencias: "SEPPI/CC/PR realizará reunião em 02/09/2026 para discussão sobre proposta de alternativa de traçado.\nDNIT finalizar avaliações internas e organizar informações para tomada de decisão sobre traçado da rodovia no trecho km 207 a km 226 em face dos achados espeleológicos.",
-        providencias_list: [
-          { id: "t1_1", responsavel: "SEPPI/CC/PR", descricao: "SEPPI/CC/PR realizará reunião para discussão sobre proposta de alternativa de traçado", prazo: "02/09/2026", concluida: false },
-          { id: "t1_2", responsavel: "DNIT", descricao: "DNIT finalizar avaliações internas e organizar informações para tomada de decisão sobre traçado em face dos achados espeleológicos", prazo: "a definir", concluida: false }
-        ],
-        pendencia: "DNIT e SEPPI/CC/PR",
+        pendencia: "DNIT",
         modificado_em: "26/08/2026",
         prazo_critico: "02/09/2026",
         status_prazo: "atencao"
@@ -849,11 +755,6 @@
         riscos_oportunidades: "Termo de Referência emitido pelo IBAMA em set/2023. Atravessa TI Kambiwá por 13 km. Aguarda manifestação da FUNAI sobre ECI e análise do EIA/RIMA pelo IBAMA.",
         comentarios: "Termo de Referência para estudos ambientais emitido pelo IBAMA em setembro/2023 (licenciamento trifásico). Atravessa TI Kambiwá por 13 km e TIs Entre Serras e Pipipã estão na área de estudo. FUNAI solicitou inclusão de itens no TR do IBAMA em fevereiro/2024. EIA/RIMA protocolado no IBAMA em março/2026 e devolvido para complementações em junho/2026. DNIT apresentou ECI à FUNAI em 11/06/2026. DNIT reapresentou EIA/RIMA ao IBAMA em 07/08/2026.",
         providencias: "FUNAI manifestar sobre ECI (10/08/2026).\nDNIT realizar consulta sobre arqueologia participativa e apresentar relatório ao IPHAN (até setembro/2026).\nIBAMA analisar e manifestar sobre EIA/RIMA (a definir).",
-        providencias_list: [
-          { id: "t2_1", responsavel: "FUNAI", descricao: "FUNAI manifestar sobre ECI do trecho que atravessa TI Kambiwá", prazo: "10/08/2026", concluida: false },
-          { id: "t2_2", responsavel: "DNIT", descricao: "DNIT realizar consulta sobre arqueologia participativa e apresentar relatório ao IPHAN", prazo: "30/09/2026", concluida: false },
-          { id: "t2_3", responsavel: "IBAMA", descricao: "IBAMA analisar e manifestar sobre EIA/RIMA reapresentado", prazo: "a definir", concluida: false }
-        ],
         pendencia: "DNIT, IBAMA e FUNAI",
         modificado_em: "26/08/2026",
         prazo_critico: "10/08/2026",
@@ -874,15 +775,121 @@
         prioritario: false,
         status_licenca: "Com Licença Prévia",
         riscos_oportunidades: "Licenciamento delegado à FEMARH-RR com LP emitida sem prévia manifestação da FUNAI. FUNAI recomendou paralisação de obras e suspensão das licenças.",
-        comentarios: "Licenciamento delegado ao Estado de Roraima. Em 06/08/2026, FUNAI encaminhou ofício ao IBAMA. IBAMA encaminhou, em 14/08/2026, à FEMARH o ofício da FUNAI e solicitou manifestação em 15 dias.",
-        providencias: "FEMARH apresentar informações ao IBAMA (não apresentado).\nIBAMA avaliar informações e manifestação da FUNAI.",
-        providencias_list: [
-          { id: "t3_1", responsavel: "FEMARH", descricao: "FEMARH apresentar informações ao IBAMA sobre recomendação da FUNAI de suspensão da LP", prazo: "29/08/2026", concluida: false },
-          { id: "t3_2", responsavel: "IBAMA", descricao: "IBAMA avaliar manifestação e ofício da FUNAI", prazo: "a definir", concluida: false }
-        ],
+        comentarios: "Licenciamento delegado ao Estado de Roraima (Acordo de Cooperação Técnica nº 58/2025). LP emitida em janeiro/2026. Em 06/08/2026, FUNAI encaminhou ofício ao IBAMA. IBAMA encaminhou, em 14/08/2026, à FEMARH o ofício da FUNAI e solicitou manifestação em 15 dias.",
+        providencias: "FEMARH apresentar informações ao IBAMA (não apresentado).\nIBAMA avaliar.",
         pendencia: "FEMARH e IBAMA",
         modificado_em: "26/08/2026",
         prazo_critico: "29/08/2026",
+        status_prazo: "atencao"
+      },
+      {
+        id: "p4",
+        id_code: "4247",
+        subeixo: "Rodovias",
+        empreendimento: "BR-010/TO",
+        processo: "02001.030511/2019-90 (IBAMA)",
+        tr_geral: "jul/24",
+        tr_funai: "N/A",
+        tr_incra: "TRE INCRA maio/2025",
+        lp: "",
+        li: "",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Sem Licença Prévia",
+        riscos_oportunidades: "Em elaboração de estudos ambientais, incluindo componente quilombola. Estimativa de LP: junho de 2027.",
+        comentarios: "Em elaboração de estudos ambientais, incluindo componente quilombola. Estimativa de LP: junho de 2027. Plano de Trabalho para estudos apresentado às comunidades em março/2026.",
+        providencias: "DNIT elaborar e apresentar estudos ambientais ao IBAMA e ao INCRA (prazo a definir).\nDNIT apresentar estudos referentes ao patrimônio arqueológico (prazo a definir).",
+        pendencia: "DNIT",
+        modificado_em: "14/08/2026",
+        prazo_critico: "30/06/2027",
+        status_prazo: "no_prazo"
+      },
+      {
+        id: "p5",
+        id_code: "2039",
+        subeixo: "Rodovias",
+        empreendimento: "BR-242/MT",
+        processo: "02001.001991/2008-29 (IBAMA)",
+        tr_geral: "set/09",
+        tr_funai: "Funai TRE de março/2011",
+        tr_incra: "N/A",
+        lp: "",
+        li: "",
+        lo: "",
+        prioritario: true,
+        status_licenca: "Sem Licença Prévia",
+        riscos_oportunidades: "Adiamento de expectativa de LP para a partir de dezembro/2026. Audiências públicas a serem realizadas a partir de outubro. Pendências a serem sanadas pelo DNIT quanto ao componente indígena e patrimônio arqueológico.",
+        comentarios: "DNIT solicitou alteração de traçado em decorrência da consulta com os indígenas do Parque do Xingu. ABIO nº 1787/2025 emitida pelo IBAMA em 03/10/2025. FUNAI manifestou em 22/07/2026 sobre ECI/Xingu e solicitou adequações.",
+        providencias: "IBAMA e DNIT realizarem audiências públicas (datas a definir - a partir de outubro).\nIBAMA analisar e manifestar sobre EIA.\nDNIT proceder adequações ao ECI/Xingu e apresentar à FUNAI.\nIPHAN emitir Termo de Referência específico.",
+        pendencia: "DNIT e IBAMA",
+        modificado_em: "14/08/2026",
+        prazo_critico: "01/10/2026",
+        status_prazo: "no_prazo"
+      },
+      {
+        id: "p6",
+        id_code: "2573",
+        subeixo: "Rodovias",
+        empreendimento: "BR-235/SE - Duplicação Aracaju/SE - Itabaiana/SE",
+        processo: "02001.031863/2025-19",
+        tr_geral: "",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "",
+        li: "",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Sem Licença Prévia",
+        riscos_oportunidades: "Trecho atravessa por cerca de 2 km o Parque Nacional Serra de Itabaiana. ICMBio apontou impossibilidade de autorizar obras; tratativas em curso para correção de erro material no Decreto do PARNA.",
+        comentarios: "Trecho atravessa Parque Nacional Serra de Itabaiana. Realizada reunião entre MT, DNIT, MMA, ICMBio e SEPAC/CC/PR em 26/06/2026.",
+        providencias: "ICMBio proceder encaminhamentos para buscar a correção do erro material identificado no Decreto de criação do PARNA.",
+        pendencia: "ICMBIO",
+        modificado_em: "26/06/2026",
+        prazo_critico: "a definir",
+        status_prazo: "a_definir"
+      },
+      {
+        id: "p7",
+        id_code: "2513",
+        subeixo: "Rodovias",
+        empreendimento: "BR-230/AM - Construção da Ponte sobre rio Mucuim",
+        processo: "02001.022461/2020-19 (IBAMA)",
+        tr_geral: "",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "",
+        li: "",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Sem Licença Prévia",
+        riscos_oportunidades: "RAS em análise pelo IBAMA. SVSA/MS, ICMBio e FUNAI com pareceres favoráveis. DNIT aguarda manifestação sobre ASV e ABio.",
+        comentarios: "Relatório Ambiental Simplificado (RAS): SVSA/MS, ICMBio e FUNAI emitiram resposta favorável/não óbice. DNIT solicitou reconsideração em 12/08/2026.",
+        providencias: "IBAMA manifestar sobre ASV, ABio e RAS revisado (prazo a definir).\nIBAMA responder pedido de reconsideração sobre ABio.",
+        pendencia: "IBAMA",
+        modificado_em: "14/08/2026",
+        prazo_critico: "a definir",
+        status_prazo: "a_definir"
+      },
+      {
+        id: "p8",
+        id_code: "1924",
+        subeixo: "Rodovias",
+        empreendimento: "Concessionária RioSP - BR-116/101/SP/RJ (BR-116/RJ/SP - Dutra 3ª e 4ª faixas)",
+        processo: "02001.010949/2025-08 (IBAMA)",
+        tr_geral: "28/07/2025",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "",
+        li: "",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Sem Licença Prévia",
+        riscos_oportunidades: "Implantação de 3ª e 4ª faixas marginais (km 143 a 152). ABio emitida em maio/2026. Concessionária apresentou RAS ao IBAMA em 04/08/2026.",
+        comentarios: "Implantação de 3ª e 4ª faixas e vias marginais entre o km 143+400m e o km 152+400m da BR-116/SP. ABio nº 1880/2026 emitida em 13/05/2026.",
+        providencias: "IBAMA analisar e manifestar sobre RAS apresentado pela concessionária em 04/08/2026.",
+        pendencia: "IBAMA",
+        modificado_em: "14/08/2026",
+        prazo_critico: "04/09/2026",
         status_prazo: "atencao"
       },
       {
@@ -900,17 +907,231 @@
         prioritario: true,
         status_licenca: "Com Licença de Instalação",
         riscos_oportunidades: "Oportunidade: indígenas querem a implementação da rodovia para fora da TI. Necessidade de DNIT iniciar a execução do PBA-CI para liberar 56 km de obras no Lote A e de apresentar o projeto executivo do Segmento 9 do Lote A e complementações ao Lote B para o IBAMA.",
-        comentarios: "Lote A: Tem LI (86,1 km) com bloqueio de 56,1 km que dependem da implementação do PBA-CI. Contrato para PBA-CI homologado no DOU de 02/07/2026.",
+        comentarios: "Lote A: Tem LI (86,1 km) com bloqueio de 56,1 km que dependem da implementação do PBA-CI. Contrato para execução do PBA-CI homologado no DOU de 02/07/2026.",
         providencias: "Lote A (56,1 km/bloqueio na LI): DNIT iniciar execução do PBA-CI.\nDNIT apresentar Relatório de Resgate Arqueológico.\nLote A (segmento 9): DNIT apresentar projeto executivo.\nLote B: DNIT apresentar complementações ao IBAMA.",
-        providencias_list: [
-          { id: "t9_1", responsavel: "DNIT", descricao: "Lote A (56,1 km/bloqueio na LI): DNIT iniciar execução do PBA-CI", prazo: "03/08/2026", concluida: false },
-          { id: "t9_2", responsavel: "DNIT", descricao: "DNIT apresentar Relatório de Resgate dos sítios arqueológicos Verdinho e Serra Nova Figura", prazo: "15/07/2026", concluida: false },
-          { id: "t9_3", responsavel: "DNIT", descricao: "Lote A (segmento 9): DNIT apresentar projeto executivo ao IBAMA", prazo: "31/07/2026", concluida: false },
-          { id: "t9_4", responsavel: "DNIT", descricao: "Lote B: DNIT apresentar complementações ao IBAMA referente ao Lote B", prazo: "31/07/2026", concluida: false }
-        ],
         pendencia: "DNIT",
         modificado_em: "14/08/2026",
         prazo_critico: "31/07/2026",
+        status_prazo: "vencido"
+      },
+      {
+        id: "p10",
+        id_code: "2028",
+        subeixo: "Rodovias",
+        empreendimento: "BR-135/MG",
+        processo: "02001.007064/2010-37 (IBAMA)",
+        tr_geral: "mar/08",
+        tr_funai: "Funai TRE de novembro/2008",
+        tr_incra: "N/A",
+        lp: "LICENÇA PRÉVIA Nº 536/2016",
+        li: "Licença de Instalação (LI) Nº 1501/2024",
+        lo: "",
+        prioritario: true,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Questões contratuais e indefinição de jazidas ameaçam continuidade de obras. Trecho de 20,5 km com LI; 28,2 km pendentes de PBA-CI para emissão de nova LI.",
+        comentarios: "Tem LI trecho de 20,5 km. Trecho restante de 28,2 km depende da elaboração e implementação do PBA-CI. Desbloqueio sem previsão.",
+        providencias: "Trecho de 20,5 km com LI: MT e DNIT avaliarem questões das jazidas e contratuais.\nDNIT elaborar e implementar PBA-CI para trecho restante de 28,2 km.\nFUNAI analisar PBA-CI.",
+        pendencia: "DNIT e FUNAI",
+        modificado_em: "19/06/2026",
+        prazo_critico: "indefinido",
+        status_prazo: "a_definir"
+      },
+      {
+        id: "p11",
+        id_code: "2041, 2044 e 2045",
+        subeixo: "Rodovias",
+        empreendimento: "BR-230/PA (Medicilândia - Rurópolis)",
+        processo: "02001.005186/2000-17 (IBAMA)",
+        tr_geral: "set/09",
+        tr_funai: "Funai TRE de outubro/2009",
+        tr_incra: "N/A",
+        lp: "LICENÇA PRÉVIA Nº 202/2005 (RETIFICAÇÃO)",
+        li: "LI nº 1336/2020",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Trecho Medicilândia-Rurópolis (256 km) possui bloqueio entre km 750 e 851. Obras dependem de readequação de 3 PBAs-CI junto à FUNAI.",
+        comentarios: "Trecho Medicilândia-Rurópolis possui 256 km, tem LI com bloqueio entre km 750 e 851. ID 2041: 84,4 km tem LI sem bloqueio; ID 2044: ponte sobre rio Xingu com LI; ID 2045: em obras.",
+        providencias: "Trecho bloqueado: DNIT reapresentar PBAs-CI devolvidos pela FUNAI (Kararaô, Arara e Cachoeira Seca).\nDNIT protocolar readequações na FUNAI.",
+        pendencia: "DNIT e FUNAI",
+        modificado_em: "14/08/2026",
+        prazo_critico: "31/07/2026",
+        status_prazo: "vencido"
+      },
+      {
+        id: "p12",
+        id_code: "2043",
+        subeixo: "Rodovias",
+        empreendimento: "Pontes 230/PA (BR-230/PA: Pontes)",
+        processo: "02001.005186/2000-17 (IBAMA)",
+        tr_geral: "set/09",
+        tr_funai: "Funai TRE de outubro/2009",
+        tr_incra: "N/A",
+        lp: "LICENÇA PRÉVIA Nº 202/2005 (RETIFICAÇÃO)",
+        li: "Licença de Instalação (LI) Nº 1336/2020 - 1ª Retificação",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "15 pontes em trecho com LI. 4 pontes autorizadas pelo IBAMA. Ponte Est. 2008 aguarda anuência da FUNAI em trecho bloqueado.",
+        comentarios: "15 pontes em trecho com LI. IBAMA autorizou em 22/05/2026 a construção das 4 pontes entre as 5 solicitadas.",
+        providencias: "DNIT apresentar projetos executivos do próximo lote de pontes.",
+        pendencia: "DNIT",
+        modificado_em: "21/08/2026",
+        prazo_critico: "27/08/2026",
+        status_prazo: "vencido"
+      },
+      {
+        id: "p13",
+        id_code: "2106",
+        subeixo: "Rodovias",
+        empreendimento: "Duplicação e Construção de Contornos na BR-101/SE",
+        processo: "02001.009337/2001-97 (IBAMA)",
+        tr_geral: "jul/01",
+        tr_funai: "Funai março/2008",
+        tr_incra: "FCP março/2010",
+        lp: "LICENÇA PRÉVIA Nº 269/2008",
+        li: "LICENÇA DE INSTALAÇÃO Nº 872/2012 - RENOVAÇÃO",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Trecho Estância-Divisa SE/BA possui LI com bloqueio. Necessidade de articulação entre DNIT e IBAMA para cronograma de análise de retificação e renovação da LI.",
+        comentarios: "Trecho Estância-Divisa SE/BA possui LI com bloqueio nos trechos entre o km 156 e km 206.",
+        providencias: "DNIT apresentar cronograma de obras dos Lotes 5.1 a 5.3 ao IBAMA.\nDNIT e IBAMA articularem definição de prioridade.\nDNIT apresentar atualização de estudos para Contorno de Estância.",
+        pendencia: "IBAMA e DNIT",
+        modificado_em: "21/08/2026",
+        prazo_critico: "24/08/2026",
+        status_prazo: "vencido"
+      },
+      {
+        id: "p14",
+        id_code: "2111",
+        subeixo: "Rodovias",
+        empreendimento: "BR-242/TO",
+        processo: "02001.000499/2000-89 (IBAMA)",
+        tr_geral: "dez/00",
+        tr_funai: "N/A",
+        tr_incra: "N/A",
+        lp: "LICENÇA PRÉVIA Nº 156/2003",
+        li: "LICENÇA DE INSTALAÇÃO Nº 374/2006 2ª RENOVAÇÃO",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Trecho bloqueado devido a interferência com cavidades subterrâneas. DNIT pendente de entrega de requerimento de ABio ao IBAMA.",
+        comentarios: "Trecho bloqueado devido a interferência com cavidades subterrâneas. IBAMA manifestou aprovação do Plano de mitigação de impactos sobre patrimônio espeleológico.",
+        providencias: "DNIT apresentar documentação/requerimento de ABio ao IBAMA.\nIBAMA analisar projeto executivo e ASV.",
+        pendencia: "DNIT e IBAMA",
+        modificado_em: "14/08/2026",
+        prazo_critico: "20/07/2026",
+        status_prazo: "vencido"
+      },
+      {
+        id: "p15",
+        id_code: "2018",
+        subeixo: "Rodovias",
+        empreendimento: "BR-080/MT (Ponte sobre rio Araguaia)",
+        processo: "02001.009312/2009-41 (IBAMA)",
+        tr_geral: "fev/12",
+        tr_funai: "Funai TRE de outubro/2011",
+        tr_incra: "N/A",
+        lp: "LICENÇA PRÉVIA Nº 590/2018",
+        li: "Licença de Instalação (LI) Nº 1326/2019",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Ponte concluída com LI emitida incluindo acessos até km 028+280. Sem pendências afetas ao licenciamento ambiental.",
+        comentarios: "Ponte concluída. LI emitida para obras de implantação da ponte sobre o Rio Araguaia.",
+        providencias: "Sem providências afetas ao licenciamento ambiental.",
+        pendencia: "Nenhuma",
+        modificado_em: "19/06/2026",
+        prazo_critico: "Concluído",
+        status_prazo: "no_prazo"
+      },
+      {
+        id: "p16",
+        id_code: "2543",
+        subeixo: "Rodovias",
+        empreendimento: "BR-080/MT (Lotes 1A, 1B e 2)",
+        processo: "02001.009312/2009-41 (IBAMA)",
+        tr_geral: "fev/12",
+        tr_funai: "Funai TRE de outubro/2011",
+        tr_incra: "N/A",
+        lp: "LICENÇA PRÉVIA Nº 590/2019",
+        li: "Licença de Instalação (LI) Nº 1535/2025 - Acessos e 28 km",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Lote 1A com LI emitida. Lotes 1B (72 km) e Lote 2 (100 km) aguardam apresentação de complementações de ECI à FUNAI.",
+        comentarios: "Lote 1A: Foi emitida LI nº 1535/2025 referente aos acessos à ponte e trecho de 28 km em 10 de outubro de 2025.",
+        providencias: "Lote 1B e Lote 2: DNIT apresentar complementações à FUNAI sobre ECI.",
+        pendencia: "DNIT e FUNAI",
+        modificado_em: "19/06/2026",
+        prazo_critico: "a definir",
+        status_prazo: "a_definir"
+      },
+      {
+        id: "p17",
+        id_code: "2493",
+        subeixo: "Rodovias",
+        empreendimento: "BR-156/AP",
+        processo: "02001.004452/2004-18 (IBAMA)",
+        tr_geral: "nov/04",
+        tr_funai: "N/A",
+        tr_incra: "NOTA TÉCNICA Nº 2784/2024/DFQ/DF/SEDE/INCRA",
+        lp: "LICENÇA PRÉVIA Nº 441/2012",
+        li: "Licença de Instalação (LI) Nº 1174/2017 - 2ª Renovação - 3ª Retificação",
+        lo: "",
+        prioritario: true,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Lotes 1 e 4 com LI, ASV e ABio emitidas. Lotes 2 (62 km) e 3 (61 km) com pendência de contratação de estudos do componente quilombola (ECQ).",
+        comentarios: "LI ASV e ABio emitidas para Lote 1 (retificação/ inclusão: 60,1 km) e Lote 4. Nova Portaria IPHAN publicada em 09/05/2025.",
+        providencias: "Lotes 1 e 4: DNIT finalizar prospecção e enviar relatórios ao IPHAN.\nLotes 1 a 4: DNIT realizar estudos do componente quilombola.",
+        pendencia: "DNIT e IPHAN",
+        modificado_em: "19/06/2026",
+        prazo_critico: "30/09/2026",
+        status_prazo: "no_prazo"
+      },
+      {
+        id: "p18",
+        id_code: "2101, 2102 e 2103",
+        subeixo: "Rodovias",
+        empreendimento: "BR-280/SC - Adequação de Trecho Rodoviário (São Francisco do Sul - Jaraguá do Sul)",
+        processo: "02001.007741/2000-45 (IBAMA)",
+        tr_geral: "",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "",
+        li: "Licença de Instalação (LI) Nº 1433/2022",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Condicionante 2.16 da LI: Apresentar estudo ambiental das alternativas de travessia para a região do Canal do Linguado.",
+        comentarios: "Condicionante 2.16: Apresentar estudo ambiental das alternativas de travessia para a região do Canal do Linguado.",
+        providencias: "DNIT apresentar estudo das alternativas para transposição do canal do Linguado.",
+        pendencia: "DNIT",
+        modificado_em: "19/06/2026",
+        prazo_critico: "a definir",
+        status_prazo: "a_definir"
+      },
+      {
+        id: "p19",
+        id_code: "S/N",
+        subeixo: "Rodovias",
+        empreendimento: "BR 319 - AM/RO (Trecho do Meio & 53 Pontes)",
+        processo: "02001.006860/2005-95 (IBAMA)",
+        tr_geral: "abr/18",
+        tr_funai: "Funai TRE de dezembro/2015",
+        tr_incra: "N/A",
+        lp: "Licença Prévia (LP) Nº 672/2022 (suspensa judicialmente)",
+        li: "LI para 3 pontes emitida em 07/05/2026",
+        lo: "",
+        prioritario: true,
+        status_licenca: "Sem Licença Prévia",
+        riscos_oportunidades: "Eficácia da LP nº 672/2022 suspensa pelo TRF-1. IBAMA emitiu LI para 3 pontes. DNIT estuda trecho sem interferência em TIs para pavimentação e aguarda aprovação de PBAI prevista para março/2027.",
+        comentarios: "Eficácia da LP suspensa pela Justiça Federal. Ibama emitiu LI para 3 pontes (Santo Antônio, Fortaleza e Realidade) em 07/05/2026.",
+        providencias: "DNIT apresentar complementações para ponte de Igapó Açu.\nDNIT solicitar LI para 2º lote de pontes.\nDNIT lançar edital para 2 portais.\nDNIT apresentar proposta de trecho para pavimentação sem interferência com TIs.\nFUNAI verificar interesse na área da condicionante 2.20.a.",
+        pendencia: "DNIT e FUNAI",
+        modificado_em: "15/06/2026",
+        prazo_critico: "15/06/2026",
         status_prazo: "vencido"
       },
       {
@@ -930,20 +1151,329 @@
         riscos_oportunidades: "Tem LI (461,3 km) com bloqueios em oito trechos (26,75 km). Trecho Morro do Bate-Bate necessita alteração de traçado; Barragem de Ceraíma e São Félix do Coribe demandam manifestação do IBAMA.",
         comentarios: "Tem LI (461,3 km) com bloqueios em oito trechos. Novo traçado do Morro do Bate-Bate em definição.",
         providencias: "Barragem de Ceraíma: INFRA apresentar novas versões do EAR, do PGR e do PAE.\nIBAMA manifestar sobre solicitação de ASV e retificação de LI (30/09/2026).\nMorro do Bate-bate: INFRA definir novo traçado para o trecho (até 31/08/2026).\nEstudos espeleológicos: IBAMA manifestar sobre proposta de alteração de traçado (30/08/2026).",
-        providencias_list: [
-          { id: "t20_1", responsavel: "INFRA", descricao: "Morro do Bate-bate: INFRA definir novo traçado para o trecho", prazo: "31/08/2026", concluida: false },
-          { id: "t20_2", responsavel: "IBAMA", descricao: "IBAMA manifestar sobre proposta de alteração de traçado para Variante das Cavernas e São Félix do Coribe", prazo: "30/08/2026", concluida: false },
-          { id: "t20_3", responsavel: "IBAMA", descricao: "Barragem de Ceraíma: IBAMA manifestar sobre solicitação de ASV e retificação de LI", prazo: "30/09/2026", concluida: false },
-          { id: "t20_4", responsavel: "INFRA", descricao: "Barragem de Ceraíma: INFRA apresentar novas versões do EAR, do PGR e do PAE", prazo: "a definir", concluida: false }
-        ],
         pendencia: "IBAMA e INFRA",
         modificado_em: "21/08/2026",
         prazo_critico: "28/08/2026",
         status_prazo: "atencao"
+      },
+      {
+        id: "p21",
+        id_code: "1963",
+        subeixo: "Ferrovias",
+        empreendimento: "FICO 1 (Ferrovia de Integração do Centro-Oeste)",
+        processo: "02001.016126/2021-54 (IBAMA)",
+        tr_geral: "set/09",
+        tr_funai: "Funai TRE de outubro/2010 (link expirado)",
+        tr_incra: "N/A",
+        lp: "LICENÇA PRÉVIA Nº 493/2014",
+        li: "Licença de Instalação (LI) Nº 1364/2020 - 4ª Retificação 05/12/2025",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Tem LI (365 km) com bloqueio de 73 km por interferência com Terras Indígenas. Minuta de acordo encaminhada ao MPF e DPU para posterior apresentação aos indígenas.",
+        comentarios: "Tem LI (365 km) com bloqueio do rio do Chapéu ao pátio Água Boa por interferência com TIs (73 km).",
+        providencias: "INFRA concluir versões preliminares da matriz de impacto e dos PBAs-CI: TI Pimentel Barbosa, Parabubure e Marechal Rondon (até 31/07/2026).\nTI Areões: INFRA aguardar manifestação do MPF e DPU sobre minuta de acordo.\nDIDEM/FUNAI criar grupo técnico de trabalho.",
+        pendencia: "INFRA e FUNAI",
+        modificado_em: "14/08/2026",
+        prazo_critico: "31/07/2026",
+        status_prazo: "vencido"
+      },
+      {
+        id: "p22",
+        id_code: "3004",
+        subeixo: "Ferrovias",
+        empreendimento: "Transnordestina Salgueiro-Suape",
+        processo: "02001.004159/2007-01 (IBAMA)",
+        tr_geral: "",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "LICENÇA PRÉVIA Nº 309/2009",
+        li: "LI Nº 1550/2026 (Lotes SPS 01 a 07)",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Lotes SPS 01 a 07 possuem LI nº 1550/2026 com ABio e ASV emitidas. Lotes SPS 08 e 09 estão sem licença ambiental válida para novo traçado.",
+        comentarios: "Titularidade alterada para VALEC/INFRA. Lotes SPS 01 a 07 com LI nº 1550/2026. Lotes SPS 08 e 09 sem licença ambiental válida.",
+        providencias: "Lotes SPS 01 a 07: INFRA atualizar EAR, PGR e PAE.\nINCRA emitir Termo de Referência Específico.\nINFRA apresentar documentação para análise pelo INCRA sobre assentamentos.\nINFRA apresentar Planos de Trabalho à FUNAI (30/09/2026).",
+        pendencia: "INFRA, INCRA e FUNAI",
+        modificado_em: "25/08/2026",
+        prazo_critico: "30/09/2026",
+        status_prazo: "no_prazo"
+      },
+      {
+        id: "p23",
+        id_code: "1959",
+        subeixo: "Ferrovias",
+        empreendimento: "Nova Transnordestina (Eliseu Martins - Pecém) - Trecho com LI",
+        processo: "02001.004160/2007-28 (IBAMA)",
+        tr_geral: "",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "",
+        li: "LI Nº 1345/2020 e LI Nº 1560/2026 (Acopiara a Pecém)",
+        lo: "",
+        prioritario: true,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Trecho dos lotes MVP 04 a MVP 06: solicitação de LO em 16/06/2026, pendente finalização das obras e apresentação de EAR, PGR e PAE consolidados. Questão no PA Angicos (CE) equacionada com INCRA.",
+        comentarios: "Nova LI nº 1560/2026 emitida em 20/05/2026 para renovação e desbloqueio de variantes no Ceará.",
+        providencias: "TLSA formalizar no IBAMA e na ANTT projeto para acessibilidade dos assentados.\nTLSA concluir obras e apresentar documentação completa para inclusão dos lotes MVP 04 a 06 na Licença de Operação (EAR, PGR, PAE).",
+        pendencia: "Empreendedor e INCRA",
+        modificado_em: "14/08/2026",
+        prazo_critico: "30/09/2026",
+        status_prazo: "no_prazo"
+      },
+      {
+        id: "p24",
+        id_code: "1959",
+        subeixo: "Ferrovias",
+        empreendimento: "Nova Transnordestina (Eliseu Martins - Pecém) - Trecho com LO",
+        processo: "02001.005362/2006-14 (IBAMA)",
+        tr_geral: "",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "",
+        li: "LI Nº 1345/2020, 548/2008, 901/2012, 1164/2017",
+        lo: "LO Nº 1685/2025 (671,5 km)",
+        prioritario: true,
+        status_licenca: "Com Licença de Operação",
+        riscos_oportunidades: "Licença de Operação concedida para 671,5 km. Condicionantes afetas a territórios quilombolas e gerenciamento de riscos com pendências no Ceneac/IBAMA.",
+        comentarios: "Licença de Operação concedida para trecho de 671,5 km, entre Paes Landim/PI a Acopiara/CE. TLSA apresentou resposta em 03/08/2026.",
+        providencias: "CENEAC/IBAMA analisar as complementações apresentadas pela TLSA em 03/08/2026.\nTLSA adotar medidas previstas no PBAO para mitigação de impactos nos Territórios Quilombolas.\nTLSA reavaliar passivo de casas com rachaduras.",
+        pendencia: "Empreendedor e IBAMA",
+        modificado_em: "14/08/2026",
+        prazo_critico: "a definir",
+        status_prazo: "a_definir"
+      },
+      {
+        id: "p25",
+        id_code: "1873",
+        subeixo: "Infraestrutura Hídrica / Ferrovias",
+        empreendimento: "Barragem Fronteiras (Variante ferroviária)",
+        processo: "Processo DNOCS / DNIT",
+        tr_geral: "",
+        tr_funai: "FUNAI TRE em 10/2024",
+        tr_incra: "",
+        lp: "",
+        li: "",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Sem Licença Prévia",
+        riscos_oportunidades: "FUNAI emitiu TRE em 10/2024. Estudos de componente indígena pendentes de contratação pelo DNOCS. IBAMA deferiu reavaliação de instrução da ASV e ABio.",
+        comentarios: "FUNAI emitiu TRE em 10/2024. DNOCS apresentou complementações ao IBAMA em 18/08/2026.",
+        providencias: "IBAMA analisar e manifestar sobre documentação apresentada pelo DNOCS em 18/08/2026.\nDNOCS elaborar e enviar proposta de monitoramento arqueológico ao IPHAN (31/08/2026).\nDNOCS elaborar e enviar Plano de Trabalho para Estudos do Componente Indígena (30/09/2026).",
+        pendencia: "DNOCS e IBAMA",
+        modificado_em: "21/08/2026",
+        prazo_critico: "31/08/2026",
+        status_prazo: "atencao"
+      },
+      {
+        id: "p26",
+        id_code: "1873",
+        subeixo: "Infraestrutura Hídrica / Rodovias",
+        empreendimento: "Barragem Fronteiras (Elevação de greide e substituição de ponte BR-404)",
+        processo: "Portaria Interministerial MMA/MINFRA nº 01/2020",
+        tr_geral: "",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "",
+        li: "",
+        lo: "Autorização de Operação 25591633/2025 - 2ª Retificação",
+        prioritario: false,
+        status_licenca: "Com Licença de Operação",
+        riscos_oportunidades: "Pré-autorização conforme Autorização de Operação. DNIT-Sede verificando necessidade de atualização de Relatório de Comunicação de Obras e ASV para intervenções na BR-404/CE.",
+        comentarios: "IBAMA manifestou pelo enquadramento da obra nos termos do art 3º, § 1º, da Portaria 01/2020 com pré-autorização.",
+        providencias: "DNIT apresentar intervenções/projetos ao IBAMA para análise e manifestação no âmbito da Autorização de Operação da rodovia.",
+        pendencia: "DNIT",
+        modificado_em: "19/06/2026",
+        prazo_critico: "a definir",
+        status_prazo: "a_definir"
+      },
+      {
+        id: "p27",
+        id_code: "S/N",
+        subeixo: "Ferrovias",
+        empreendimento: "Ferrogrão (EF-170)",
+        processo: "Processo ANTT / IBAMA",
+        tr_geral: "",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "",
+        li: "",
+        lo: "",
+        prioritario: true,
+        status_licenca: "Sem Licença Prévia",
+        riscos_oportunidades: "Empreendimento ferroviário estratégico de escoamento de grãos. Aguarda desfecho de estudos de conciliação no STF e elaboração de novo TR ambiental.",
+        comentarios: "Processo de licenciamento e viabilidade sob acompanhamento de mesa de conciliação e estudos socioambientais complementares no âmbito federal.",
+        providencias: "MT e ANTT consolidar estudos para envio ao IBAMA e FUNAI (prazo a definir).",
+        pendencia: "MT, ANTT e IBAMA",
+        modificado_em: "15/07/2026",
+        prazo_critico: "a definir",
+        status_prazo: "a_definir"
+      },
+      {
+        id: "p28",
+        id_code: "1960",
+        subeixo: "Ferrovias",
+        empreendimento: "EF-118/ES/RJ",
+        processo: "02001.035395/2025-43",
+        tr_geral: "mai/26",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "",
+        li: "",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Sem Licença Prévia",
+        riscos_oportunidades: "Extensão total de ~246,94 km. IBAMA emitiu TR em 25/05/2026. IPHAN solicitou complementações à INFRA para PAPIPA.",
+        comentarios: "Implantação da EF-118/ES/RJ, com extensão total de aproximadamente 246,94 km. IBAMA emitiu Termo de Referência em 25/05/2026.",
+        providencias: "INFRA apresentar complementações ao IPHAN para o PAPIPA.\nINFRA iniciar estudos ambientais conforme TR do IBAMA.",
+        pendencia: "INFRA e IPHAN",
+        modificado_em: "25/05/2026",
+        prazo_critico: "a definir",
+        status_prazo: "a_definir"
+      },
+      {
+        id: "p29",
+        id_code: "2021 e 2022",
+        subeixo: "Rodovias",
+        empreendimento: "BR-135/MA (Outeiro - Miranda do Norte)",
+        processo: "17070006123/2017 e 23080030515/2023 (SEMA/MA)",
+        tr_geral: "",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "",
+        li: "LI nº 1019566/2024 (val. 02/2026)",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Licenciamento estadual. Obras nos Lotes 02 e 03 suspensas judicialmente por Ação Civil Pública até realização de consulta prévia (Convenção OIT 169) com comunidades quilombolas.",
+        comentarios: "Licenciamento ambiental estadual. Lote 2 (44,3 km): Tem LI com bloqueio (26,6 km) por interferência em comunidades quilombolas do Território Santa Rosa dos Pretos.",
+        providencias: "INCRA e DNIT formalizarem acordo.\nTQ Santa Rosa dos Pretos: DNIT iniciar elaboração do ECQ.\nINCRA, MT e DNIT avaliarem inclusão das comunidades faltantes no Acordo (27/07/2026).",
+        pendencia: "INCRA e DNIT",
+        modificado_em: "27/07/2026",
+        prazo_critico: "27/07/2026",
+        status_prazo: "vencido"
+      },
+      {
+        id: "p30",
+        id_code: "2058",
+        subeixo: "Rodovias",
+        empreendimento: "Construção da BR-235/PI",
+        processo: "01402.000490/2024-60 (IPHAN)",
+        tr_geral: "",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "",
+        li: "PI-PLI.00631-2/2023 (Estadual)",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "LI estadual emitida. Portaria do IPHAN foi revogada por solicitação de arqueóloga coordenadora; pendente regularização pelo SETRANS/PI.",
+        comentarios: "Licenciamento ambiental estadual. Pendências com IPHAN e ICMBio.",
+        providencias: "SETRANS/PI enviar os estudos ambientais e o projeto executivo atualizado ao ICMBIO.\nSETRANS/PI regularizar situação junto ao IPHAN.",
+        pendencia: "SETRANS/PI, IPHAN e ICMBIO",
+        modificado_em: "14/08/2026",
+        prazo_critico: "a definir",
+        status_prazo: "a_definir"
+      },
+      {
+        id: "p31",
+        id_code: "4115 e 4632",
+        subeixo: "Rodovias",
+        empreendimento: "Construção da BR-330/PI - Div. PI/MA - Entr. PI-392",
+        processo: "01450.002518/2025-17 e 01450.002522/2025-77 (IPHAN)",
+        tr_geral: "",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "",
+        li: "PI-LI.02773-0/2024 (Lote I) e PI-LI.03015-0/2024 (Lote II)",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "LIs emitidas para Lotes I (65,22 km) e II (114,44 km). Pendências com IPHAN referente a solicitação de reenquadramento.",
+        comentarios: "Licenciamento ambiental estadual. LIs emitidas para Lote I e Lote II.",
+        providencias: "IPHAN manifestar sobre solicitação de reenquadramento para ID 4115.\nDER/PI apresentar informações conforme TRE emitido pelo IPHAN.",
+        pendencia: "IPHAN e DER/PI",
+        modificado_em: "14/08/2026",
+        prazo_critico: "a definir",
+        status_prazo: "a_definir"
+      },
+      {
+        id: "p32",
+        id_code: "2057",
+        subeixo: "Rodovias",
+        empreendimento: "Construção da Ponte Ribeiro Gonçalves/PI a Tasso Fragoso/MA - BR-330/PI",
+        processo: "01402.000119/2023-17 (IPHAN)",
+        tr_geral: "",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "",
+        li: "LI-PI.05330-9/2023 (Estadual)",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Início irregular detectado pelo IPHAN nos acessos da ponte e canteiro. DNIT necessita prestar esclarecimentos ou firmar Termo de Ajuste de Conduta (TAC).",
+        comentarios: "Licenciamento estadual. IPHAN informou início irregular de obras sem autorização prévia e solicitou esclarecimentos.",
+        providencias: "DNIT resolver pendências (possível TAC) com IPHAN.",
+        pendencia: "DNIT e IPHAN",
+        modificado_em: "14/08/2026",
+        prazo_critico: "a definir",
+        status_prazo: "a_definir"
+      },
+      {
+        id: "p33",
+        id_code: "2006",
+        subeixo: "Rodovias",
+        empreendimento: "Construção da BR-030/BA (Maraú - Entr. BR-101/BA)",
+        processo: "01502.001709/2024-10 (IPHAN)",
+        tr_geral: "",
+        tr_funai: "",
+        tr_incra: "",
+        lp: "",
+        li: "Portaria INEMA nº 27.706/2022 (Validade: 30/12/2026)",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Segmento 1 com LI emitida. Segmento 2 aguarda manifestação do INEMA. Anuência do IPHAN condicionada a acompanhamento arqueológico concomitante às obras no Morro da Pedra de Oxóssi.",
+        comentarios: "Licenciamento estadual. Segmento 1 com LI. Segmento 2 aguardando manifestação do INEMA. Morro da Pedra de Oxóssi com processo de tombamento em curso.",
+        providencias: "DNIT apresentar ao IPHAN complementações ao Estudo de Avaliação de Impacto aos Bens Culturais.\nIPHAN realizar acompanhamento arqueológico.\nINEMA/BA manifestar sobre LI.",
+        pendencia: "DNIT, IPHAN e INEMA/BA",
+        modificado_em: "14/08/2026",
+        prazo_critico: "30/12/2026",
+        status_prazo: "no_prazo"
+      },
+      {
+        id: "p34",
+        id_code: "2007 e 2928",
+        subeixo: "Rodovias",
+        empreendimento: "BR-135/BA: Cocos-Div.BA/MG, Correntina - Jaborandi",
+        processo: "02001.005969/2005-13 (IBAMA)",
+        tr_geral: "dez/09",
+        tr_funai: "N/A",
+        tr_incra: "N/A",
+        lp: "LICENÇA PRÉVIA Nº 300/2009",
+        li: "LICENÇA INSTALAÇÃO Nº 1219/2018",
+        lo: "",
+        prioritario: false,
+        status_licenca: "Com Licença de Instalação",
+        riscos_oportunidades: "Cocos - Div. BA/MG (ID 2007): obras concluídas em março/2025. Correntina-Jaborandi (ID 2928): possui LI sem pendências impeditivas.",
+        comentarios: "Cocos - Div. BA/MG: obras concluídas. Correntina-Jaborandi: possui LI sem pendências impeditivas.",
+        providencias: "DNIT apresentar ao IPHAN projeto de monitoramento arqueológico (prazo a definir).",
+        pendencia: "DNIT e IPHAN",
+        modificado_em: "14/08/2026",
+        prazo_critico: "a definir",
+        status_prazo: "a_definir"
       }
     ];
 
-    // Historical Completed Providências List (Persistent Audit Trail)
+    // Structured Task Initialization for all 34 projects
+    masterInitialProjects.forEach(p => {
+      p.providencias_list = parseProvidenciasToTasks(p.providencias);
+    });
+
+    let projectsData = masterInitialProjects;
+
+    // History of Completed Tasks
     let completedHistory = [
       {
         id: "h_1",
@@ -956,7 +1486,7 @@
         data_conclusao: "12/08/2026",
         dias_diferenca: 3,
         status_desempenho: "antecedencia",
-        observacoes: "Protocolado e entregue com 3 dias de antecedência"
+        observacoes: "Entregue com 3 dias de antecedência"
       },
       {
         id: "h_2",
@@ -969,7 +1499,7 @@
         data_conclusao: "07/08/2026",
         dias_diferenca: -6,
         status_desempenho: "atraso",
-        observacoes: "Reapresentado com 6 dias de atraso devido a ajustes de hidrologia"
+        observacoes: "Reapresentado com 6 dias de atraso"
       },
       {
         id: "h_3",
@@ -982,27 +1512,29 @@
         data_conclusao: "10/08/2026",
         dias_diferenca: null,
         status_desempenho: "sem_prazo",
-        observacoes: "PBA-CQ aprovado liberando trecho para intervenções"
+        observacoes: "PBA-CQ aprovado"
       }
     ];
 
-    // Fill providencias_list for any project that doesn't have structured tasks yet
-    projectsData.forEach(p => {
-      if (!p.providencias_list || p.providencias_list.length === 0) {
-        p.providencias_list = parseProvidenciasToTasks(p.providencias);
-      }
-    });
-
-    // Storage Management
-    const STORAGE_KEY = "LICENCAS_PAC_DATA_V2";
-    const HISTORY_KEY = "LICENCAS_PAC_HISTORY_V2";
-    const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('licencas_pac_channel') : null;
+    // STORAGE V3 (Forces complete 34 projects load while preserving history)
+    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V3";
+    const HISTORY_KEY = "LICENCAS_PAC_FULL_HISTORY_V3";
+    const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('licencas_pac_channel_v3') : null;
 
     function loadData() {
       try {
         const savedData = localStorage.getItem(STORAGE_KEY);
         const savedHistory = localStorage.getItem(HISTORY_KEY);
-        if (savedData) projectsData = JSON.parse(savedData);
+        if (savedData) {
+          const parsed = JSON.parse(savedData);
+          if (parsed && parsed.length >= 30) {
+            projectsData = parsed;
+          } else {
+            saveData(false);
+          }
+        } else {
+          saveData(false);
+        }
         if (savedHistory) completedHistory = JSON.parse(savedHistory);
       } catch (e) {
         console.error("Load storage error:", e);
@@ -1027,7 +1559,7 @@
           projectsData = event.data.payloadData;
           completedHistory = event.data.payloadHistory;
           renderAll();
-          showToast(`⚡ Dados e checklist atualizados por outro membro da equipe!`, "info");
+          showToast(`⚡ Dados e checklist atualizados pela equipe!`, "info");
         }
       };
     }
@@ -1052,7 +1584,6 @@
         return { diffDays: null, status: "sem_prazo", label: "⚪ Sem prazo fixo estipulado" };
       }
 
-      // Difference in days (positive = before deadline, negative = after deadline)
       const diffTime = prazoDate.getTime() - conclusaoDate.getTime();
       const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
 
@@ -1078,7 +1609,6 @@
       return `${day}/${month}/${year}`;
     }
 
-    // NLP Engine: Extract pending agencies from active tasks
     function extractAgenciesFromTasks(tasks) {
       if (!tasks || tasks.length === 0) return "Nenhuma";
       const agencies = [...new Set(tasks.map(t => t.responsavel).filter(Boolean))];
@@ -1088,7 +1618,6 @@
       return `${agencies.slice(0, -1).join(', ')} e ${agencies[agencies.length - 1]}`;
     }
 
-    // Colors for Agencies
     function getAgencyBadgeColor(agency) {
       const map = {
         "IBAMA": "bg-blue-100 text-blue-800 border-blue-200",
@@ -1099,20 +1628,21 @@
         "DNIT": "bg-slate-100 text-slate-800 border-slate-300",
         "INFRA": "bg-indigo-100 text-indigo-800 border-indigo-200",
         "FEMARH": "bg-rose-100 text-rose-800 border-rose-200",
+        "SETRANS/PI": "bg-cyan-100 text-cyan-800 border-cyan-200",
+        "INEMA/BA": "bg-fuchsia-100 text-fuchsia-800 border-fuchsia-200",
         "SEPPI/CC/PR": "bg-lime-100 text-lime-900 border-lime-300",
         "Empreendedor": "bg-orange-100 text-orange-800 border-orange-200"
       };
       return map[agency] || "bg-slate-100 text-slate-800 border-slate-300";
     }
 
-    // Deadline tag styling
     function getDeadlineBadge(prazo) {
       if (!prazo || prazo.toLowerCase().includes("definir")) {
-        return `<span class="text-[10px] text-slate-500 font-mono">⚪ Prazo a definir</span>`;
+        return `<span class="text-[10px] text-slate-500 font-mono">⚪ A definir</span>`;
       }
       const d = parseDate(prazo);
       if (!d) {
-        return `<span class="text-[10px] text-slate-500 font-mono">Prazo: ${prazo}</span>`;
+        return `<span class="text-[10px] text-slate-500 font-mono">${prazo}</span>`;
       }
       const today = new Date();
       today.setHours(0,0,0,0);
@@ -1129,18 +1659,8 @@
 
     // State & Filter Management
     let currentView = "master";
-    let filters = {
-      search: "",
-      subeixo: "ALL",
-      status: "ALL",
-      orgao: "ALL",
-      prioritarioOnly: false
-    };
-
-    let historyFilters = {
-      search: "",
-      desempenho: "ALL"
-    };
+    let filters = { search: "", subeixo: "ALL", status: "ALL", orgao: "ALL", prioritarioOnly: false };
+    let historyFilters = { search: "", desempenho: "ALL" };
 
     function getFilteredData() {
       return projectsData.filter(item => {
@@ -1181,14 +1701,12 @@
       });
     }
 
-    // Render Checklist UI inside Table Cell
     function renderTasksChecklist(project) {
       const tasks = project.providencias_list || [];
-
       if (tasks.length === 0) {
         return `
           <div class="text-slate-400 italic text-[11px] py-1 flex items-center justify-between">
-            <span>Nenhuma providência pendente.</span>
+            <span>Sem providências ativas.</span>
             <button class="btn-add-task text-blue-600 hover:text-blue-800 text-[10px] font-bold underline cursor-pointer" data-pid="${project.id}">+ Adicionar</button>
           </div>
         `;
@@ -1228,7 +1746,6 @@
       `;
     }
 
-    // Render Master Table
     function renderMasterTable() {
       const tbodyMaster = document.getElementById("tbodyMaster");
       const data = getFilteredData();
@@ -1287,7 +1804,6 @@
       attachTableEvents();
     }
 
-    // Render Executive Table
     function renderExecutiveTable() {
       const tbodyExecutive = document.getElementById("tbodyExecutive");
       const data = getFilteredData();
@@ -1328,7 +1844,6 @@
       attachTableEvents();
     }
 
-    // Render History Table (Tab 4)
     function renderHistoryTable() {
       const tbodyHistory = document.getElementById("tbodyHistory");
       const data = getFilteredHistory();
@@ -1391,7 +1906,6 @@
         `;
       }).join('');
 
-      // Attach Reopen button events
       document.querySelectorAll(".btn-reopen-task").forEach(btn => {
         btn.addEventListener("click", function() {
           const hid = this.getAttribute("data-hid");
@@ -1400,7 +1914,6 @@
       });
     }
 
-    // Deadlines Dashboard (Tab 3)
     function renderDeadlinesDashboard() {
       const vencidos = projectsData.filter(p => p.status_prazo === "vencido");
       const atencao = projectsData.filter(p => p.status_prazo === "atencao");
@@ -1465,14 +1978,12 @@
     }
 
     function renderAll() {
-      // Presence
       document.getElementById("presenceAvatars").innerHTML = activeTeammates.map(u => `
         <div class="w-6 h-6 rounded-full ${u.color} text-white flex items-center justify-center text-[10px] font-bold ring-2 ring-slate-800" title="${u.name}">
           ${u.name.charAt(0)}
         </div>
       `).join('');
 
-      // KPIs
       document.getElementById("kpiTotal").textContent = projectsData.length;
       document.getElementById("kpiSemLPCnt").textContent = projectsData.filter(p => p.status_licenca === "Sem Licença Prévia").length;
       document.getElementById("kpiPrazosCnt").textContent = projectsData.filter(p => p.status_prazo === "vencido" || p.status_prazo === "atencao").length;
@@ -1485,9 +1996,7 @@
       else if (currentView === "history") renderHistoryTable();
     }
 
-    // Attach Table & Checklist Events
     function attachTableEvents() {
-      // Checkbox Click (Open Complete Modal)
       document.querySelectorAll(".task-check-btn").forEach(btn => {
         btn.addEventListener("click", function(e) {
           e.stopPropagation();
@@ -1497,7 +2006,6 @@
         });
       });
 
-      // Remove Task Click
       document.querySelectorAll(".btn-remove-task").forEach(btn => {
         btn.addEventListener("click", function(e) {
           e.stopPropagation();
@@ -1515,7 +2023,6 @@
         });
       });
 
-      // Add Task Button Click
       document.querySelectorAll(".btn-add-task").forEach(btn => {
         btn.addEventListener("click", function(e) {
           e.stopPropagation();
@@ -1524,7 +2031,6 @@
         });
       });
 
-      // Inline Editing on Cells (dblclick)
       document.querySelectorAll(".editable-cell").forEach(cell => {
         cell.addEventListener("dblclick", function(e) {
           if (this.querySelector("textarea") || this.querySelector("input")) return;
@@ -1566,7 +2072,6 @@
         });
       });
 
-      // Edit full project button
       document.querySelectorAll(".btn-edit-row").forEach(btn => {
         btn.addEventListener("click", function() {
           const idx = parseInt(this.getAttribute("data-idx"));
@@ -1574,7 +2079,6 @@
         });
       });
 
-      // Delete full project button
       document.querySelectorAll(".btn-delete-row").forEach(btn => {
         btn.addEventListener("click", function() {
           const idx = parseInt(this.getAttribute("data-idx"));
@@ -1588,7 +2092,6 @@
       });
     }
 
-    // Modal: Complete Task Handling
     let activeTaskToComplete = null;
 
     function openCompleteModal(pid, tid) {
@@ -1616,7 +2119,7 @@
 
     function updateCompleteDiffPreview() {
       if (!activeTaskToComplete) return;
-      const inputVal = document.getElementById("completeInputDate").value; // YYYY-MM-DD
+      const inputVal = document.getElementById("completeInputDate").value;
       const dateParts = inputVal.split('-');
       const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
 
@@ -1651,7 +2154,6 @@
 
       const diffResult = calculateDateDifference(task.prazo, formattedDate);
 
-      // Add to completed history
       const historyRecord = {
         id: `h_${Date.now()}`,
         project_id: project.id,
@@ -1668,7 +2170,6 @@
 
       completedHistory.unshift(historyRecord);
 
-      // Remove from project pending tasks list
       project.providencias_list = project.providencias_list.filter(t => t.id !== task.id);
       project.pendencia = extractAgenciesFromTasks(project.providencias_list);
       project.modificado_em = getTodayFormatted();
@@ -1687,7 +2188,6 @@
       document.getElementById("completeTaskModal").classList.add("hidden");
     });
 
-    // Reopen / Undo Completed Task from History
     function reopenTask(hid) {
       const idx = completedHistory.findIndex(h => h.id === hid);
       if (idx === -1) return;
@@ -1713,7 +2213,6 @@
       showToast("Providência reaberta e retornada à lista de pendências!", "warning");
     }
 
-    // Modal: Add New Task
     function openAddTaskModal(pid) {
       document.getElementById("addTaskProjectId").value = pid;
       document.getElementById("addTaskDescricao").value = "";
@@ -1764,7 +2263,6 @@
       document.getElementById("addTaskModal").classList.add("hidden");
     });
 
-    // View Switching
     function switchView(viewName) {
       currentView = viewName;
       document.querySelectorAll(".tab-btn").forEach(btn => {
@@ -1790,7 +2288,6 @@
       });
     });
 
-    // Auto-Synthesize Button
     document.getElementById("btnGenerateAllRisks").addEventListener("click", () => {
       projectsData.forEach(p => {
         p.modificado_em = getTodayFormatted();
@@ -1800,13 +2297,11 @@
       showToast(`✨ Síntese executiva atualizada!`, "success");
     });
 
-    // PDF Export
     document.getElementById("btnExportPDF").addEventListener("click", () => {
       switchView("executive");
       setTimeout(() => window.print(), 250);
     });
 
-    // Filters
     document.getElementById("searchInput").addEventListener("input", (e) => {
       filters.search = e.target.value;
       renderAll();
@@ -1837,7 +2332,6 @@
       renderAll();
     });
 
-    // History Filters
     document.getElementById("historySearchInput").addEventListener("input", (e) => {
       historyFilters.search = e.target.value;
       renderHistoryTable();
@@ -1847,7 +2341,6 @@
       renderHistoryTable();
     });
 
-    // Toast
     function showToast(message, type = "info") {
       const container = document.getElementById("toastContainer");
       const toast = document.createElement("div");
@@ -1866,7 +2359,6 @@
       }, 3500);
     }
 
-    // Init App
     loadData();
     renderAll();
   </script>

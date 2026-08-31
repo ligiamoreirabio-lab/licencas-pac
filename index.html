@@ -92,7 +92,7 @@
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+<body class="bg-[#FAF7F2] text-[#2C2824] antialiased min-h-screen flex flex-col font-sans">
 
   <!-- Top Global Header (Gov.br / Casa Civil style) -->
   <header class="no-print bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50 shadow-md">
@@ -115,14 +115,7 @@
         </div>
       </div>
 
-      <!-- Real-time Presence & Active Users -->
-      <div class="flex items-center space-x-3 bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700">
-        <span class="text-xs text-slate-300 font-medium flex items-center gap-1.5">
-          <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-          Equipe Online:
-        </span>
-        <div class="flex items-center -space-x-1.5" id="presenceAvatars"></div>
-      </div>
+
 
       <!-- Action Buttons -->
       <div class="flex items-center space-x-2">
@@ -140,16 +133,16 @@
   </header>
 
   <!-- View Selector & Top KPI Ribbon -->
-  <div class="no-print bg-white border-b border-slate-200 shadow-sm">
+  <div class="no-print bg-[#FDFBF7] border-b border-[#E8E1D5] shadow-xs">
     <div class="max-w-[1750px] mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-4">
       
       <!-- Views Navigation Tabs -->
-      <nav class="flex space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200" id="viewTabs">
+      <nav class="flex space-x-1 bg-[#EBE4D8] p-1 rounded-xl border border-[#DCD3C4]" id="viewTabs">
         <button data-view="master" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all flex items-center gap-1.5">
           <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
           1. Tabela Mestra (Técnica)
         </button>
-        <button data-view="executive" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-800 bg-white shadow-sm border border-slate-200/80 transition-all flex items-center gap-1.5">
+        <button data-view="executive" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-800 bg-[#FFFFFF] shadow-sm border border-[#E8E1D5]/80 transition-all flex items-center gap-1.5">
           <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           2. Tabela Executiva (Casa Civil / Ministros)
         </button>
@@ -166,7 +159,7 @@
 
       <!-- Quick KPI Counters -->
       <div class="flex items-center flex-wrap gap-2 text-xs">
-        <div class="bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg flex items-center gap-2">
+        <div class="bg-[#FAF7F2] border border-[#E8E1D5] px-3 py-1.5 rounded-lg flex items-center gap-2">
           <span class="text-slate-500 font-medium">Total Processos:</span>
           <span class="font-bold text-slate-900" id="kpiTotal">56</span>
         </div>
@@ -190,12 +183,12 @@
   </div>
 
   <!-- Legend Bar (Official Novo PAC / Casa Civil specification) -->
-  <div class="no-print bg-slate-100 border-b border-slate-200 px-4 sm:px-6 py-2">
+  <div class="no-print bg-[#F5EFE6] border-b border-[#E8E1D5] px-4 sm:px-6 py-2">
     <div class="max-w-[1750px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
       
       <div class="flex items-center flex-wrap gap-2">
         <span class="font-bold text-slate-700 uppercase tracking-wider text-[10px] mr-1">Legenda Oficial:</span>
-        <span class="inline-flex items-center px-2.5 py-1 rounded bg-white border border-red-200 text-red-700 font-semibold text-[11px] shadow-2xs">
+        <span class="inline-flex items-center px-2.5 py-1 rounded bg-[#FFFFFF] border border-red-200 text-red-700 font-semibold text-[11px] shadow-2xs">
           <span class="w-2.5 h-2.5 rounded-sm bg-red-500 mr-1.5 inline-block"></span>
           Sem Licença Prévia (vermelho: prioritários)
         </span>
@@ -222,16 +215,16 @@
 
   <!-- Search & Filter Controls -->
   <div class="no-print max-w-[1750px] mx-auto px-4 sm:px-6 py-3.5 w-full">
-    <div class="bg-white p-3.5 rounded-xl border border-slate-200 shadow-2xs flex flex-wrap items-center justify-between gap-3">
+    <div class="bg-[#FDFBF7] p-3.5 rounded-xl border border-[#E8E1D5] shadow-xs flex flex-wrap items-center justify-between gap-3">
       
       <div class="flex items-center flex-1 min-w-[260px] relative">
         <svg class="w-4 h-4 text-slate-400 absolute left-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-        <input type="text" id="searchInput" placeholder="Pesquisar por rodovia, ferrovia, hidrovia, porto, UHE, linha de transmissão, petróleo e gás, ID..." class="w-full pl-9 pr-4 py-1.5 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-white focus:outline-none transition-all">
+        <input type="text" id="searchInput" placeholder="Pesquisar por rodovia, ferrovia, hidrovia, porto, UHE, linha de transmissão, petróleo e gás, ID..." class="w-full pl-9 pr-4 py-1.5 text-xs bg-[#FAF7F2] border border-[#DCD3C4] rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-[#FFFFFF] focus:outline-none transition-all">
       </div>
 
       <div class="flex items-center flex-wrap gap-2 text-xs">
         <!-- Filter Subeixo (Complete list) -->
-        <select id="filterSubeixo" class="bg-slate-50 border border-slate-300 text-slate-700 py-1.5 px-3 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        <select id="filterSubeixo" class="bg-[#FAF7F2] border border-[#DCD3C4] text-slate-700 py-1.5 px-3 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
           <option value="ALL">Todos os Subeixos</option>
           <option value="Hidrovias">Hidrovias</option>
           <option value="Portos (Santos)">Portos (Santos)</option>
@@ -245,7 +238,7 @@
         </select>
 
         <!-- Filter Status Licença -->
-        <select id="filterStatus" class="bg-slate-50 border border-slate-300 text-slate-700 py-1.5 px-3 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        <select id="filterStatus" class="bg-[#FAF7F2] border border-[#DCD3C4] text-slate-700 py-1.5 px-3 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
           <option value="ALL">Todas as Licenças</option>
           <option value="Sem Licença Prévia">Sem Licença Prévia</option>
           <option value="Com Licença Prévia">Com Licença Prévia (LP)</option>
@@ -254,7 +247,7 @@
         </select>
 
         <!-- Filter Órgão Pendente -->
-        <select id="filterOrgao" class="bg-slate-50 border border-slate-300 text-slate-700 py-1.5 px-3 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        <select id="filterOrgao" class="bg-[#FAF7F2] border border-[#DCD3C4] text-slate-700 py-1.5 px-3 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
           <option value="ALL">Todos os Órgãos</option>
           <option value="IBAMA">IBAMA</option>
           <option value="FUNAI">FUNAI</option>
@@ -272,8 +265,8 @@
         </select>
 
         <!-- Filter Prioritários Only -->
-        <label class="inline-flex items-center cursor-pointer bg-slate-50 border border-slate-300 px-3 py-1.5 rounded-lg text-slate-700 select-none hover:bg-slate-100 transition-colors">
-          <input type="checkbox" id="filterPrioritario" class="w-3.5 h-3.5 text-red-600 rounded border-slate-300 focus:ring-red-500">
+        <label class="inline-flex items-center cursor-pointer bg-[#FAF7F2] border border-[#DCD3C4] px-3 py-1.5 rounded-lg text-slate-700 select-none hover:bg-[#F5EFE6] transition-colors">
+          <input type="checkbox" id="filterPrioritario" class="w-3.5 h-3.5 text-red-600 rounded border-[#DCD3C4] focus:ring-red-500">
           <span class="ml-1.5 font-medium text-xs text-red-600">Apenas Prioritários</span>
         </label>
 
@@ -291,12 +284,12 @@
     
     <!-- VIEW 2: TABELA EXECUTIVA (CASA CIVIL) -->
     <div id="viewExecutive" class="view-content">
-      <div class="executive-table-container bg-white rounded-xl border border-slate-300 shadow-sm p-6">
+      <div class="executive-table-container bg-[#FFFFFF] rounded-xl border border-[#DCD3C4] shadow-sm p-6">
         
         <!-- Official Casa Civil Header -->
         <div class="border-b-2 border-slate-800 pb-4 mb-4 flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center space-x-4">
-            <div class="flex items-center space-x-2 border-r border-slate-300 pr-4">
+            <div class="flex items-center space-x-2 border-r border-[#DCD3C4] pr-4">
               <div class="w-8 h-8 rounded bg-slate-900 text-white flex items-center justify-center font-black text-xs">BR</div>
               <div>
                 <div class="text-[10px] font-bold tracking-widest text-slate-500 uppercase">Presidência da República</div>
@@ -316,7 +309,7 @@
         </div>
 
         <!-- Executive Legend Strip -->
-        <div class="bg-slate-50 border border-slate-300 p-3 rounded-lg mb-4 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div class="bg-[#FAF7F2] border border-[#DCD3C4] p-3 rounded-lg mb-4 flex flex-wrap items-center justify-between gap-3 text-xs">
           <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full md:w-auto">
             <div class="flex items-center gap-2">
               <span class="w-4 h-4 rounded-xs border border-red-300 bg-red-100 inline-block"></span>
@@ -342,19 +335,19 @@
 
         <!-- Executive Table -->
         <div class="overflow-x-auto">
-          <table class="executive-table w-full text-left text-xs border border-slate-300 border-collapse" id="tableExecutive">
-            <thead class="bg-slate-100 text-slate-900 font-bold text-[11px] border-b-2 border-slate-400">
+          <table class="executive-table w-full text-left text-xs border border-[#DCD3C4] border-collapse" id="tableExecutive">
+            <thead class="bg-[#F5EFE6] text-slate-900 font-bold text-[11px] border-b-2 border-slate-400">
               <tr>
-                <th class="py-2 px-2.5 border border-slate-300 w-24">Subeixo</th>
-                <th class="py-2 px-2 border border-slate-300 w-16 text-center">ID</th>
-                <th class="py-2 px-3 border border-slate-300 w-52">Empreendimento</th>
-                <th class="py-2 px-3 border border-slate-300 min-w-[240px] w-72 bg-amber-50/40">Riscos e Oportunidades</th>
-                <th class="py-2 px-3 border border-slate-300 min-w-[280px]">Comentários</th>
-                <th class="py-2 px-3 border border-slate-300 min-w-[340px]">Providência(s) & Checklist</th>
-                <th class="py-2 px-2.5 border border-slate-300 w-28 text-center">Pendência</th>
+                <th class="py-2 px-2.5 border border-[#DCD3C4] w-24">Subeixo</th>
+                <th class="py-2 px-2 border border-[#DCD3C4] w-16 text-center">ID</th>
+                <th class="py-2 px-3 border border-[#DCD3C4] w-52">Empreendimento</th>
+                <th class="py-2 px-3 border border-[#DCD3C4] min-w-[240px] w-72 bg-amber-50/40">Riscos e Oportunidades</th>
+                <th class="py-2 px-3 border border-[#DCD3C4] min-w-[280px]">Comentários</th>
+                <th class="py-2 px-3 border border-[#DCD3C4] min-w-[340px]">Providência(s) & Checklist</th>
+                <th class="py-2 px-2.5 border border-[#DCD3C4] w-28 text-center">Pendência</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-300 bg-white" id="tbodyExecutive"></tbody>
+            <tbody class="divide-y divide-slate-300 bg-[#FFFFFF]" id="tbodyExecutive"></tbody>
           </table>
         </div>
 
@@ -365,7 +358,7 @@
             <span class="text-xs text-slate-500 font-medium">(Monitoramento Estratégico Casa Civil / SEPAC)</span>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            <div class="p-3 bg-white rounded-lg border border-slate-200 shadow-2xs">
+            <div class="p-3 bg-[#FFFFFF] rounded-lg border border-[#E8E1D5] shadow-2xs">
               <h4 class="font-bold text-slate-800 mb-1 flex items-center gap-1.5 text-red-700">
                 <span>⚠️</span> Revisão de Procedimentos RELAF / IBAMA & Lei Geral
               </h4>
@@ -373,7 +366,7 @@
                 O IBAMA vem trabalhando na revisão e consolidação de procedimentos internos sobre o licenciamento ambiental federal (RELAF). Esta revisão inclui novos procedimentos vinculados à Lei Geral de licenciamento. O documento não tem sido objeto de consulta pública ou internamente ao governo e são desconhecidos seus eventuais reflexos sobre o licenciamento ambiental da grande infraestrutura. Encontra-se em avaliação no MMA.
               </p>
             </div>
-            <div class="p-3 bg-white rounded-lg border border-slate-200 shadow-2xs">
+            <div class="p-3 bg-[#FFFFFF] rounded-lg border border-[#E8E1D5] shadow-2xs">
               <h4 class="font-bold text-slate-800 mb-1 flex items-center gap-1.5 text-red-700">
                 <span>⚠️</span> Margem Equatorial / Foz do Amazonas (AAAS vs Exploração)
               </h4>
@@ -389,9 +382,9 @@
 
     <!-- VIEW 1: TABELA MESTRA (TÉCNICA) -->
     <div id="viewMaster" class="view-content hidden">
-      <div class="bg-white rounded-xl border border-slate-200 shadow-2xs overflow-hidden">
+      <div class="bg-[#FFFFFF] rounded-xl border border-[#E8E1D5] shadow-2xs overflow-hidden">
         
-        <div class="px-4 py-3 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+        <div class="px-4 py-3 bg-[#FAF7F2] border-b border-[#E8E1D5] flex flex-wrap items-center justify-between gap-2">
           <div class="flex items-center space-x-2">
             <h2 class="font-bold text-slate-800 text-sm">Tabela Mestra: Dados e Informações Técnicas dos Processos LA</h2>
             <span class="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded font-mono" id="masterRowCount">56 processos</span>
@@ -403,26 +396,26 @@
 
         <div class="overflow-x-auto max-h-[calc(100vh-280px)] overflow-y-auto">
           <table class="w-full text-left text-xs border-collapse divide-y divide-slate-200" id="tableMaster">
-            <thead class="bg-slate-100 text-slate-700 uppercase font-semibold text-[11px] sticky top-0 z-10 shadow-2xs">
+            <thead class="bg-[#F5EFE6] text-slate-700 uppercase font-semibold text-[11px] sticky top-0 z-10 shadow-2xs">
               <tr>
-                <th class="py-2.5 px-3 border-r border-slate-200 w-24">Subeixo</th>
-                <th class="py-2.5 px-2 border-r border-slate-200 w-16 text-center">ID</th>
-                <th class="py-2.5 px-3 border-r border-slate-200 w-64 min-w-[200px]">Empreendimento</th>
-                <th class="py-2.5 px-2.5 border-r border-slate-200 w-44">Processo</th>
-                <th class="py-2.5 px-2 border-r border-slate-200 w-24 text-center">TR Geral</th>
-                <th class="py-2.5 px-2 border-r border-slate-200 w-28">TR FUNAI</th>
-                <th class="py-2.5 px-2 border-r border-slate-200 w-28">TR INCRA</th>
-                <th class="py-2.5 px-2 border-r border-slate-200 w-32">Licença Prévia</th>
-                <th class="py-2.5 px-2 border-r border-slate-200 w-36">Licença Instalação</th>
-                <th class="py-2.5 px-2 border-r border-slate-200 w-32">Licença Operação</th>
-                <th class="py-2.5 px-3 border-r border-slate-200 min-w-[280px]">Comentários Detalhados</th>
-                <th class="py-2.5 px-3 border-r border-slate-200 min-w-[360px] bg-emerald-50/20">Providência(s) & Checklist</th>
-                <th class="py-2.5 px-2.5 border-r border-slate-200 w-28">Pendência</th>
-                <th class="py-2.5 px-2.5 border-r border-slate-200 w-24 text-center">Modificado em</th>
+                <th class="py-2.5 px-3 border-r border-[#E8E1D5] w-24">Subeixo</th>
+                <th class="py-2.5 px-2 border-r border-[#E8E1D5] w-16 text-center">ID</th>
+                <th class="py-2.5 px-3 border-r border-[#E8E1D5] w-64 min-w-[200px]">Empreendimento</th>
+                <th class="py-2.5 px-2.5 border-r border-[#E8E1D5] w-44">Processo</th>
+                <th class="py-2.5 px-2 border-r border-[#E8E1D5] w-24 text-center">TR Geral</th>
+                <th class="py-2.5 px-2 border-r border-[#E8E1D5] w-28">TR FUNAI</th>
+                <th class="py-2.5 px-2 border-r border-[#E8E1D5] w-28">TR INCRA</th>
+                <th class="py-2.5 px-2 border-r border-[#E8E1D5] w-32">Licença Prévia</th>
+                <th class="py-2.5 px-2 border-r border-[#E8E1D5] w-36">Licença Instalação</th>
+                <th class="py-2.5 px-2 border-r border-[#E8E1D5] w-32">Licença Operação</th>
+                <th class="py-2.5 px-3 border-r border-[#E8E1D5] min-w-[280px]">Comentários Detalhados</th>
+                <th class="py-2.5 px-3 border-r border-[#E8E1D5] min-w-[360px] bg-emerald-50/20">Providência(s) & Checklist</th>
+                <th class="py-2.5 px-2.5 border-r border-[#E8E1D5] w-28">Pendência</th>
+                <th class="py-2.5 px-2.5 border-r border-[#E8E1D5] w-24 text-center">Modificado em</th>
                 <th class="py-2.5 px-2 text-center w-16">Ações</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-200 bg-white" id="tbodyMaster"></tbody>
+            <tbody class="divide-y divide-slate-200 bg-[#FFFFFF]" id="tbodyMaster"></tbody>
           </table>
         </div>
 
@@ -432,7 +425,7 @@
     <!-- VIEW 3: PAINEL DE PRAZOS -->
     <div id="viewDeadlines" class="view-content hidden">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div class="bg-white p-4 rounded-xl border border-red-200 shadow-2xs">
+        <div class="bg-[#FFFFFF] p-4 rounded-xl border border-red-200 shadow-2xs">
           <div class="flex items-center justify-between">
             <span class="text-xs font-semibold text-red-600 uppercase">Prazos Vencidos</span>
             <span class="p-2 bg-red-100 text-red-700 rounded-lg">
@@ -443,7 +436,7 @@
           <p class="text-[11px] text-slate-500 mt-1">Exigem cobrança imediata na Sala de Situação</p>
         </div>
 
-        <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-2xs">
+        <div class="bg-[#FFFFFF] p-4 rounded-xl border border-amber-200 shadow-2xs">
           <div class="flex items-center justify-between">
             <span class="text-xs font-semibold text-amber-600 uppercase">Vencimento Próximo (15d)</span>
             <span class="p-2 bg-amber-100 text-amber-700 rounded-lg">
@@ -454,7 +447,7 @@
           <p class="text-[11px] text-slate-500 mt-1">Acompanhamento preventivo ativo</p>
         </div>
 
-        <div class="bg-white p-4 rounded-xl border border-emerald-200 shadow-2xs">
+        <div class="bg-[#FFFFFF] p-4 rounded-xl border border-emerald-200 shadow-2xs">
           <div class="flex items-center justify-between">
             <span class="text-xs font-semibold text-emerald-600 uppercase">No Prazo / Regular</span>
             <span class="p-2 bg-emerald-100 text-emerald-700 rounded-lg">
@@ -465,10 +458,10 @@
           <p class="text-[11px] text-slate-500 mt-1">Estudos e análises dentro do cronograma</p>
         </div>
 
-        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs">
+        <div class="bg-[#FFFFFF] p-4 rounded-xl border border-[#E8E1D5] shadow-2xs">
           <div class="flex items-center justify-between">
             <span class="text-xs font-semibold text-slate-600 uppercase">Prazo a Definir</span>
-            <span class="p-2 bg-slate-100 text-slate-700 rounded-lg">
+            <span class="p-2 bg-[#F5EFE6] text-slate-700 rounded-lg">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
             </span>
           </div>
@@ -478,12 +471,12 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-2xs">
+        <div class="bg-[#FFFFFF] p-5 rounded-xl border border-[#E8E1D5] shadow-2xs">
           <h3 class="font-bold text-slate-800 text-sm mb-3">Pendências por Órgão Interveniente</h3>
           <div class="space-y-3" id="agencyBreakdownList"></div>
         </div>
 
-        <div class="lg:col-span-2 bg-white p-5 rounded-xl border border-slate-200 shadow-2xs">
+        <div class="lg:col-span-2 bg-[#FFFFFF] p-5 rounded-xl border border-[#E8E1D5] shadow-2xs">
           <div class="flex items-center justify-between mb-4">
             <h3 class="font-bold text-slate-800 text-sm">Próximos Marcos e Prazos Críticos de Intervenientes</h3>
             <span class="text-xs text-slate-500">Ordenados por criticidade</span>
@@ -495,8 +488,8 @@
 
     <!-- VIEW 4: HISTÓRICO DE PROVIDÊNCIAS REALIZADAS -->
     <div id="viewHistory" class="view-content hidden">
-      <div class="bg-white rounded-xl border border-slate-200 shadow-2xs overflow-hidden p-6">
-        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-5 mb-5">
+      <div class="bg-[#FFFFFF] rounded-xl border border-[#E8E1D5] shadow-2xs overflow-hidden p-6">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#E8E1D5] pb-5 mb-5">
           <div>
             <h2 class="font-extrabold text-slate-900 text-base flex items-center gap-2">
               <span class="p-2 bg-emerald-100 text-emerald-800 rounded-lg">
@@ -517,12 +510,12 @@
           </div>
         </div>
 
-        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 mb-4 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div class="bg-[#FAF7F2] p-3 rounded-lg border border-[#E8E1D5] mb-4 flex flex-wrap items-center justify-between gap-3 text-xs">
           <div class="flex items-center flex-1 min-w-[220px]">
-            <input type="text" id="historySearchInput" placeholder="Filtrar histórico por ação, empreendimento ou órgão..." class="w-full p-1.5 px-3 bg-white border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs">
+            <input type="text" id="historySearchInput" placeholder="Filtrar histórico por ação, empreendimento ou órgão..." class="w-full p-1.5 px-3 bg-[#FFFFFF] border border-[#DCD3C4] rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs">
           </div>
           <div class="flex items-center gap-2">
-            <select id="historyFilterDesempenho" class="bg-white border border-slate-300 text-slate-700 py-1.5 px-2.5 rounded-md font-medium text-xs">
+            <select id="historyFilterDesempenho" class="bg-[#FFFFFF] border border-[#DCD3C4] text-slate-700 py-1.5 px-2.5 rounded-md font-medium text-xs">
               <option value="ALL">Todos os Desempenhos</option>
               <option value="antecedencia">🟢 Com Antecedência</option>
               <option value="no_prazo">🟢 No Prazo Exato</option>
@@ -533,19 +526,19 @@
         </div>
 
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border border-slate-200 border-collapse" id="tableHistory">
-            <thead class="bg-slate-100 text-slate-800 font-bold text-[11px] border-b border-slate-300">
+          <table class="w-full text-left text-xs border border-[#E8E1D5] border-collapse" id="tableHistory">
+            <thead class="bg-[#F5EFE6] text-slate-800 font-bold text-[11px] border-b border-[#DCD3C4]">
               <tr>
-                <th class="py-2.5 px-3 border border-slate-200 w-52">Empreendimento</th>
-                <th class="py-2.5 px-3 border border-slate-200 min-w-[320px]">Providência Realizada</th>
-                <th class="py-2.5 px-2.5 border border-slate-200 w-28 text-center">Responsável</th>
-                <th class="py-2.5 px-2.5 border border-slate-200 w-28 text-center">Prazo Original</th>
-                <th class="py-2.5 px-2.5 border border-slate-200 w-28 text-center bg-emerald-50/50">Data de Realização</th>
-                <th class="py-2.5 px-3 border border-slate-200 w-44 text-center">Desvio / Desempenho</th>
+                <th class="py-2.5 px-3 border border-[#E8E1D5] w-52">Empreendimento</th>
+                <th class="py-2.5 px-3 border border-[#E8E1D5] min-w-[320px]">Providência Realizada</th>
+                <th class="py-2.5 px-2.5 border border-[#E8E1D5] w-28 text-center">Responsável</th>
+                <th class="py-2.5 px-2.5 border border-[#E8E1D5] w-28 text-center">Prazo Original</th>
+                <th class="py-2.5 px-2.5 border border-[#E8E1D5] w-28 text-center bg-emerald-50/50">Data de Realização</th>
+                <th class="py-2.5 px-3 border border-[#E8E1D5] w-44 text-center">Desvio / Desempenho</th>
                 <th class="py-2.5 px-2 text-center w-24">Ação</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-200 bg-white" id="tbodyHistory"></tbody>
+            <tbody class="divide-y divide-slate-200 bg-[#FFFFFF]" id="tbodyHistory"></tbody>
           </table>
         </div>
       </div>
@@ -555,7 +548,7 @@
 
   <!-- MODAL: DAR BAIXA EM PROVIDÊNCIA -->
   <div id="completeTaskModal" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+    <div class="bg-[#FFFFFF] rounded-2xl max-w-lg w-full shadow-2xl border border-[#E8E1D5] overflow-hidden">
       
       <div class="px-6 py-4 bg-emerald-600 text-white flex items-center justify-between">
         <div class="flex items-center space-x-2 font-bold text-sm">
@@ -574,7 +567,7 @@
           <div class="font-bold text-slate-800 text-xs mt-0.5" id="completeProjectName">-</div>
         </div>
 
-        <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
+        <div class="p-3 bg-[#FAF7F2] border border-[#E8E1D5] rounded-lg">
           <div class="flex items-center justify-between gap-2 mb-1">
             <span class="font-bold text-slate-700" id="completeAgencyBadge">-</span>
             <span class="text-slate-500 font-mono text-[11px]" id="completeOriginalDeadline">-</span>
@@ -585,7 +578,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Data de Realização Efetiva:</label>
-            <input type="date" id="completeInputDate" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+            <input type="date" id="completeInputDate" class="w-full p-2 bg-[#FAF7F2] border border-[#DCD3C4] rounded-lg text-xs font-semibold focus:ring-2 focus:ring-emerald-500 focus:outline-none">
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Cálculo de Desvio:</label>
@@ -597,11 +590,11 @@
 
         <div>
           <label class="block font-semibold text-slate-700 mb-1">Observações da Conclusão (Opcional):</label>
-          <input type="text" id="completeObs" placeholder="Ex: Protocolado sob número SEI 02001..." class="w-full p-2 bg-slate-50 border border-slate-300 rounded-lg text-xs">
+          <input type="text" id="completeObs" placeholder="Ex: Protocolado sob número SEI 02001..." class="w-full p-2 bg-[#FAF7F2] border border-[#DCD3C4] rounded-lg text-xs">
         </div>
 
-        <div class="flex items-center justify-end space-x-2 pt-4 border-t border-slate-200">
-          <button type="button" id="btnCancelCompleteModal" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 font-semibold hover:bg-slate-50">Cancelar</button>
+        <div class="flex items-center justify-end space-x-2 pt-4 border-t border-[#E8E1D5]">
+          <button type="button" id="btnCancelCompleteModal" class="px-4 py-2 rounded-lg border border-[#DCD3C4] text-slate-600 font-semibold hover:bg-[#FAF7F2]">Cancelar</button>
           <button type="button" id="btnConfirmCompleteTask" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700 flex items-center gap-1.5 shadow-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             Confirmar e Arquivar no Histórico
@@ -615,7 +608,7 @@
 
     <!-- MODAL: NOVO PROCESSO / EMPREENDIMENTO -->
   <div id="newProjectModal" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
+    <div class="bg-[#FFFFFF] rounded-2xl max-w-lg w-full shadow-2xl border border-[#E8E1D5] overflow-hidden">
       
       <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
         <div class="flex items-center space-x-2 font-bold text-sm">
@@ -629,7 +622,7 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Subeixo:</label>
-            <select id="newSubeixo" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50 font-medium">
+            <select id="newSubeixo" class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2] font-medium">
               <option value="Rodovias">Rodovias</option>
               <option value="Ferrovias">Ferrovias</option>
               <option value="Hidrovias">Hidrovias</option>
@@ -643,23 +636,23 @@
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">ID (Código PAC):</label>
-            <input type="text" id="newIdCode" placeholder="Ex: 2046 ou S/N" required class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
+            <input type="text" id="newIdCode" placeholder="Ex: 2046 ou S/N" required class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2]">
           </div>
         </div>
 
         <div>
           <label class="block font-semibold text-slate-700 mb-1">Nome do Empreendimento:</label>
-          <input type="text" id="newEmpreendimento" placeholder="Ex: BR-101/SC - Obras Complementares" required class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50 font-semibold">
+          <input type="text" id="newEmpreendimento" placeholder="Ex: BR-101/SC - Obras Complementares" required class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2] font-semibold">
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Nº do Processo:</label>
-            <input type="text" id="newProcesso" placeholder="Ex: 02001.001234/2026-11" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50 font-mono">
+            <input type="text" id="newProcesso" placeholder="Ex: 02001.001234/2026-11" class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2] font-mono">
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Situação da Licença:</label>
-            <select id="newStatusLicenca" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50 font-medium">
+            <select id="newStatusLicenca" class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2] font-medium">
               <option value="Sem Licença Prévia">Sem Licença Prévia</option>
               <option value="Com Licença Prévia">Com Licença Prévia (LP)</option>
               <option value="Com Licença de Instalação">Com Licença de Instalação (LI)</option>
@@ -675,21 +668,21 @@
 
         <div>
           <label class="block font-semibold text-slate-700 mb-1">Riscos e Oportunidades (Síntese Executiva):</label>
-          <textarea id="newRiscos" rows="2" placeholder="Síntese para apresentação a diretores e ministros..." class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50"></textarea>
+          <textarea id="newRiscos" rows="2" placeholder="Síntese para apresentação a diretores e ministros..." class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2]"></textarea>
         </div>
 
         <div>
           <label class="block font-semibold text-slate-700 mb-1">Comentários Técnicos Detalhados:</label>
-          <textarea id="newComentarios" rows="2" placeholder="Detalhes do andamento e histórico do licenciamento..." class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50"></textarea>
+          <textarea id="newComentarios" rows="2" placeholder="Detalhes do andamento e histórico do licenciamento..." class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2]"></textarea>
         </div>
 
         <div>
           <label class="block font-semibold text-slate-700 mb-1">Providência Inicial (Opcional):</label>
-          <input type="text" id="newProvidencia" placeholder="Ex: DNIT apresentar complementações ao IBAMA..." class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
+          <input type="text" id="newProvidencia" placeholder="Ex: DNIT apresentar complementações ao IBAMA..." class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2]">
         </div>
 
-        <div class="flex items-center justify-end space-x-2 pt-4 border-t border-slate-200">
-          <button type="button" id="btnCancelNewModal" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 font-semibold hover:bg-slate-50">Cancelar</button>
+        <div class="flex items-center justify-end space-x-2 pt-4 border-t border-[#E8E1D5]">
+          <button type="button" id="btnCancelNewModal" class="px-4 py-2 rounded-lg border border-[#DCD3C4] text-slate-600 font-semibold hover:bg-[#FAF7F2]">Cancelar</button>
           <button type="submit" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700 flex items-center gap-1.5 shadow-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             Salvar Processo
@@ -710,82 +703,33 @@
      */
 
     const mappedLicenseLinks = {"p_fiol2":{"processo":null,"tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":null,"li":null,"lo":null},"p_fico1":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229866&infra_hash=51eddca08c6c5b94f7c737efec6d80cb","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EcAFRcbV1GlGtnhswAeBOpEBAka37Sv3mkBIMSS0FOVdqQ?e=jFDknH","li":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/Eakq2j0NONpLms63D7aiRDQBLrRVMdG7tIEPkEfbG6rapg?e=Ldmegn","lo":null},"p_transnord_suape":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229873&infra_hash=2e0e390d778a0dc8d6d90704eb0db84e","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EQWOaVrftM1BjlMbdux_bR0BynGtee4POR0B8Leym-bVvg?e=JOs3qv","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229873&id_documento=27841664&infra_hash=a916451ae3993fbe06b3f1c986bad8de","lo":null},"p_transnord_lo":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=950942&infra_hash=d5cb1835fb18737914e7f7d23c54b110","tr":null,"lp":"https://servicos.ibama.gov.br/licenciamento/consulta_empreendimentos.php","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=950942&id_documento=28583938&infra_hash=21b6694dde66c362ba544ad35f0dd0e8","lo":null},"p_transnord_li":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1936923&infra_hash=5780e665d14cfd8d8c148b2f31fbc1a9","tr":null,"lp":null,"li":null,"lo":null},"p_ferrograo":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_ef118":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_br158_mt":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=2393111&infra_hash=04c2ad7c7a4b998f41c5fd3ef4eb5e3c","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=2393111&id_documento=29634586&infra_hash=a4f37f387eceb0cfa44bea22cae33463","lp":null,"li":null,"lo":null},"p_br135_mg":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_br135_ma":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_br230_pa_medici":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229917&infra_hash=dbd371aef38761ea428620e9dd1c8a3a","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EflRSIxDkE9NiqUqOWQY5sEBGTxzz_Qr3-VJ073TnWJ7BA?e=7R9Uj9","li":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EdH3zmKP0IVLvudw_BBpqQ8BKRTI3fJAsg2bQGZVXKuumA?e=RucuL0","lo":null},"p_pontes230_pa":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229917&infra_hash=dbd371aef38761ea428620e9dd1c8a3a","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EflRSIxDkE9NiqUqOWQY5sEBGTxzz_Qr3-VJ073TnWJ7BA?e=7R9Uj9","li":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EdH3zmKP0IVLvudw_BBpqQ8BKRTI3fJAsg2bQGZVXKuumA?e=RucuL0","lo":null},"p_br101_se":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1231307&infra_hash=d1949750bcb34936b555879b944e499c","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231307&id_documento=6590178&infra_hash=b2f0881c5ebefe751d818165d50ff6c4","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ER2fTDlXUQVDuwyiw3NwA18BedTYWlf4EilXsjl6G3fjhg?e=akZXVv","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231307&id_documento=11711057&infra_hash=6d509376ac7dabe643d76794c1f1c846","lo":null},"p_br242_to":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1309000&infra_hash=905ab09462d9481ff9b2001ffc38f164","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EeCgmJjUA91LgzVJIoEJbMsBt1n0ODii4HAe3cngrTxFXw?e=1fuQCu","li":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EfIAGr-Pek1IrN5HVw0LVVMB05ZbMARr21UGcgpBrJFf7g?e=oyChTM","lo":null},"p_br135_ba_cocos":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229898&infra_hash=52aacdac0aeb46ca97802c5f0bff57b3","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=2094227&infra_hash=9379d0cb37ee4669c8cb8855a236a97b","lp":null,"li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=3632272&infra_hash=8c62d35ff32d52fcdc92adb1e3b500da","lo":null},"p_br135_ba_desiderio":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229898&infra_hash=52aacdac0aeb46ca97802c5f0bff57b3","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":null,"li":null,"lo":null},"p_br080_ponte":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1903440&infra_hash=5dce4edc7e9b0ffe64f56ab25e53f536","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=764893&id_documento=2073162&infra_hash=59ae62d23fd983de6b77828b68b291cb","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=3632272&infra_hash=8c62d35ff32d52fcdc92adb1e3b500da","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=764893&id_documento=24773331&infra_hash=2b6263301b7b16a5cfca362e80a98120","lo":null},"p_br080_lotes":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1903440&infra_hash=5dce4edc7e9b0ffe64f56ab25e53f536","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=764893&id_documento=2073162&infra_hash=59ae62d23fd983de6b77828b68b291cb","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=3632272&infra_hash=8c62d35ff32d52fcdc92adb1e3b500da","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1903440&id_documento=27088191&infra_hash=327312ba2c1445c5895ac3295801ffe3","lo":null},"p_br319_meio":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=542681&infra_hash=d7cfdffbea9ae4cb6be9f00966a5e583","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=542681&id_documento=1036196&infra_hash=d8477e6d3b50ba12adbe1362c220e98b","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ERzPw0YVwRJJum_V5HJPUbUBopmGVK2ztZqEr343a4s0Eg?e=gEGQrI","li":null,"lo":null},"p_br319_pontes":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=542681&infra_hash=d7cfdffbea9ae4cb6be9f00966a5e583","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=542681&id_documento=1036196&infra_hash=d8477e6d3b50ba12adbe1362c220e98b","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ERzPw0YVwRJJum_V5HJPUbUBopmGVK2ztZqEr343a4s0Eg?e=gEGQrI","li":null,"lo":null},"p_br156_ap":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1231326&infra_hash=48d8724cd9cea0d569978227e64fb821","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231326&id_documento=24296664&infra_hash=7ae43ee98440c19dfa8812c3e98120ec","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231326&id_documento=26392014&infra_hash=ff51615e89123bf1badbb4e7d7c492ed","lo":null},"p_br110_pe":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229925&infra_hash=08e1c90b966072e164cbd3a69cccb9e1","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229925&id_documento=18632940&infra_hash=ff0ecfe64f9377646c40738b53949f6e","lp":null,"li":null,"lo":null},"p_br401_rr":{"processo":null,"tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":null,"li":null,"lo":null},"p_br010_to":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229948&infra_hash=ba0ac42fa9f2d4e8611928f4143280cd","tr":null,"lp":null,"li":null,"lo":null},"p_br242_mt":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_br235_se":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=2183771&infra_hash=30d5394a5ed06c17e71e3ffa428e94c6","tr":null,"lp":null,"li":null,"lo":null},"p_br230_am_mucuim":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_br235_pi":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1547861&infra_hash=9fd5ad526bd31a49c581c192bd5af68f","tr":null,"lp":null,"li":null,"lo":null},"p_br330_pi_lotes":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_br330_ponte":{"processo":"https://sei.iphan.gov.br/sei/modulos/pesquisa/md_pesq_processo_exibir.php?iI3OtHvPArITY997V09rhsSkbDKbaYSycOHqqF2xsM0IaDkkEyJpus7kCPb435VNEAb16AAxmJKUdrsNWVIqQ-4sVttNlDJd-Qj41leINVfjdFXQL-g_x8uBiuwc4gj0","tr":null,"lp":null,"li":null,"lo":null},"p_br280_sc":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_riosp_dutra":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1977354&infra_hash=6251b3e39e2464d355eb8a5d51883e82","tr":null,"lp":null,"li":null,"lo":null},"p_br030_ba":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_etapa4_presal":{"processo":"https://sei.iphan.gov.br/sei/modulos/pesquisa/md_pesq_processo_exibir.php?iI3OtHvPArITY997V09rhsSkbDKbaYSycOHqqF2xsM0IaDkkEyJpus7kCPb435VNEAb16AAxmJKUdrsNWVIqQ5dw7ynLj8d14eMCW1aB5gGOTSppUFNMNQe3GMYcCk13","tr":null,"lp":null,"li":"https://planaltopr.sharepoint.com/:b:/r/sites/SADJ-IMeioAmbiente/Documentos Compartilhados/Transportes - Rodovias/BR-030_BA/BR-030_BA-Lote_3_EntrBR-101_Ubaitaba","lo":null},"p_projeto_raia":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_projeto_wahoo":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1387636&infra_hash=3bddb7f0836630d0affdb99ea7e18504","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387636&id_documento=26789381&infra_hash=42f32220db2508240bdd43bc58d33c4a","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387636&id_documento=30311522&infra_hash=df9cb0277e498d67431d745450c98dbd","lo":null},"p_seap":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1387630&infra_hash=0f2ef8f3f2da397002b30afad343280d","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387630&id_documento=25870158&infra_hash=e4b32bd15ea5a47b8ac752eae65b06f9","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387630&id_documento=26712115&infra_hash=8ec4b43fde2b05dd3ae644d1ff77a213","lo":null},"p_fza_m_59":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=929496&infra_hash=2a930caec0be8bcab0b7e5822122e86d","tr":null,"lp":null,"li":null,"lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=929496&id_documento=27194456&infra_hash=95473c57c3d38ee3141149d6d9794732"},"p_lt_terminal_rio":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=13963064&infra_hash=7365779ec00ab4e4772657186ed207c2"},"p_lt_xingo":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273498&infra_hash=d738a8d571bbe58d5b4200214dfa5abf","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=10323288&infra_hash=8a9201988063f7ccb60354e81c193ab0","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=12977954&infra_hash=3e440669a801f2b77cd7776972c02df1","lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=13963064&infra_hash=7365779ec00ab4e4772657186ed207c2"},"p_lt_pocoes_c1":{"processo":null,"tr":null,"lp":null,"li":null,"lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=13963064&infra_hash=7365779ec00ab4e4772657186ed207c2"},"p_lt_laranjal_macapa":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273551&infra_hash=fcff5b9e692279e34b71bdd09dc79152","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=19567546&infra_hash=ac2eb5260ed54d8090558f646ddd9358","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=21102259&infra_hash=7a8bbcc6822f09bdd9ba435fc571f7b3","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=24860485&infra_hash=a880523cc73dc10032f940ee61d9fbf1","lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=29727955&infra_hash=e207ef89c4bd2e74af7df2db584b9091"},"p_lt_marimbondo":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273488&infra_hash=964e9009b30fbe1e5d93a990147900c9","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273488&id_documento=14275582&infra_hash=9e2379095543cf3e772d94286307fbad","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273488&id_documento=16013952&infra_hash=8a34e32dba85fc0c6534b076b7f31812","lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273488&id_documento=28462749&infra_hash=64dab80fb52fccbf073699c660c72500"},"p_lt_lechuga_boavista":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273574&infra_hash=22e816f1153f8d2c389bee583039eea8","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=16686874&infra_hash=e7fb746f8af7c17e20e1c3ac2d134c1c","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=21619099&infra_hash=b2fee7a2d288abbcee10c7783e3990cd","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=23663235&infra_hash=8e53f9f1ba081c9d8ed1020a6ba56788","lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=30673655&infra_hash=2d9bf9468676841d7f48559357a5cdca"},"p_lt_barra2_arinos":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1913466&infra_hash=53c2f9af7fb543f1a0d1da2ef66074b5","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EbkB5lEZ18xIq4GHYaIdklkBk5A_KjxIfM62aBrw764C_w?e=rab1yo","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1913466&id_documento=26142205&infra_hash=0fbea57432d8af160dbec140cd04cc48","lo":null},"p_lt_ribeiro_colinas":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273495&infra_hash=b5be384662ef5fa5139f48dea3ddc52e","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":null,"li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273495&id_documento=12254987&infra_hash=c018097d5fa0dc77e40575d15ca5bb5e","lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273495&id_documento=26630467&infra_hash=f2e5275927e4c8640fbb1661a4cdd180"},"p_lt_gov_valadares":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273555&infra_hash=974fd923d8c40f7c07e6723467dc733e","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273555&id_documento=25459963&infra_hash=6c5622a9c71c936ba2f06a0a99053ea0","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273555&id_documento=26251078&infra_hash=b7134fcebbea173cc588eebcda21db07","lo":null},"p_lt_pocoes_c2":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1551759&infra_hash=55c99c7a76425218285eca608866a001","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1551759&id_documento=23504704&infra_hash=ae46171f5a8ec2b67ae10622eb642aed","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1551759&id_documento=26652334&infra_hash=68908c6a37127bc295946a8b6d91d1f2","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1551759&id_documento=27558593&infra_hash=7b2611055eab1afbfb15425407ff5b2f","lo":null},"p_lt_bom_jesus_lapa":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1547781&infra_hash=80e0b42568f22a544eec240caf6c50ed","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547781&id_documento=20061248&infra_hash=a8f2398e4b87e3e28789aeac87852606","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547781&id_documento=27179055&infra_hash=c69e9533d88d9e655d0636a6cd2b5cba","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547781&id_documento=28375912&infra_hash=b3fa7583ea1b6835739eee4c04e72fd2","lo":null},"p_lt_graca_aranha":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1417476&infra_hash=c3cb6837faa6e37b5a6aa3a76dd82e1e","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1417476&id_documento=21079793&infra_hash=c2d9330c78b23b252c7cdc5d2c18f855","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1417476&id_documento=29768774&infra_hash=d45bf564f5bdecd3dbbd74989f6f1643","lo":null},"p_lt_silvania_ribeirao":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1276837&infra_hash=f3c9443c2d695bba2516418e4a84a78d","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1276837&id_documento=27496258&infra_hash=11db1d93cd91380c2b6ebe4942ceb06d","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1276837&id_documento=30251927&infra_hash=8e82c05216264a91056e53fc60c4b1a2","lo":null},"p_lt_quixada_crateus":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1547797&infra_hash=dd8d318b490a506fabeb630b0094e47f","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547797&id_documento=23050354&infra_hash=f03e04468c4acf4e7f66952fa7e049a1","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547797&id_documento=29748792&infra_hash=ac07a2134fb91ccb0f61768fd5c8619e","li":null,"lo":null}};
-    function renderLicenseBadge(type, text, url) {
-      if (!text || text.trim() === "" || text === "-") {
+    function renderOriginalCellWithLink(text, url, fieldType) {
+      if (!text || text.trim() === "" || text.trim() === "-") {
         return `<span class="text-slate-300 font-mono text-xs">-</span>`;
       }
 
-      let badgeClasses = "";
-      let icon = "";
-      if (type === "lp") {
-        badgeClasses = "bg-blue-50 text-blue-900 border-blue-300 hover:bg-blue-100 hover:border-blue-400";
-        icon = "📄";
-      } else if (type === "li") {
-        badgeClasses = "bg-emerald-50 text-emerald-900 border-emerald-300 hover:bg-emerald-100 hover:border-emerald-400";
-        icon = "🏗️";
-      } else if (type === "lo") {
-        badgeClasses = "bg-purple-50 text-purple-900 border-purple-300 hover:bg-purple-100 hover:border-purple-400";
-        icon = "⚡";
-      } else {
-        badgeClasses = "bg-slate-50 text-slate-800 border-slate-300 hover:bg-slate-100";
-        icon = "📋";
-      }
-
       if (url && url.startsWith("http")) {
-        return `
-          <a href="${url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold border ${badgeClasses} shadow-2xs transition-all group/badge hover:shadow-xs" title="Clique para abrir o documento oficial no SEI / Sharepoint">
-            <span>${icon}</span>
-            <span class="underline decoration-dotted decoration-slate-400 group-hover/badge:decoration-solid">${text}</span>
-            <svg class="w-3.5 h-3.5 opacity-70 group-hover/badge:opacity-100 group-hover/badge:translate-x-0.5 group-hover/badge:-translate-y-0.5 transition-transform text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-          </a>
-        `;
-      } else {
-        return `
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold border ${badgeClasses} shadow-2xs">
-            <span>${icon}</span>
-            <span>${text}</span>
-          </span>
-        `;
-      }
-    }
+        let linkColor = "text-blue-700 hover:text-blue-950 font-medium underline decoration-blue-400 hover:decoration-blue-700";
+        if (fieldType === "lp") linkColor = "text-blue-800 hover:text-blue-950 font-semibold underline decoration-blue-500";
+        else if (fieldType === "li") linkColor = "text-emerald-800 hover:text-emerald-950 font-semibold underline decoration-emerald-600";
+        else if (fieldType === "lo") linkColor = "text-purple-800 hover:text-purple-950 font-semibold underline decoration-purple-500";
+        else if (fieldType === "processo") linkColor = "text-blue-700 hover:text-blue-900 font-mono underline decoration-blue-400";
 
-    function renderProcessBadge(processo, url) {
-      if (!processo || processo.trim() === "" || processo === "-") return `<span class="text-slate-300 font-mono text-xs">-</span>`;
-      if (url && url.startsWith("http")) {
         return `
-          <a href="${url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-mono text-blue-800 bg-blue-50/80 border border-blue-200 hover:bg-blue-100 hover:border-blue-300 transition-all group/proc" title="Abrir processo no SEI IBAMA">
-            <span>📂 ${processo}</span>
-            <svg class="w-3 h-3 text-blue-500 group-hover/proc:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          <a href="${url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-start gap-1 leading-snug transition-colors group/link ${linkColor}" title="Clique para abrir o documento oficial no SEI / Sharepoint">
+            <span class="whitespace-pre-line select-text">${text}</span>
+            <svg class="w-3 h-3 opacity-60 group-hover/link:opacity-100 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-all text-slate-500 shrink-0 no-print mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
           </a>
         `;
       }
-      return `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-mono text-slate-700 bg-slate-100 border border-slate-200">📂 ${processo}</span>`;
-    }
 
-    function renderExecutiveLicensesSummary(item) {
-      const l_map = mappedLicenseLinks[item.id] || {};
-      const lp_url = item.lp_url || l_map.lp;
-      const li_url = item.li_url || l_map.li;
-      const lo_url = item.lo_url || l_map.lo;
+      let textClass = "text-slate-800";
+      if (fieldType === "lp") textClass = "text-blue-900 font-medium";
+      else if (fieldType === "li") textClass = "text-emerald-900 font-medium";
+      else if (fieldType === "lo") textClass = "text-purple-900 font-medium";
+      else if (fieldType === "processo") textClass = "text-slate-700 font-mono text-[11px]";
 
-      let badges = [];
-      if (item.lo && item.lo.trim() !== "") {
-        badges.push(renderLicenseBadge("lo", item.lo, lo_url));
-      }
-      if (item.li && item.li.trim() !== "") {
-        badges.push(renderLicenseBadge("li", item.li, li_url));
-      }
-      if (item.lp && item.lp.trim() !== "") {
-        badges.push(renderLicenseBadge("lp", item.lp, lp_url));
-      }
-      if (badges.length === 0) {
-        if (item.status_licenca === "Sem Licença Prévia") {
-          badges.push(`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-red-100 text-red-800 border border-red-300 shadow-2xs">⚠️ Sem Licença Prévia ${item.prioritario ? "(Prioritário)" : ""}</span>`);
-        } else {
-          badges.push(`<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-300">${item.status_licenca}</span>`);
-        }
-      }
-      return `<div class="flex flex-wrap gap-1.5 mt-1.5">${badges.join("")}</div>`;
+      return `<div class="whitespace-pre-line select-text leading-snug ${textClass}">${text}</div>`;
     }
 
     const activeTeammates = [
@@ -2389,9 +2333,9 @@
     ];
 
     // STORAGE V5 (Fresh load with all 56 projects and Executive Layout)
-    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V7";
-    const HISTORY_KEY = "LICENCAS_PAC_FULL_HISTORY_V7";
-    const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('licencas_pac_channel_v7') : null;
+    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V9";
+    const HISTORY_KEY = "LICENCAS_PAC_FULL_HISTORY_V9";
+    const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('licencas_pac_channel_v9') : null;
 
     function loadData() {
       try {
@@ -2496,7 +2440,7 @@
         "INCRA": "bg-purple-100 text-purple-800 border-purple-200",
         "IPHAN": "bg-amber-100 text-amber-800 border-amber-200",
         "ICMBIO": "bg-teal-100 text-teal-800 border-teal-200",
-        "DNIT": "bg-slate-100 text-slate-800 border-slate-300",
+        "DNIT": "bg-[#F5EFE6] text-slate-800 border-[#DCD3C4]",
         "INFRA": "bg-indigo-100 text-indigo-800 border-indigo-200",
         "MPOR": "bg-sky-100 text-sky-800 border-sky-300 font-bold",
         "APS": "bg-blue-100 text-blue-900 border-blue-300 font-bold",
@@ -2508,7 +2452,7 @@
         "SEPPI/CC/PR": "bg-lime-100 text-lime-900 border-lime-300",
         "Empreendedor": "bg-orange-100 text-orange-800 border-orange-200"
       };
-      return map[agency] || "bg-slate-100 text-slate-800 border-slate-300";
+      return map[agency] || "bg-[#F5EFE6] text-slate-800 border-[#DCD3C4]";
     }
 
     function getDeadlineBadge(prazo) {
@@ -2591,8 +2535,8 @@
         const deadlineHtml = getDeadlineBadge(t.prazo);
 
         return `
-          <div class="task-item flex items-start gap-2 p-1.5 rounded-lg bg-slate-50 border border-slate-200 hover:border-emerald-300 transition-all text-[11px] mb-1.5 group/task">
-            <button class="task-check-btn mt-0.5 w-4 h-4 rounded border-2 border-slate-300 hover:border-emerald-500 bg-white flex items-center justify-center text-transparent hover:text-emerald-600 cursor-pointer shrink-0 transition-colors shadow-2xs" data-pid="${project.id}" data-tid="${t.id}" title="Marcar como realizada">
+          <div class="task-item flex items-start gap-2 p-1.5 rounded-lg bg-[#FAF7F2] border border-[#E8E1D5] hover:border-emerald-300 transition-all text-[11px] mb-1.5 group/task">
+            <button class="task-check-btn mt-0.5 w-4 h-4 rounded border-2 border-[#DCD3C4] hover:border-emerald-500 bg-[#FFFFFF] flex items-center justify-center text-transparent hover:text-emerald-600 cursor-pointer shrink-0 transition-colors shadow-2xs" data-pid="${project.id}" data-tid="${t.id}" title="Marcar como realizada">
               <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
             </button>
             <div class="flex-1 min-w-0">
@@ -2620,7 +2564,9 @@
 
       tbodyExecutive.innerHTML = data.map((item) => {
         const rawIndex = projectsData.findIndex(p => p.id === item.id);
-        
+        const l_map = mappedLicenseLinks[item.id] || {};
+        const processoUrl = item.processo_url || l_map.processo;
+
         let headerColorClass = "text-slate-900 font-semibold";
         if (item.status_licenca === "Sem Licença Prévia") {
           headerColorClass = item.prioritario ? "text-red-600 font-bold underline decoration-red-400" : "text-slate-900 font-semibold";
@@ -2632,27 +2578,28 @@
           headerColorClass = item.prioritario ? "text-red-700 font-bold" : "text-purple-900 font-semibold";
         }
 
-        let bgRow = "hover:bg-slate-50";
+        let bgRow = "hover:bg-[#FAF7F2]";
         if (item.status_licenca === "Sem Licença Prévia" && item.prioritario) bgRow = "bg-red-50/40 hover:bg-red-50/70";
 
         return `
-          <tr class="${bgRow} border-b border-slate-300" data-id="${item.id}">
-            <td class="py-2.5 px-2.5 border border-slate-300 font-semibold text-slate-800 text-xs">${item.subeixo || ''}</td>
-            <td class="py-2.5 px-2 border border-slate-300 text-center font-mono text-slate-700 text-xs">${item.id_code || ''}</td>
-            <td class="py-2.5 px-3 border border-slate-300">
-              <div class="${headerColorClass} text-xs leading-snug">${item.empreendimento}</div>\n              <div class="mt-1">${renderProcessBadge(item.processo, item.processo_url || (mappedLicenseLinks[item.id] || {}).processo)}</div>\n              ${renderExecutiveLicensesSummary(item)}
+          <tr class="${bgRow} border-b border-[#DCD3C4]" data-id="${item.id}">
+            <td class="py-2.5 px-2.5 border border-[#DCD3C4] font-semibold text-slate-800 text-xs">${item.subeixo || ''}</td>
+            <td class="py-2.5 px-2 border border-[#DCD3C4] text-center font-mono text-slate-700 text-xs">${item.id_code || ''}</td>
+            <td class="py-2.5 px-3 border border-[#DCD3C4]">
+              <div class="${headerColorClass} text-xs leading-snug">${item.empreendimento}</div>
+              ${item.processo ? `<div class="mt-1">${renderOriginalCellWithLink(item.processo, processoUrl, 'processo')}</div>` : ''}
             </td>
-            <td class="py-2.5 px-3 border border-slate-300 bg-amber-50/30 text-slate-800 font-medium text-xs leading-relaxed editable-cell" data-field="riscos_oportunidades" data-idx="${rawIndex}">
+            <td class="py-2.5 px-3 border border-[#DCD3C4] bg-amber-50/30 text-slate-800 font-medium text-xs leading-relaxed editable-cell" data-field="riscos_oportunidades" data-idx="${rawIndex}">
               ${item.riscos_oportunidades ? `<p class="${item.prioritario && item.status_licenca === 'Sem Licença Prévia' ? 'text-red-700 font-semibold' : 'text-slate-800'}">${item.riscos_oportunidades}</p>` : '<span class="text-slate-400 italic">Sem riscos informados</span>'}
             </td>
-            <td class="py-2.5 px-3 border border-slate-300 text-slate-700 whitespace-pre-line text-xs leading-relaxed editable-cell" data-field="comentarios" data-idx="${rawIndex}">
+            <td class="py-2.5 px-3 border border-[#DCD3C4] text-slate-700 whitespace-pre-line text-xs leading-relaxed editable-cell" data-field="comentarios" data-idx="${rawIndex}">
               ${item.comentarios || ''}
             </td>
-            <td class="py-2.5 px-3 border border-slate-300 min-w-[320px]">
+            <td class="py-2.5 px-3 border border-[#DCD3C4] min-w-[320px]">
               ${renderTasksChecklist(item)}
             </td>
-            <td class="py-2.5 px-2.5 border border-slate-300 font-bold text-slate-800 text-xs text-center">
-              <span class="inline-block px-2 py-0.5 rounded bg-slate-100 border border-slate-300 font-mono text-[10px]">${item.pendencia || 'Nenhuma'}</span>
+            <td class="py-2.5 px-2.5 border border-[#DCD3C4] font-bold text-slate-800 text-xs text-center">
+              <span class="inline-block px-2 py-0.5 rounded bg-[#F5EFE6] border border-[#DCD3C4] font-mono text-[10px]">${item.pendencia || 'Nenhuma'}</span>
             </td>
           </tr>
         `;
@@ -2673,37 +2620,58 @@
 
       tbodyMaster.innerHTML = data.map((item) => {
         const rawIndex = projectsData.findIndex(p => p.id === item.id);
+        const l_map = mappedLicenseLinks[item.id] || {};
+        const processoUrl = item.processo_url || l_map.processo;
+        const trUrl = item.tr_geral_url || l_map.tr;
+        const lpUrl = item.lp_url || l_map.lp;
+        const liUrl = item.li_url || l_map.li;
+        const loUrl = item.lo_url || l_map.lo;
+
         const empreendimentoClass = item.status_licenca === "Sem Licença Prévia" && item.prioritario ? "text-red-600 font-bold underline decoration-red-300" : "text-slate-900 font-semibold";
-        const rowBg = item.status_licenca === "Sem Licença Prévia" && item.prioritario ? "hover:bg-red-50/70" : "hover:bg-slate-50";
+        const rowBg = item.status_licenca === "Sem Licença Prévia" && item.prioritario ? "hover:bg-red-50/70" : "hover:bg-[#FAF7F2]";
 
         return `
           <tr class="${rowBg} transition-colors group" data-id="${item.id}">
-            <td class="py-2 px-3 border-r border-slate-200 font-medium text-slate-700 editable-cell" data-field="subeixo" data-idx="${rawIndex}">${item.subeixo || ''}</td>
-            <td class="py-2 px-2 border-r border-slate-200 text-center font-mono text-slate-600 editable-cell" data-field="id_code" data-idx="${rawIndex}">${item.id_code || ''}</td>
-            <td class="py-2 px-3 border-r border-slate-200 editable-cell" data-field="empreendimento" data-idx="${rawIndex}">
+            <td class="py-2 px-3 border-r border-[#E8E1D5] font-medium text-slate-700 editable-cell" data-field="subeixo" data-idx="${rawIndex}">${item.subeixo || ''}</td>
+            <td class="py-2 px-2 border-r border-[#E8E1D5] text-center font-mono text-slate-600 editable-cell" data-field="id_code" data-idx="${rawIndex}">${item.id_code || ''}</td>
+            <td class="py-2 px-3 border-r border-[#E8E1D5] editable-cell" data-field="empreendimento" data-idx="${rawIndex}">
               <div class="${empreendimentoClass} text-xs leading-snug">${item.empreendimento}</div>
               <div class="mt-1 flex items-center gap-1.5">
-                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${item.status_licenca === 'Sem Licença Prévia' ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-700'}">${item.status_licenca}</span>
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${item.status_licenca === 'Sem Licença Prévia' ? 'bg-red-100 text-red-700' : 'bg-[#F5EFE6] text-slate-700'}">${item.status_licenca}</span>
                 ${item.prioritario ? '<span class="text-[10px] text-red-500 font-bold">★ Prioritário</span>' : ''}
               </div>
             </td>
-            <td class="py-2 px-2.5 border-r border-slate-200 text-[11px] editable-cell" data-field="processo" data-idx="${rawIndex}">${renderProcessBadge(item.processo, item.processo_url || (mappedLicenseLinks[item.id] || {}).processo)}</td>
-            <td class="py-2 px-2 border-r border-slate-200 text-center text-[11px] editable-cell" data-field="tr_geral" data-idx="${rawIndex}">${item.tr_geral || '-'}</td>
-            <td class="py-2 px-2 border-r border-slate-200 text-[11px] editable-cell" data-field="tr_funai" data-idx="${rawIndex}">${item.tr_funai || '-'}</td>
-            <td class="py-2 px-2 border-r border-slate-200 text-[11px] editable-cell" data-field="tr_incra" data-idx="${rawIndex}">${item.tr_incra || '-'}</td>
-            <td class="py-2 px-2 border-r border-slate-200 text-[11px] editable-cell" data-field="lp" data-idx="${rawIndex}">${renderLicenseBadge("lp", item.lp, item.lp_url || (mappedLicenseLinks[item.id] || {}).lp)}</td>
-            <td class="py-2 px-2 border-r border-slate-200 text-[11px] editable-cell" data-field="li" data-idx="${rawIndex}">${renderLicenseBadge("li", item.li, item.li_url || (mappedLicenseLinks[item.id] || {}).li)}</td>
-            <td class="py-2 px-2 border-r border-slate-200 text-[11px] editable-cell" data-field="lo" data-idx="${rawIndex}">${renderLicenseBadge("lo", item.lo, item.lo_url || (mappedLicenseLinks[item.id] || {}).lo)}</td>
-            <td class="py-2 px-3 border-r border-slate-200 text-slate-700 whitespace-pre-line text-[11px] leading-relaxed editable-cell max-w-xs" data-field="comentarios" data-idx="${rawIndex}">${item.comentarios || ''}</td>
-            <td class="py-2 px-3 border-r border-slate-200 bg-emerald-50/10 min-w-[340px]">
+            <td class="py-2 px-2.5 border-r border-[#E8E1D5] text-[11px] editable-cell" data-field="processo" data-idx="${rawIndex}">
+              ${renderOriginalCellWithLink(item.processo, processoUrl, 'processo')}
+            </td>
+            <td class="py-2 px-2 border-r border-[#E8E1D5] text-center text-[11px] editable-cell" data-field="tr_geral" data-idx="${rawIndex}">
+              ${renderOriginalCellWithLink(item.tr_geral, trUrl, 'text')}
+            </td>
+            <td class="py-2 px-2 border-r border-[#E8E1D5] text-[11px] editable-cell" data-field="tr_funai" data-idx="${rawIndex}">
+              ${renderOriginalCellWithLink(item.tr_funai, item.tr_funai_url, 'text')}
+            </td>
+            <td class="py-2 px-2 border-r border-[#E8E1D5] text-[11px] editable-cell" data-field="tr_incra" data-idx="${rawIndex}">
+              ${renderOriginalCellWithLink(item.tr_incra, item.tr_incra_url, 'text')}
+            </td>
+            <td class="py-2 px-2 border-r border-[#E8E1D5] text-[11px] editable-cell" data-field="lp" data-idx="${rawIndex}">
+              ${renderOriginalCellWithLink(item.lp, lpUrl, 'lp')}
+            </td>
+            <td class="py-2 px-2 border-r border-[#E8E1D5] text-[11px] editable-cell" data-field="li" data-idx="${rawIndex}">
+              ${renderOriginalCellWithLink(item.li, liUrl, 'li')}
+            </td>
+            <td class="py-2 px-2 border-r border-[#E8E1D5] text-[11px] editable-cell" data-field="lo" data-idx="${rawIndex}">
+              ${renderOriginalCellWithLink(item.lo, loUrl, 'lo')}
+            </td>
+            <td class="py-2 px-3 border-r border-[#E8E1D5] text-slate-700 whitespace-pre-line text-[11px] leading-relaxed editable-cell max-w-xs" data-field="comentarios" data-idx="${rawIndex}">${item.comentarios || ''}</td>
+            <td class="py-2 px-3 border-r border-[#E8E1D5] bg-emerald-50/10 min-w-[340px]">
               ${renderTasksChecklist(item)}
             </td>
-            <td class="py-2 px-2.5 border-r border-slate-200 font-semibold text-slate-800 text-[11px]">
-              <span class="inline-block px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 font-mono text-[10px]">${item.pendencia || 'Nenhuma'}</span>
+            <td class="py-2 px-2.5 border-r border-[#E8E1D5] font-semibold text-slate-800 text-[11px]">
+              <span class="inline-block px-1.5 py-0.5 rounded bg-[#F5EFE6] border border-[#DCD3C4] font-mono text-[10px]">${item.pendencia || 'Nenhuma'}</span>
             </td>
-            <td class="py-2 px-2.5 border-r border-slate-200 text-center font-mono text-[11px] text-slate-500">${item.modificado_em || '-'}</td>
+            <td class="py-2 px-2.5 border-r border-[#E8E1D5] text-center font-mono text-[11px] text-slate-500">${item.modificado_em || '-'}</td>
             <td class="py-2 px-2 text-center">
-              <button class="btn-delete-row p-1 text-slate-400 hover:text-red-600 rounded hover:bg-slate-100" data-idx="${rawIndex}" title="Excluir">
+              <button class="btn-delete-row p-1 text-slate-400 hover:text-red-600 rounded hover:bg-[#F5EFE6]" data-idx="${rawIndex}" title="Excluir">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
               </button>
             </td>
@@ -2745,28 +2713,28 @@
         } else if (item.status_desempenho === "atraso" || (item.dias_diferenca && item.dias_diferenca < 0)) {
           diffBadge = `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800 border border-red-300">🔴 ${Math.abs(item.dias_diferenca)} dias de atraso</span>`;
         } else {
-          diffBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs text-slate-600 bg-slate-100">⚪ Sem prazo fixo</span>`;
+          diffBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs text-slate-600 bg-[#F5EFE6]">⚪ Sem prazo fixo</span>`;
         }
 
         const agencyColor = getAgencyBadgeColor(item.responsavel);
 
         return `
-          <tr class="hover:bg-slate-50 transition-colors">
-            <td class="py-3 px-3 border border-slate-200 font-semibold text-slate-900 text-xs">
+          <tr class="hover:bg-[#FAF7F2] transition-colors">
+            <td class="py-3 px-3 border border-[#E8E1D5] font-semibold text-slate-900 text-xs">
               <div>${item.empreendimento}</div>
               <span class="text-[10px] text-slate-400 font-normal">${item.subeixo || ''}</span>
             </td>
-            <td class="py-3 px-3 border border-slate-200 text-slate-700 text-xs leading-relaxed">
+            <td class="py-3 px-3 border border-[#E8E1D5] text-slate-700 text-xs leading-relaxed">
               <p class="font-medium">${item.descricao}</p>
               ${item.observacoes ? `<p class="text-[11px] text-slate-500 mt-1 italic font-sans">Obs: ${item.observacoes}</p>` : ''}
             </td>
-            <td class="py-3 px-2.5 border border-slate-200 text-center">
+            <td class="py-3 px-2.5 border border-[#E8E1D5] text-center">
               <span class="px-2 py-0.5 rounded font-bold text-[10px] border ${agencyColor}">${item.responsavel}</span>
             </td>
-            <td class="py-3 px-2.5 border border-slate-200 text-center font-mono text-xs text-slate-600">${item.prazo_original || 'a definir'}</td>
-            <td class="py-3 px-2.5 border border-slate-200 text-center font-mono font-bold text-emerald-800 bg-emerald-50/40 text-xs">${item.data_conclusao}</td>
-            <td class="py-3 px-3 border border-slate-200 text-center">${diffBadge}</td>
-            <td class="py-3 px-2 border border-slate-200 text-center">
+            <td class="py-3 px-2.5 border border-[#E8E1D5] text-center font-mono text-xs text-slate-600">${item.prazo_original || 'a definir'}</td>
+            <td class="py-3 px-2.5 border border-[#E8E1D5] text-center font-mono font-bold text-emerald-800 bg-emerald-50/40 text-xs">${item.data_conclusao}</td>
+            <td class="py-3 px-3 border border-[#E8E1D5] text-center">${diffBadge}</td>
+            <td class="py-3 px-2 border border-[#E8E1D5] text-center">
               <button class="btn-reopen-task text-[11px] font-semibold text-amber-700 hover:text-amber-900 hover:underline bg-amber-50 px-2 py-1 rounded border border-amber-200 cursor-pointer" data-hid="${item.id}" title="Desmarcar e retornar para pendente">
                 ↩ Reabrir
               </button>
@@ -2811,7 +2779,7 @@
               <span>${agency}</span>
               <span class="font-mono text-slate-500">${count} processos (${pct}%)</span>
             </div>
-            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+            <div class="w-full bg-[#F5EFE6] rounded-full h-2 overflow-hidden">
               <div class="bg-blue-600 h-2 rounded-full" style="width: ${pct}%"></div>
             </div>
           </div>
@@ -2828,10 +2796,10 @@
         let badge = item.status_prazo === "vencido" ? `<span class="bg-red-100 text-red-700 font-bold px-2 py-0.5 rounded text-[10px] border border-red-200">Vencido (${item.prazo_critico})</span>` :
           item.status_prazo === "atencao" ? `<span class="bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded text-[10px] border border-amber-200">Atenção (${item.prazo_critico})</span>` :
           item.status_prazo === "no_prazo" ? `<span class="bg-emerald-100 text-emerald-800 font-medium px-2 py-0.5 rounded text-[10px]">No Prazo (${item.prazo_critico})</span>` :
-          `<span class="bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded text-[10px]">A Definir</span>`;
+          `<span class="bg-[#F5EFE6] text-slate-600 font-medium px-2 py-0.5 rounded text-[10px]">A Definir</span>`;
 
         return `
-          <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg hover:border-slate-300 transition-colors">
+          <div class="p-3 bg-[#FAF7F2] border border-[#E8E1D5] rounded-lg hover:border-[#DCD3C4] transition-colors">
             <div class="flex items-center justify-between gap-2 mb-1">
               <span class="font-bold text-slate-800 text-xs">${item.empreendimento}</span>
               ${badge}
@@ -2847,12 +2815,7 @@
     }
 
     function renderAll() {
-      document.getElementById("presenceAvatars").innerHTML = activeTeammates.map(u => `
-        <div class="w-6 h-6 rounded-full ${u.color} text-white flex items-center justify-center text-[10px] font-bold ring-2 ring-slate-800" title="${u.name}">
-          ${u.name.charAt(0)}
-        </div>
-      `).join('');
-
+      
       document.getElementById("kpiTotal").textContent = projectsData.length;
       document.getElementById("headerTotalCnt").textContent = projectsData.length;
       document.getElementById("kpiSemLPCnt").textContent = projectsData.filter(p => p.status_licenca === "Sem Licença Prévia").length;
@@ -2974,7 +2937,7 @@
         previewEl.className = "p-2 rounded-lg border text-xs font-bold flex items-center justify-center h-[38px] bg-red-50 text-red-800 border-red-300";
         previewEl.textContent = `🔴 Concluído com ${Math.abs(res.diffDays)} dias de atraso`;
       } else {
-        previewEl.className = "p-2 rounded-lg border text-xs font-bold flex items-center justify-center h-[38px] bg-slate-50 text-slate-700 border-slate-300";
+        previewEl.className = "p-2 rounded-lg border text-xs font-bold flex items-center justify-center h-[38px] bg-[#FAF7F2] text-slate-700 border-[#DCD3C4]";
         previewEl.textContent = `⚪ Providência sem prazo prévio`;
       }
     }
@@ -3058,9 +3021,9 @@
       document.querySelectorAll(".tab-btn").forEach(btn => {
         const v = btn.getAttribute("data-view");
         if (v === viewName) {
-          btn.className = "tab-btn px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-900 bg-white shadow-sm border border-slate-300 transition-all flex items-center gap-1.5 ring-2 ring-blue-500/20";
+          btn.className = "tab-btn px-3.5 py-1.5 rounded-lg text-xs font-bold text-[#1F1B16] bg-[#FFFFFF] shadow-xs border border-[#D8CEBE] transition-all flex items-center gap-1.5 ring-2 ring-emerald-600/20";
         } else {
-          btn.className = "tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 transition-all flex items-center gap-1.5";
+          btn.className = "tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-[#665E54] hover:text-[#1F1B16] hover:bg-[#DDD5C7] transition-all flex items-center gap-1.5";
         }
       });
 

@@ -824,6 +824,36 @@
 
   <!-- Embeded Application Scripts -->
   <script>
+    function parseDateBR(dateStr) {
+      if (!dateStr || typeof dateStr !== "string") return null;
+      const match = dateStr.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+      if (!match) return null;
+      const day = parseInt(match[1], 10);
+      const month = parseInt(match[2], 10) - 1;
+      const year = parseInt(match[3], 10);
+      const d = new Date(year, month, day);
+      if (isNaN(d.getTime())) return null;
+      return d;
+    }
+
+    function getTodayFormatted() {
+      const d = new Date();
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
     /**
      * LICENÇAS PAC - Complete 56 Projects Database from all PDF Tables (Mestra & Executiva 28/08/2026)
      */
@@ -886,7 +916,15 @@
     function parseProvidenciasToTasks(text) {
       if (!text || text.trim() === "" || /sem providências|concluído|não/i.test(text.trim())) return [];
       
-      const lines = text.split(/\n|(?<=[.;])\s+(?=[A-Z])/).filter(l => l.trim().length > 5);
+      let rawLines = text.split("\n");
+      let lines = [];
+      rawLines.forEach(rl => {
+        let parts = rl.replace(/([.;])\s+([A-Z])/g, "$1\n$2").split("\n");
+        parts.forEach(p => {
+          let trimmed = p.trim();
+          if (trimmed.length > 5) lines.push(trimmed);
+        });
+      });
       return lines.map((line, idx) => {
         let resp = "DNIT";
         if (/IBAMA|CENEAC|DILIC|COHID|COTRA/i.test(line)) resp = "IBAMA";
@@ -954,7 +992,8 @@
     "providencias_exec": "Morro do Bate-bate: INFRA informar cronograma à SEPAC para definição de projeto de novo traçado para o trecho (até 31/08/2026). \nSão Félix do Coribe: INFRA apresentar informações/complementações indicadas no Parecer Técnico nº 331/2026/Cotra/CGLin/DILIC/IBAMA, de 20/08/2026. \nBarragem de Ceraíma:  INFRA apresentar novas versões do EAR, do PGR e do PAE (conforme Parecer Técnico de 25/07/2026 encaminhado à INFRA por ofício em 13/08/2026) (prazo a definir). IBAMA manifestar sobre ASV e retificação de LI (até 30/09/2026).\nDemais trechos: IBAMA manifestar sobre proposta de alteração de traçado para os trechos da Variante das Cavernas e sobre Estudos espeleológicos 4 e 5 (até 31/08/2026).",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "27/08/2026 (VMT)"
+    "modificado_em": "27/08/2026 (VMT)",
+    "pendencia": "IBAMA, INFRA, SEPPI/CC/PR"
   },
   {
     "id": "p_xlsx_3_2",
@@ -988,7 +1027,8 @@
     "providencias_exec": "INFRA concluir revisões das matrizes de impacto e dos PBAs-CI das TIs Pimentel Barbosa, Parabubure e Marechal Rondon: até 31/07/2026 (apresentado em 27/08/2026 para a TI Parabubure Culuene). TI Areões: INFRA concluir minuta de acordo para apresentação ao MPF (a definir).",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "28/08/2026 (VMT)"
+    "modificado_em": "28/08/2026 (VMT)",
+    "pendencia": "INFRA"
   },
   {
     "id": "p_xlsx_4_3",
@@ -1022,7 +1062,8 @@
     "providencias_exec": "Lotes SPS 01 a 07: INFRA atualizar EAR, PGR e PAE (14/08/2026- TR emitido pelo IBAMA em 06/04/2026). INCRA emitir Termo de Referência Específico (31/07/2026 - a confirmar; não consta no processo do IBAMA). INFRA apresentar documentação para análise e manifestação pelo INCRA sobre interferências em Projetos de Assentamento (14/08/2026) - ver com Lucas/INCRA. INFRA apresentar Planos de Trabalho à FUNAI para estudos/atualização de estudos do componente indígena (30/09/2026). Lotes SPS 08 e 09: cronograma do licenciamento ambiental a definir.",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "28/08/2026 (VMT)"
+    "modificado_em": "28/08/2026 (VMT)",
+    "pendencia": "IBAMA, FUNAI, INCRA, INFRA"
   },
   {
     "id": "p_xlsx_5_4",
@@ -1056,7 +1097,8 @@
     "providencias_exec": "CENEAC/IBAMA analisar as complementações apresentadas pela TLSA em 03/08/2026 (prazo a definir). TLSA adotar medidas previstas no PBAO para mitigação de impactos nos Territórios Quilombolas. TLSA reavaliar impactos da operação e possível passivo referente a casas que sofreram impactos na instalação.",
     "status_licenca": "Com Licença de Operação",
     "prioritario": false,
-    "modificado_em": "14/08/2026 (VMT)"
+    "modificado_em": "14/08/2026 (VMT)",
+    "pendencia": "IBAMA, Empreendedor"
   },
   {
     "id": "p_xlsx_6_5",
@@ -1090,7 +1132,8 @@
     "providencias_exec": "TLSA formalizar no IBAMA e na ANTT projeto para garantir acessibilidade dos assentados (a definir). TLSA concluir obras e apresentar documentação completa para inclusão dos lotes MVP 04 a 06 na Licença de Operação (31/07/2026 - EAR, PGR e PAE revisados; setembro/2026 - relatório final de obras consolidado).",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "13/08/2026 (VMT)"
+    "modificado_em": "13/08/2026 (VMT)",
+    "pendencia": "IBAMA, Empreendedor"
   },
   {
     "id": "p_xlsx_7_6",
@@ -1124,7 +1167,8 @@
     "providencias_exec": "",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "28/08/2026"
+    "modificado_em": "28/08/2026",
+    "pendencia": "Concluído"
   },
   {
     "id": "p_xlsx_8_7",
@@ -1158,7 +1202,8 @@
     "providencias_exec": "",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "25/05/2026 (VMT)"
+    "modificado_em": "25/05/2026 (VMT)",
+    "pendencia": "Concluído"
   },
   {
     "id": "p_xlsx_9_8",
@@ -1192,7 +1237,8 @@
     "providencias_exec": "Lote A (56,1 km/bloqueio na LI): DNIT iniciar execução do PBA-CI (trecho bloqueado - contrato homologado em 03/07/2026; assinatura de contrato: cerca de 30 dias). DNIT apresentar Relatório de Resgate, contemplando os resultados do salvamento dos sítios arqueológicos Verdinho, Serra Nova Figura, Mureré e Bela Manhã (15/07/2026 - 1º relatório; demais: a definir).  Lote A (segmento 9): DNIT apresentar projeto executivo (31/07/2026*). Lote B: DNIT apresentar complementações ao IBAMA referente ao Lote B (31/07/2026*). * Documentos não apresentados/não disponíveis no processo de licenciamento ambiental em 14/08/2026.",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "14/08/2026 (VMT)"
+    "modificado_em": "14/08/2026 (VMT)",
+    "pendencia": "IBAMA, DNIT, Empreendedor"
   },
   {
     "id": "p_xlsx_10_9",
@@ -1226,7 +1272,8 @@
     "providencias_exec": "Trecho de 20,5 km com LI: MT e DNIT avaliarem questões das jazidas e contratuais. Trecho restante de 28,5 km (sem LI): DNIT elaborar e implementar PBA-CI para emissão de LI para o trecho restante de 28,2 km (previsão de o DNIT apresentar à FUNAI: indefinido/questões contratuais).​ FUNAI analisar PBA-CI (30 dias após apresentação pelo DNIT). Previsão de desbloqueio: indefinido.",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "& 19/06/2026 (VMT) Ver com Marly sobre questões contratuais"
+    "modificado_em": "& 19/06/2026 (VMT) Ver com Marly sobre questões contratuais",
+    "pendencia": "FUNAI, DNIT"
   },
   {
     "id": "p_xlsx_11_10",
@@ -1260,7 +1307,8 @@
     "providencias_exec": "INCRA e DNIT formalizarem acordo (em tramitação). TQ Santa Rosa dos Pretos: DNIT iniciar a elaboração do ECQ (INCRA aguarda formalização da aprovação do Plano de Trabalho pelas comunidades - exceto 6 comunidades do TQ). INCRA, MT e DNIT avaliarem como incluir as 6 comunidades faltantes do TQ Santa Rosa dos Pretos no Acordo (27/07/2026).",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "24/07/2026 (VMT, conforme informações repassadas pela Eleandra/INCRA em ligação telefônica na mesma data)"
+    "modificado_em": "24/07/2026 (VMT, conforme informações repassadas pela Eleandra/INCRA em ligação telefônica na mesma data)",
+    "pendencia": "INCRA, DNIT"
   },
   {
     "id": "p_xlsx_12_11",
@@ -1294,7 +1342,8 @@
     "providencias_exec": "Trecho bloqueado (não está no PAC): DNIT representar PBAs-CI devolvidos pela FUNAI; DNIT protocolar as readequações na FUNAI: Kararaô, Arara e Cachoeira Seca - 3 PBAs-CI (até 31/07/2026);​ Arara Volta Grande do Xingu, Paquiçamba, Trincheira Bacajá - 3 PBAs-CI (início de ajustes em agosto/2026).",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "19/06/2026 (VMT)"
+    "modificado_em": "19/06/2026 (VMT)",
+    "pendencia": "FUNAI, DNIT"
   },
   {
     "id": "p_xlsx_13_12",
@@ -1328,7 +1377,8 @@
     "providencias_exec": "DNIT apresentar projetos executivos do próximo lote de pontes (não apresentado até 14/08/2026).",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "14/08/2026 (VMT)"
+    "modificado_em": "14/08/2026 (VMT)",
+    "pendencia": "DNIT"
   },
   {
     "id": "p_xlsx_14_13",
@@ -1362,7 +1412,8 @@
     "providencias_exec": "IBAMA iniciar análise referente a renovação e retificação a partir de 15/10/2026 (prioridade: anteprojetos dos Lotes 5.1, 5.2 e 52.3 para avaliação de viabilidade ambiental).​\nDNIT apresentar atualização de estudos para Contorno de Estância (prazo a definir). IBAMA analisar e manifestar sobre retificação e renovação de LI (a definir).",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "19/06/2026 (VMT)"
+    "modificado_em": "19/06/2026 (VMT)",
+    "pendencia": "IBAMA, DNIT"
   },
   {
     "id": "p_xlsx_15_14",
@@ -1396,7 +1447,8 @@
     "providencias_exec": "DNIT apresentar documentação/requerimento de ABio ao IBAMA (20/07/2026 - não realizado/não constava no processo em 21/08/2026 - último documento do processo de 27/05/2026). ​IBAMA analisar projeto executivo, inventário florestal/ASV e ABio (a definir).",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "21/08/2026 (VMT)"
+    "modificado_em": "21/08/2026 (VMT)",
+    "pendencia": "IBAMA, DNIT"
   },
   {
     "id": "p_xlsx_16_15",
@@ -1430,7 +1482,8 @@
     "providencias_exec": "DNIT apresentar ao IPHAN projeto de monitoramento arqueológico (prazo a definir).",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "19/06/2026 (VMT)"
+    "modificado_em": "19/06/2026 (VMT)",
+    "pendencia": "IPHAN, DNIT"
   },
   {
     "id": "p_xlsx_17_16",
@@ -1464,7 +1517,8 @@
     "providencias_exec": "DNIT finalizar avaliações internas e organizar informações para tomada de decisão sobre traçado da rodovia no trecho km 207 a km 226 em face dos achados espeleológicos.",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "13/08/2026 (VMT)"
+    "modificado_em": "13/08/2026 (VMT)",
+    "pendencia": "DNIT"
   },
   {
     "id": "p_xlsx_18_17",
@@ -1498,7 +1552,8 @@
     "providencias_exec": "Sem providências afetas ao licenciamento ambiental.",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "19/06/2026 (VMT)"
+    "modificado_em": "19/06/2026 (VMT)",
+    "pendencia": "Concluído"
   },
   {
     "id": "p_xlsx_19_18",
@@ -1532,7 +1587,8 @@
     "providencias_exec": "Lote 1B e Lote 2: DNIT apresentar complementações à FUNAI sobre ECI (a definir - DNIT informar sobre previsão de data da contratação - ainda não informado).",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "19/06/2026 (VMT)"
+    "modificado_em": "19/06/2026 (VMT)",
+    "pendencia": "FUNAI, DNIT"
   },
   {
     "id": "p_xlsx_20_19",
@@ -1566,7 +1622,8 @@
     "providencias_exec": "Elaborar plano de governança pelo MT/MMA/DNIT.",
     "status_licenca": "Com Licença Prévia",
     "prioritario": false,
-    "modificado_em": "28/08/2026"
+    "modificado_em": "28/08/2026",
+    "pendencia": "DNIT"
   },
   {
     "id": "p_xlsx_21_20",
@@ -1600,7 +1657,8 @@
     "providencias_exec": "DNIT apresentar complementações para ponte de Igapó Açu  (prazo não informado);\nDNIT solicitar LI para 2º lote de pontes (14 pontes - prazo 15/06/2026);\nDNIT lançar edital para 2 portais (prazo 20/06/2026);\nDNIT apresentar proposta de trecho para pavimentação que não tenha interferência com TIs;\nFUNAI verificar junto à CT de destinação quanto ao interesse na área que consta na condicionante 2.20.a.",
     "status_licenca": "Com Licença Prévia",
     "prioritario": false,
-    "modificado_em": "19/06/2026 (VMT) (com informações F. Pirillo de 15/06/2026)"
+    "modificado_em": "19/06/2026 (VMT) (com informações F. Pirillo de 15/06/2026)",
+    "pendencia": "FUNAI, DNIT"
   },
   {
     "id": "p_xlsx_22_21",
@@ -1634,7 +1692,8 @@
     "providencias_exec": "Lotes 1 e 4: DNIT finalizar prospecção e enviar relatórios ao IPHAN. Lotes 1 a 4: DNIT realizar estudos do componente quilombola (edital contratação de consultoria a ser lançado até final de junho/2026; previsão de assinatura: segundo semestre/2026). DNIT adequar inventário florestal para o lote 2, conforme manifestação do ICMBio.",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "28/08/2026 (VMT)"
+    "modificado_em": "28/08/2026 (VMT)",
+    "pendencia": "IPHAN, ICMBio, DNIT"
   },
   {
     "id": "p_xlsx_23_22",
@@ -1668,7 +1727,8 @@
     "providencias_exec": "FUNAI manifestar sobre ECI (10/08/2026). DNIT realizar consulta sobre arqueologia participativa e apresentar relatório ao IPHAN (até setembro/2026). IBAMA analisar e manifestar sobre EIA/RIMA (a definir).",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "14/08/2026 (VMT)"
+    "modificado_em": "14/08/2026 (VMT)",
+    "pendencia": "IBAMA, FUNAI, IPHAN, DNIT"
   },
   {
     "id": "p_xlsx_24_23",
@@ -1702,7 +1762,8 @@
     "providencias_exec": "FERMARH apresentar informações ao IBAMA (não apresentado e solicitação reiterada). IBAMA avaliar.",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "21/08/2026 (VMT)"
+    "modificado_em": "21/08/2026 (VMT)",
+    "pendencia": "IBAMA"
   },
   {
     "id": "p_xlsx_25_24",
@@ -1736,7 +1797,8 @@
     "providencias_exec": "DNIT elaborar e apresentar estudos ambientais ao IBAMA (prazo a definir). DNIT elaborar estudos do componente quilombola (prazo a definir). DNIT apresentar estudos referentes ao patrimônio arqueológico (a definir).",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "19/06/2026 (VMT)"
+    "modificado_em": "19/06/2026 (VMT)",
+    "pendencia": "IBAMA, DNIT"
   },
   {
     "id": "p_xlsx_26_25",
@@ -1770,7 +1832,8 @@
     "providencias_exec": "IBAMA e DNIT realizarem audiências públicas (datas a definir - a partir de início de outubro em face de necessidade de novo edital, publicado em 13/08/2026). IBAMA analisar e manifestar sobre EIA (após audiências públicas). DNIT proceder adequações e complementações ao ECI/Xingu e elaborar ECI/Xavante (dados secundários) e apresentar à FUNAI. DNIT apresentar projeto de Prospecção Arqueológica Complementar ao IPHAN (a definir).",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "27/08/2026 (VMT)"
+    "modificado_em": "27/08/2026 (VMT)",
+    "pendencia": "IBAMA, FUNAI, IPHAN, DNIT"
   },
   {
     "id": "p_xlsx_27_26",
@@ -1804,7 +1867,8 @@
     "providencias_exec": "ICMBio analisar e manifestar sobre nova demanda de revisão de posicionamento realizada pela SECEX/MT.  MT/SUST monitorar sobre recurso à manifestação do ICMBio apresentado ao ICMBio, após reunião com MMA e ICMBio.​ SUST/MT solicitar reunião com MMA e presidência do ICMBio.",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "19/06/2026 (VMT)"
+    "modificado_em": "19/06/2026 (VMT)",
+    "pendencia": "ICMBio"
   },
   {
     "id": "p_xlsx_28_27",
@@ -1838,7 +1902,8 @@
     "providencias_exec": "IBAMA manifestar sobre ASV, ABio e RAS revisado, apresentado pelo DNIT em 07/05/2026 (prazo a definir - CGLin definir equipe).  IBAMA responder pedido de reconsideração ao IBAMA, de 12/08/2026, sobre ABio (a definir).",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "14/08/2026 (VMT)"
+    "modificado_em": "14/08/2026 (VMT)",
+    "pendencia": "IBAMA, DNIT"
   },
   {
     "id": "p_xlsx_29_28",
@@ -1872,7 +1937,8 @@
     "providencias_exec": "SETRANS/PI enviar os estudos ambientais e o projeto executivo atualizado ao ICMBIO (ainda não realizado). SETRANS/PI  regularizar situação junto ao IPHAN.",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "03/06/2026 (VMT)"
+    "modificado_em": "03/06/2026 (VMT)",
+    "pendencia": "IPHAN, ICMBio, SETRANS/PI"
   },
   {
     "id": "p_xlsx_30_29",
@@ -1906,7 +1972,8 @@
     "providencias_exec": "IPHAN manifestar sobre a solicitação do reenquadramento solicitado pelo DER/PI para o ID 4115 (IPHAN manifestou pelo reenquadramento solicitado apenas para o ID 4632 apenas). DER/PI apresentar as informações, conforme TRE emitido pelo IPHAN para o ID 4362.",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "28/08/2026"
+    "modificado_em": "28/08/2026",
+    "pendencia": "IPHAN, SETRANS/PI"
   },
   {
     "id": "p_xlsx_31_30",
@@ -1940,7 +2007,8 @@
     "providencias_exec": "DNIT resolver pendências (possível TAC) com IPHAN.",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "03/06/2026 (VMT)"
+    "modificado_em": "03/06/2026 (VMT)",
+    "pendencia": "IPHAN, DNIT"
   },
   {
     "id": "p_xlsx_32_31",
@@ -1974,7 +2042,8 @@
     "providencias_exec": "DNIT apresentar estudo das alternativas para transposição do canal do Linguado: prazo a definir (contratação de projeto de engenharia/licitação homologada).",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "19/06/2026 (VMT)"
+    "modificado_em": "19/06/2026 (VMT)",
+    "pendencia": "DNIT"
   },
   {
     "id": "p_xlsx_33_32",
@@ -2008,7 +2077,8 @@
     "providencias_exec": "IBAMA analisar e manifestar sobre RAS apresentado pela concessionária em 04/08/2026.",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "14/08/2026 (VMT)"
+    "modificado_em": "14/08/2026 (VMT)",
+    "pendencia": "IBAMA, Empreendedor"
   },
   {
     "id": "p_xlsx_34_33",
@@ -2042,7 +2112,8 @@
     "providencias_exec": "DNIT apresentar ao IPHAN complementações ao Estudo de Avaliação de Impacto aos Bens Culturais. IPHAN e realizar acompanhamento arqueológico concomitantemente às obras (em relação ao patrimônio cultural). INEMA/BA manifestar sobre requerimento de LI.",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "03/06/2026 (VMT)"
+    "modificado_em": "03/06/2026 (VMT)",
+    "pendencia": "IPHAN, DNIT, INEMA/BA"
   },
   {
     "id": "p_xlsx_35_34",
@@ -2076,7 +2147,8 @@
     "providencias_exec": "Empreendedor implementar unidades de produção",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 06/04/2026"
+    "modificado_em": "ATUALIZADO EM 06/04/2026",
+    "pendencia": "Empreendedor"
   },
   {
     "id": "p_xlsx_36_35",
@@ -2110,7 +2182,8 @@
     "providencias_exec": "Empreendedor realizar obras",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "Empreendedor"
   },
   {
     "id": "p_xlsx_37_36",
@@ -2144,7 +2217,8 @@
     "providencias_exec": "Empreendedor em operação",
     "status_licenca": "Com Licença de Operação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "Empreendedor"
   },
   {
     "id": "p_xlsx_38_37",
@@ -2178,7 +2252,8 @@
     "providencias_exec": "IBAMA concluir análise de Rev02 do EIA. Prazo PT LP alinhado com expectativa da Petrobrás​",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "ATUALIZADO EM 06/04/2026"
+    "modificado_em": "ATUALIZADO EM 06/04/2026",
+    "pendencia": "IBAMA, Petrobras"
   },
   {
     "id": "p_xlsx_39_38",
@@ -2212,7 +2287,8 @@
     "providencias_exec": "IBAMA analisar complementações sobre poços contingentes",
     "status_licenca": "Com Licença de Operação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "IBAMA"
   },
   {
     "id": "p_xlsx_40_39",
@@ -2246,7 +2322,8 @@
     "providencias_exec": "CONCLUÍDO. Em operação",
     "status_licenca": "Com Licença de Operação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "Concluído"
   },
   {
     "id": "p_xlsx_41_40",
@@ -2280,7 +2357,8 @@
     "providencias_exec": "Em operação. Empreendedor dar sequência consultas TQs.",
     "status_licenca": "Com Licença de Operação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "Empreendedor"
   },
   {
     "id": "p_xlsx_42_41",
@@ -2314,7 +2392,8 @@
     "providencias_exec": "CONCLUÍDO. Em operação",
     "status_licenca": "Com Licença de Operação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "Concluído"
   },
   {
     "id": "p_xlsx_43_42",
@@ -2348,7 +2427,8 @@
     "providencias_exec": "Em operação. Empreendedor elaborar ECQs conforme compromissso com INCRA.",
     "status_licenca": "Com Licença de Operação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "INCRA, Empreendedor"
   },
   {
     "id": "p_xlsx_44_43",
@@ -2382,7 +2462,8 @@
     "providencias_exec": "Empreendedor realizar obras",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "Empreendedor"
   },
   {
     "id": "p_xlsx_45_44",
@@ -2416,7 +2497,8 @@
     "providencias_exec": "CONCLUÍDO",
     "status_licenca": "Com Licença de Operação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "Concluído"
   },
   {
     "id": "p_xlsx_46_45",
@@ -2450,7 +2532,8 @@
     "providencias_exec": "IBAMA analisar solicitação de LO",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "IBAMA"
   },
   {
     "id": "p_xlsx_47_46",
@@ -2484,7 +2567,8 @@
     "providencias_exec": "Empreendedor realizar obras",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "Empreendedor"
   },
   {
     "id": "p_xlsx_48_47",
@@ -2518,7 +2602,8 @@
     "providencias_exec": "Empreendedor realizar ajustes no projeto conforme relatório de vistoria e reunião com IBAMA.",
     "status_licenca": "Com Licença Prévia",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 06/04/2026"
+    "modificado_em": "ATUALIZADO EM 06/04/2026",
+    "pendencia": "IBAMA, Empreendedor"
   },
   {
     "id": "p_xlsx_49_48",
@@ -2552,7 +2637,8 @@
     "providencias_exec": "Empreendedor realizar obras LT.",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 06/04/2026"
+    "modificado_em": "ATUALIZADO EM 06/04/2026",
+    "pendencia": "Empreendedor"
   },
   {
     "id": "p_xlsx_50_49",
@@ -2586,7 +2672,8 @@
     "providencias_exec": "Empreendedor realizar obras e apresentar documentação ao INCRA. IBAMA avaliar solicitaçao de LO.",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "IBAMA, INCRA, Empreendedor"
   },
   {
     "id": "p_xlsx_51_50",
@@ -2620,7 +2707,8 @@
     "providencias_exec": "Empreendedor realizar obras. IBAMA analisar solicitação de anuências para novos canteiros e ampliação de áreas de canteiros existentes.",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 06/04/2026"
+    "modificado_em": "ATUALIZADO EM 06/04/2026",
+    "pendencia": "IBAMA, Empreendedor"
   },
   {
     "id": "p_xlsx_52_51",
@@ -2654,7 +2742,8 @@
     "providencias_exec": "Empreendedor realizar obras.",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 06/04/2026"
+    "modificado_em": "ATUALIZADO EM 06/04/2026",
+    "pendencia": "Empreendedor"
   },
   {
     "id": "p_xlsx_53_52",
@@ -2688,7 +2777,8 @@
     "providencias_exec": "IBAMA elaborar PT LI. Empreendedor implantar pátios de materiais.",
     "status_licenca": "Com Licença Prévia",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 06/04/2026"
+    "modificado_em": "ATUALIZADO EM 06/04/2026",
+    "pendencia": "IBAMA, Empreendedor"
   },
   {
     "id": "p_xlsx_54_53",
@@ -2722,7 +2812,8 @@
     "providencias_exec": "IBAMA elaborar PT LI",
     "status_licenca": "Com Licença Prévia",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 06/04/2026"
+    "modificado_em": "ATUALIZADO EM 06/04/2026",
+    "pendencia": "IBAMA"
   },
   {
     "id": "p_xlsx_55_54",
@@ -2756,7 +2847,8 @@
     "providencias_exec": "Empreendedor realizar obras. IBAMA analisar solicitação de LO",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "IBAMA, Empreendedor"
   },
   {
     "id": "p_xlsx_56_55",
@@ -2790,7 +2882,8 @@
     "providencias_exec": "Empreendedor realizar obras.",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 6/04/2026"
+    "modificado_em": "ATUALIZADO EM 6/04/2026",
+    "pendencia": "Empreendedor"
   },
   {
     "id": "p_xlsx_57_56",
@@ -2824,7 +2917,8 @@
     "providencias_exec": "Empreendedor responder solicitação de complementações (revisão de partes do EIA) para conclusão do PT LP.",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "Empreendedor"
   },
   {
     "id": "p_xlsx_58_57",
@@ -2858,7 +2952,8 @@
     "providencias_exec": "IBAMA realizar análise da solicitação de LI",
     "status_licenca": "Com Licença Prévia",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "IBAMA"
   },
   {
     "id": "p_xlsx_59_58",
@@ -2892,7 +2987,8 @@
     "providencias_exec": "CONCLUÍDO. Em operação",
     "status_licenca": "Com Licença de Operação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "Concluído"
   },
   {
     "id": "p_xlsx_60_59",
@@ -2926,7 +3022,8 @@
     "providencias_exec": "IBAMA elaborar PT LP.",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "28/08/2026"
+    "modificado_em": "28/08/2026",
+    "pendencia": "IBAMA"
   },
   {
     "id": "p_xlsx_61_60",
@@ -2960,7 +3057,8 @@
     "providencias_exec": "IBAMA elaborar PT LP.",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "28/08/2026"
+    "modificado_em": "28/08/2026",
+    "pendencia": "IBAMA"
   },
   {
     "id": "p_xlsx_62_61",
@@ -2994,7 +3092,8 @@
     "providencias_exec": "Empresa realizar ECIs e estudos malária. Empreendedor elaborar REV01 do EIA.",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "28/08/2026"
+    "modificado_em": "28/08/2026",
+    "pendencia": "Empreendedor"
   },
   {
     "id": "p_xlsx_63_62",
@@ -3028,7 +3127,8 @@
     "providencias_exec": "DNIT apresentar novos estudos. Novo projeto fora da abrangência da LP atual.",
     "status_licenca": "Com Licença Prévia",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "DNIT"
   },
   {
     "id": "p_xlsx_64_63",
@@ -3062,7 +3162,8 @@
     "providencias_exec": "DNIT concluir novo projeto. Sem prazo previsto.",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "DNIT"
   },
   {
     "id": "p_xlsx_65_64",
@@ -3096,7 +3197,8 @@
     "providencias_exec": "APS elaborando complementações ao IBAMA para renovação LI.",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "IBAMA, APS"
   },
   {
     "id": "p_xlsx_66_65",
@@ -3130,7 +3232,8 @@
     "providencias_exec": "APS contratar e elaborar estudos ambientais para continuidade do processo de licenciamento",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "APS"
   },
   {
     "id": "p_xlsx_67_66",
@@ -3164,7 +3267,8 @@
     "providencias_exec": "Anuência 2025-2026 prorrogada até 17/12/2026. IBAMA analisar solicitação de anuência 2026-2027",
     "status_licenca": "Com Licença Prévia",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "IBAMA"
   },
   {
     "id": "p_xlsx_68_67",
@@ -3198,7 +3302,8 @@
     "providencias_exec": "Empreendedor realizar obras",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "Empreendedor"
   },
   {
     "id": "p_xlsx_69_68",
@@ -3232,7 +3337,8 @@
     "providencias_exec": "Em operação",
     "status_licenca": "Com Licença de Operação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "Concluído"
   },
   {
     "id": "p_xlsx_70_69",
@@ -3266,7 +3372,8 @@
     "providencias_exec": "APS realizar medidas necessárias para recuperação do caís e redução de riscos",
     "status_licenca": "Com Licença Prévia",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "APS"
   },
   {
     "id": "p_xlsx_71_70",
@@ -3300,7 +3407,8 @@
     "providencias_exec": "APS elaborando complementações ao IBAMA para renovação LI.",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "28/08/2026"
+    "modificado_em": "28/08/2026",
+    "pendencia": "IBAMA, APS"
   },
   {
     "id": "p_xlsx_72_71",
@@ -3334,7 +3442,8 @@
     "providencias_exec": "DNOCS apresentar demandas solicitadas pelo IPHAN e complementações solicitadas pela FUNAI.",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "19/06/2026 (VMT)"
+    "modificado_em": "19/06/2026 (VMT)",
+    "pendencia": "FUNAI, IPHAN, DNOCS"
   },
   {
     "id": "p_xlsx_73_72",
@@ -3368,7 +3477,8 @@
     "providencias_exec": "IBAMA analisar e manifestar sobre documentação apresentada pelo DNOCS em 18/08/2026 (prazo a definir). DNOCS elaborar e enviar proposta de monitoramento arqueológico ao IPHAN (31/08/2026) (licitação do Plano de Gerenciamento Arqueológico e da Gestão dos bens acautelados - arqueológicos e arquitetônicos - em andamento; previsão de contratação a ser finalizada até 31/07/2026). DNOCS elaborar e enviar Plano de Trabalho para Estudos do Componente Indígena (30/09/2026). DNOCS reapresentar ao IBAMA documentação referente a ARA, PGR e PAE (prazo a definir).",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "46262"
+    "modificado_em": "46262",
+    "pendencia": "IBAMA, IPHAN, DNOCS"
   },
   {
     "id": "p_xlsx_74_73",
@@ -3402,7 +3512,8 @@
     "providencias_exec": "DNIT apresentar intervenções/projetos ao IBAMA para análise e manifestação no âmbito da Autorização de Operação da rodovia.",
     "status_licenca": "Sem Licença Prévia",
     "prioritario": true,
-    "modificado_em": "18/06/2026 (VMT)"
+    "modificado_em": "18/06/2026 (VMT)",
+    "pendencia": "IBAMA, DNIT"
   },
   {
     "id": "p_xlsx_75_74",
@@ -3436,7 +3547,8 @@
     "providencias_exec": "Sem informação (Licenciamento ambiental estadual)",
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
-    "modificado_em": "18/06/2026 (VMT)"
+    "modificado_em": "18/06/2026 (VMT)",
+    "pendencia": "Concluído"
   },
   {
     "id": "p_xlsx_76_75",
@@ -3470,7 +3582,8 @@
     "providencias_exec": "IBAMA e NESA em discussões, mas não há definição clara de como a questão será resolvida. NESA deverá apresentar nova proposta até o final de agosto/2026",
     "status_licenca": "Com Licença de Operação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 25/08/2026"
+    "modificado_em": "ATUALIZADO EM 25/08/2026",
+    "pendencia": "IBAMA, NESA"
   },
   {
     "id": "p_xlsx_77_76",
@@ -3504,7 +3617,8 @@
     "providencias_exec": "DNIT implantar canteiros",
     "status_licenca": "Com Licença de Operação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 06/04/2026"
+    "modificado_em": "ATUALIZADO EM 06/04/2026",
+    "pendencia": "DNIT"
   },
   {
     "id": "p_xlsx_78_77",
@@ -3538,7 +3652,8 @@
     "providencias_exec": "MPOR apresentar solicitação de LP",
     "status_licenca": "Com Licença de Operação",
     "prioritario": false,
-    "modificado_em": "ATUALIZADO EM 12/03/2026"
+    "modificado_em": "ATUALIZADO EM 12/03/2026",
+    "pendencia": "MPOR"
   }
 ];
     // Structured Task Initialization for all 56 projects
@@ -3605,9 +3720,22 @@
     ];
 
     // STORAGE V5 (Fresh load with all 56 projects and Executive Layout)
-    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V11";
-    const HISTORY_KEY = "LICENCAS_PAC_FULL_HISTORY_V6";
+    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V12";
+    const HISTORY_KEY = "LICENCAS_PAC_FULL_HISTORY_V12";
     const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('licencas_pac_channel_v6') : null;
+
+    function ensureProjectIntegrity(p) {
+      if (!p) return;
+      if (!p.providencias_list || p.providencias_list.length === 0) {
+        p.providencias_list = parseProvidenciasToTasks(p.providencias || '', p.id);
+      }
+      if (!p.pendencia || p.pendencia === "Nenhuma" || p.pendencia === "nil") {
+        p.pendencia = extractAgenciesFromTasks(p.providencias_list);
+      }
+      if (!p.modificado_em) {
+        p.modificado_em = "28/08/2026";
+      }
+    }
 
     function loadData() {
       try {
@@ -3618,14 +3746,24 @@
           if (Array.isArray(parsed) && parsed.length > 0) {
             projectsData = parsed;
           } else {
+            projectsData = [...fullMasterProjects];
             saveData(false);
           }
         } else {
+          projectsData = [...fullMasterProjects];
           saveData(false);
         }
-        if (savedHistory) completedHistory = JSON.parse(savedHistory);
+
+        projectsData.forEach(p => ensureProjectIntegrity(p));
+
+        if (savedHistory) {
+          const parsedH = JSON.parse(savedHistory);
+          if (Array.isArray(parsedH)) completedHistory = parsedH;
+        }
       } catch (e) {
-        console.error("Load storage error:", e);
+        console.error("Error loading data from localStorage:", e);
+        projectsData = [...fullMasterProjects];
+        projectsData.forEach(p => ensureProjectIntegrity(p));
       }
     }
 
@@ -3943,7 +4081,19 @@
       document.getElementById("masterRowCount").textContent = `${data.length} de ${projectsData.length} processos`;
 
       if (data.length === 0) {
-        tbodyMaster.innerHTML = `<tr><td colspan="15" class="py-8 text-center text-slate-400">Nenhum processo encontrado com os filtros selecionados.</td></tr>`;
+        tbodyMaster.innerHTML = `
+          <tr>
+            <td colspan="16" class="py-12 text-center text-slate-500">
+              <div class="max-w-md mx-auto space-y-2">
+                <p class="font-semibold text-sm text-slate-700">Nenhum processo encontrado para os filtros atuais.</p>
+                <p class="text-xs text-slate-500">Verifique a barra de busca e os seletores de subeixo, licença ou pendência.</p>
+                <button onclick="clearAllAppFilters()" class="mt-2 inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-xs transition-all cursor-pointer">
+                  Limpar Todos os Filtros
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
         return;
       }
 
@@ -4578,15 +4728,25 @@
       filters.prioritarioOnly = e.target.checked;
       renderAll();
     });
-    safeAddListener("btnClearFilters", "click", () => {
-      document.getElementById("searchInput").value = "";
-      document.getElementById("filterSubeixo").value = "ALL";
-      document.getElementById("filterStatus").value = "ALL";
-      document.getElementById("filterOrgao").value = "ALL";
-      document.getElementById("filterPrioritario").checked = false;
+    safeAddListener("btnClearFilters", "click", clearAllAppFilters);
+    function clearAllAppFilters() {
+      const searchInput = document.getElementById("searchInput");
+      const filterSubeixo = document.getElementById("filterSubeixo");
+      const filterStatus = document.getElementById("filterStatus");
+      const filterOrgao = document.getElementById("filterOrgao");
+      const filterPrioritario = document.getElementById("filterPrioritario");
+
+      if (searchInput) searchInput.value = "";
+      if (filterSubeixo) filterSubeixo.value = "ALL";
+      if (filterStatus) filterStatus.value = "ALL";
+      if (filterOrgao) filterOrgao.value = "ALL";
+      if (filterPrioritario) filterPrioritario.checked = false;
+
       filters = { search: "", subeixo: "ALL", status: "ALL", orgao: "ALL", prioritarioOnly: false };
       renderAll();
-    });
+      showToast("Filtros resetados. Exibindo todos os 77 processos.", "info");
+    }
+
 
     safeAddListener("historySearchInput", "input", (e) => {
       historyFilters.search = e.target.value;

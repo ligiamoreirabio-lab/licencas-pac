@@ -123,10 +123,15 @@
           <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
           Novo Processo
         </button>
-        <button id="btnExportPDF" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white transition-all shadow-sm">
+        <button id="btnExportPDF" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white transition-all shadow-sm" title="Exportar layout da Tabela Executiva da Casa Civil em PDF">
           <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
           Exportar PDF Executivo
         </button>
+        <button id="btnExportMasterPDF" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition-all shadow-sm" title="Exportar a Tabela Mestra Técnica completa em PDF">
+          <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          Exportar PDF Tabela Mestra
+        </button>
+        
       </div>
 
     </div>
@@ -246,22 +251,23 @@
           <option value="Com Licença de Operação">Com Licença de Operação (LO)</option>
         </select>
 
-        <!-- Filter Órgão Pendente -->
-        <select id="filterOrgao" class="bg-[#FAF7F2] border border-[#DCD3C4] text-slate-700 py-1.5 px-3 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
-          <option value="ALL">Todos os Órgãos</option>
-          <option value="IBAMA">IBAMA</option>
-          <option value="FUNAI">FUNAI</option>
-          <option value="INCRA">INCRA</option>
-          <option value="IPHAN">IPHAN</option>
-          <option value="ICMBIO">ICMBio</option>
-          <option value="DNIT">DNIT</option>
-          <option value="INFRA">INFRA S.A.</option>
-          <option value="MPOR">MPOR</option>
-          <option value="APS">Autoridade Portuária (APS)</option>
-          <option value="NESA">NESA (Belo Monte)</option>
-          <option value="Petrobras">Petrobras</option>
-          <option value="Empreendedor">Empreendedor / Concessionária</option>
-          <option value="FEMARH">FEMARH (Roraima)</option>
+        <!-- Filter Pendência (Órgão Responsável) -->
+        <select id="filterOrgao" class="bg-[#FAF7F2] border border-[#DCD3C4] text-slate-700 py-1.5 px-3 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none" title="Filtrar processos pelo órgão com pendência ativa">
+          <option value="ALL">🔍 Todas as Pendências</option>
+          <option value="IBAMA">Pendência: IBAMA</option>
+          <option value="DNIT">Pendência: DNIT</option>
+          <option value="FUNAI">Pendência: FUNAI</option>
+          <option value="INCRA">Pendência: INCRA</option>
+          <option value="IPHAN">Pendência: IPHAN</option>
+          <option value="ICMBIO">Pendência: ICMBio</option>
+          <option value="Petrobras">Pendência: Petrobras</option>
+          <option value="Empreendedor">Pendência: Empreendedor</option>
+          <option value="INFRA">Pendência: INFRA S.A.</option>
+          <option value="MPOR">Pendência: MPOR</option>
+          <option value="APS">Pendência: APS (Santos)</option>
+          <option value="NESA">Pendência: NESA (Belo Monte)</option>
+          <option value="FEMARH">Pendência: FEMARH</option>
+          <option value="Nenhuma">Pendência: Nenhuma / Concluído</option>
         </select>
 
         <!-- Filter Prioritários Only -->
@@ -693,6 +699,95 @@
     </div>
   </div>
 
+    <!-- MODAL: NOVA PROVIDÊNCIA / ITEM DE CHECKLIST -->
+  <div id="modalAddTask" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="px-5 py-3.5 bg-emerald-800 text-white flex items-center justify-between">
+        <div class="flex items-center space-x-2 font-bold text-sm">
+          <svg class="w-4 h-4 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+          <span>Adicionar Nova Providência</span>
+        </div>
+        <button id="btnCloseAddTaskModal" class="text-emerald-200 hover:text-white text-base font-bold">✕</button>
+      </div>
+
+      <form id="formAddTask" class="p-5 space-y-3.5 text-xs">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Empreendimento:</label>
+          <div id="addTaskProjectName" class="p-2 bg-slate-50 rounded-lg border border-slate-200 font-semibold text-slate-800 text-xs"></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Órgão Responsável:</label>
+            <select id="addTaskAgency" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50 font-medium text-xs">
+              <option value="IBAMA">IBAMA</option>
+              <option value="DNIT">DNIT</option>
+              <option value="FUNAI">FUNAI</option>
+              <option value="INCRA">INCRA</option>
+              <option value="IPHAN">IPHAN</option>
+              <option value="ICMBio">ICMBio</option>
+              <option value="Petrobras">Petrobras</option>
+              <option value="Empreendedor">Empreendedor</option>
+              <option value="SEPPI/CC/PR">SEPPI/CC/PR</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Prazo Estipulado:</label>
+            <input type="text" id="addTaskDeadline" placeholder="Ex: 30/11/2026 ou a definir" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50 text-xs font-mono">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Descrição Detalhada da Ação:</label>
+          <textarea id="addTaskDesc" rows="3" placeholder="Ex: IBAMA realizar vistoria técnica complementar no Lote 2..." required class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50 text-xs"></textarea>
+        </div>
+
+        <div class="flex items-center justify-end space-x-2 pt-3 border-t border-slate-200">
+          <button type="button" id="btnCancelAddTaskModal" class="px-3.5 py-1.5 rounded-lg border border-slate-300 text-slate-600 font-semibold hover:bg-slate-50">Cancelar</button>
+          <button type="submit" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700 flex items-center gap-1 shadow-sm">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            Salvar Providência
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+    <!-- MODAL: RISCO TRANSVERSAL -->
+  <div id="modalTransversalRisk" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="px-5 py-3.5 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center space-x-2 font-bold text-sm text-amber-400">
+          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+          <span id="riskModalTitle">Adicionar Risco Transversal</span>
+        </div>
+        <button id="btnCloseRiskModal" class="text-slate-400 hover:text-white text-base font-bold">✕</button>
+      </div>
+
+      <form id="formTransversalRisk" class="p-5 space-y-3.5 text-xs">
+        <input type="hidden" id="riskEditId" value="">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Título do Risco / Assunto Transversal:</label>
+          <input type="text" id="riskInputTitle" placeholder="Ex: 3. Licenciamento e Arqueologia (IPHAN)..." required class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50 font-semibold text-slate-800 text-xs focus:ring-2 focus:ring-amber-500 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Descrição Detalhada do Risco e Impactos:</label>
+          <textarea id="riskInputDesc" rows="4" placeholder="Descreva os pontos de atenção, órgãos envolvidos e repercussões no cronograma do Novo PAC..." required class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50 text-slate-800 text-xs focus:ring-2 focus:ring-amber-500 focus:outline-none leading-relaxed"></textarea>
+        </div>
+
+        <div class="flex items-center justify-end space-x-2 pt-3 border-t border-slate-200">
+          <button type="button" id="btnCancelRiskModal" class="px-3.5 py-1.5 rounded-lg border border-slate-300 text-slate-600 font-semibold hover:bg-slate-50">Cancelar</button>
+          <button type="submit" class="px-3.5 py-1.5 rounded-lg bg-amber-600 text-white font-semibold hover:bg-amber-700 flex items-center gap-1 shadow-sm">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            Salvar Risco Transversal
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Toast Notification System -->
   <div id="toastContainer" class="no-print fixed bottom-4 right-4 z-50 flex flex-col space-y-2 pointer-events-none"></div>
 
@@ -702,7 +797,7 @@
      * LICENÇAS PAC - Complete 56 Projects Database from all PDF Tables (Mestra & Executiva 28/08/2026)
      */
 
-    const mappedLicenseLinks = {"p_fiol2":{"processo":null,"tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":null,"li":null,"lo":null},"p_fico1":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229866&infra_hash=51eddca08c6c5b94f7c737efec6d80cb","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EcAFRcbV1GlGtnhswAeBOpEBAka37Sv3mkBIMSS0FOVdqQ?e=jFDknH","li":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/Eakq2j0NONpLms63D7aiRDQBLrRVMdG7tIEPkEfbG6rapg?e=Ldmegn","lo":null},"p_transnord_suape":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229873&infra_hash=2e0e390d778a0dc8d6d90704eb0db84e","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EQWOaVrftM1BjlMbdux_bR0BynGtee4POR0B8Leym-bVvg?e=JOs3qv","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229873&id_documento=27841664&infra_hash=a916451ae3993fbe06b3f1c986bad8de","lo":null},"p_transnord_lo":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=950942&infra_hash=d5cb1835fb18737914e7f7d23c54b110","tr":null,"lp":"https://servicos.ibama.gov.br/licenciamento/consulta_empreendimentos.php","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=950942&id_documento=28583938&infra_hash=21b6694dde66c362ba544ad35f0dd0e8","lo":null},"p_transnord_li":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1936923&infra_hash=5780e665d14cfd8d8c148b2f31fbc1a9","tr":null,"lp":null,"li":null,"lo":null},"p_ferrograo":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_ef118":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_br158_mt":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=2393111&infra_hash=04c2ad7c7a4b998f41c5fd3ef4eb5e3c","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=2393111&id_documento=29634586&infra_hash=a4f37f387eceb0cfa44bea22cae33463","lp":null,"li":null,"lo":null},"p_br135_mg":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_br135_ma":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_br230_pa_medici":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229917&infra_hash=dbd371aef38761ea428620e9dd1c8a3a","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EflRSIxDkE9NiqUqOWQY5sEBGTxzz_Qr3-VJ073TnWJ7BA?e=7R9Uj9","li":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EdH3zmKP0IVLvudw_BBpqQ8BKRTI3fJAsg2bQGZVXKuumA?e=RucuL0","lo":null},"p_pontes230_pa":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229917&infra_hash=dbd371aef38761ea428620e9dd1c8a3a","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EflRSIxDkE9NiqUqOWQY5sEBGTxzz_Qr3-VJ073TnWJ7BA?e=7R9Uj9","li":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EdH3zmKP0IVLvudw_BBpqQ8BKRTI3fJAsg2bQGZVXKuumA?e=RucuL0","lo":null},"p_br101_se":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1231307&infra_hash=d1949750bcb34936b555879b944e499c","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231307&id_documento=6590178&infra_hash=b2f0881c5ebefe751d818165d50ff6c4","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ER2fTDlXUQVDuwyiw3NwA18BedTYWlf4EilXsjl6G3fjhg?e=akZXVv","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231307&id_documento=11711057&infra_hash=6d509376ac7dabe643d76794c1f1c846","lo":null},"p_br242_to":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1309000&infra_hash=905ab09462d9481ff9b2001ffc38f164","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EeCgmJjUA91LgzVJIoEJbMsBt1n0ODii4HAe3cngrTxFXw?e=1fuQCu","li":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EfIAGr-Pek1IrN5HVw0LVVMB05ZbMARr21UGcgpBrJFf7g?e=oyChTM","lo":null},"p_br135_ba_cocos":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229898&infra_hash=52aacdac0aeb46ca97802c5f0bff57b3","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=2094227&infra_hash=9379d0cb37ee4669c8cb8855a236a97b","lp":null,"li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=3632272&infra_hash=8c62d35ff32d52fcdc92adb1e3b500da","lo":null},"p_br135_ba_desiderio":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229898&infra_hash=52aacdac0aeb46ca97802c5f0bff57b3","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":null,"li":null,"lo":null},"p_br080_ponte":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1903440&infra_hash=5dce4edc7e9b0ffe64f56ab25e53f536","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=764893&id_documento=2073162&infra_hash=59ae62d23fd983de6b77828b68b291cb","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=3632272&infra_hash=8c62d35ff32d52fcdc92adb1e3b500da","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=764893&id_documento=24773331&infra_hash=2b6263301b7b16a5cfca362e80a98120","lo":null},"p_br080_lotes":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1903440&infra_hash=5dce4edc7e9b0ffe64f56ab25e53f536","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=764893&id_documento=2073162&infra_hash=59ae62d23fd983de6b77828b68b291cb","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=3632272&infra_hash=8c62d35ff32d52fcdc92adb1e3b500da","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1903440&id_documento=27088191&infra_hash=327312ba2c1445c5895ac3295801ffe3","lo":null},"p_br319_meio":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=542681&infra_hash=d7cfdffbea9ae4cb6be9f00966a5e583","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=542681&id_documento=1036196&infra_hash=d8477e6d3b50ba12adbe1362c220e98b","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ERzPw0YVwRJJum_V5HJPUbUBopmGVK2ztZqEr343a4s0Eg?e=gEGQrI","li":null,"lo":null},"p_br319_pontes":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=542681&infra_hash=d7cfdffbea9ae4cb6be9f00966a5e583","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=542681&id_documento=1036196&infra_hash=d8477e6d3b50ba12adbe1362c220e98b","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ERzPw0YVwRJJum_V5HJPUbUBopmGVK2ztZqEr343a4s0Eg?e=gEGQrI","li":null,"lo":null},"p_br156_ap":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1231326&infra_hash=48d8724cd9cea0d569978227e64fb821","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231326&id_documento=24296664&infra_hash=7ae43ee98440c19dfa8812c3e98120ec","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231326&id_documento=26392014&infra_hash=ff51615e89123bf1badbb4e7d7c492ed","lo":null},"p_br110_pe":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229925&infra_hash=08e1c90b966072e164cbd3a69cccb9e1","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229925&id_documento=18632940&infra_hash=ff0ecfe64f9377646c40738b53949f6e","lp":null,"li":null,"lo":null},"p_br401_rr":{"processo":null,"tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":null,"li":null,"lo":null},"p_br010_to":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229948&infra_hash=ba0ac42fa9f2d4e8611928f4143280cd","tr":null,"lp":null,"li":null,"lo":null},"p_br242_mt":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_br235_se":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=2183771&infra_hash=30d5394a5ed06c17e71e3ffa428e94c6","tr":null,"lp":null,"li":null,"lo":null},"p_br230_am_mucuim":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_br235_pi":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1547861&infra_hash=9fd5ad526bd31a49c581c192bd5af68f","tr":null,"lp":null,"li":null,"lo":null},"p_br330_pi_lotes":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_br330_ponte":{"processo":"https://sei.iphan.gov.br/sei/modulos/pesquisa/md_pesq_processo_exibir.php?iI3OtHvPArITY997V09rhsSkbDKbaYSycOHqqF2xsM0IaDkkEyJpus7kCPb435VNEAb16AAxmJKUdrsNWVIqQ-4sVttNlDJd-Qj41leINVfjdFXQL-g_x8uBiuwc4gj0","tr":null,"lp":null,"li":null,"lo":null},"p_br280_sc":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_riosp_dutra":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1977354&infra_hash=6251b3e39e2464d355eb8a5d51883e82","tr":null,"lp":null,"li":null,"lo":null},"p_br030_ba":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_etapa4_presal":{"processo":"https://sei.iphan.gov.br/sei/modulos/pesquisa/md_pesq_processo_exibir.php?iI3OtHvPArITY997V09rhsSkbDKbaYSycOHqqF2xsM0IaDkkEyJpus7kCPb435VNEAb16AAxmJKUdrsNWVIqQ5dw7ynLj8d14eMCW1aB5gGOTSppUFNMNQe3GMYcCk13","tr":null,"lp":null,"li":"https://planaltopr.sharepoint.com/:b:/r/sites/SADJ-IMeioAmbiente/Documentos Compartilhados/Transportes - Rodovias/BR-030_BA/BR-030_BA-Lote_3_EntrBR-101_Ubaitaba","lo":null},"p_projeto_raia":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null},"p_projeto_wahoo":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1387636&infra_hash=3bddb7f0836630d0affdb99ea7e18504","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387636&id_documento=26789381&infra_hash=42f32220db2508240bdd43bc58d33c4a","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387636&id_documento=30311522&infra_hash=df9cb0277e498d67431d745450c98dbd","lo":null},"p_seap":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1387630&infra_hash=0f2ef8f3f2da397002b30afad343280d","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387630&id_documento=25870158&infra_hash=e4b32bd15ea5a47b8ac752eae65b06f9","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387630&id_documento=26712115&infra_hash=8ec4b43fde2b05dd3ae644d1ff77a213","lo":null},"p_fza_m_59":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=929496&infra_hash=2a930caec0be8bcab0b7e5822122e86d","tr":null,"lp":null,"li":null,"lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=929496&id_documento=27194456&infra_hash=95473c57c3d38ee3141149d6d9794732"},"p_lt_terminal_rio":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=13963064&infra_hash=7365779ec00ab4e4772657186ed207c2"},"p_lt_xingo":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273498&infra_hash=d738a8d571bbe58d5b4200214dfa5abf","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=10323288&infra_hash=8a9201988063f7ccb60354e81c193ab0","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=12977954&infra_hash=3e440669a801f2b77cd7776972c02df1","lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=13963064&infra_hash=7365779ec00ab4e4772657186ed207c2"},"p_lt_pocoes_c1":{"processo":null,"tr":null,"lp":null,"li":null,"lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=13963064&infra_hash=7365779ec00ab4e4772657186ed207c2"},"p_lt_laranjal_macapa":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273551&infra_hash=fcff5b9e692279e34b71bdd09dc79152","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=19567546&infra_hash=ac2eb5260ed54d8090558f646ddd9358","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=21102259&infra_hash=7a8bbcc6822f09bdd9ba435fc571f7b3","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=24860485&infra_hash=a880523cc73dc10032f940ee61d9fbf1","lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=29727955&infra_hash=e207ef89c4bd2e74af7df2db584b9091"},"p_lt_marimbondo":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273488&infra_hash=964e9009b30fbe1e5d93a990147900c9","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273488&id_documento=14275582&infra_hash=9e2379095543cf3e772d94286307fbad","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273488&id_documento=16013952&infra_hash=8a34e32dba85fc0c6534b076b7f31812","lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273488&id_documento=28462749&infra_hash=64dab80fb52fccbf073699c660c72500"},"p_lt_lechuga_boavista":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273574&infra_hash=22e816f1153f8d2c389bee583039eea8","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=16686874&infra_hash=e7fb746f8af7c17e20e1c3ac2d134c1c","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=21619099&infra_hash=b2fee7a2d288abbcee10c7783e3990cd","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=23663235&infra_hash=8e53f9f1ba081c9d8ed1020a6ba56788","lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=30673655&infra_hash=2d9bf9468676841d7f48559357a5cdca"},"p_lt_barra2_arinos":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1913466&infra_hash=53c2f9af7fb543f1a0d1da2ef66074b5","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EbkB5lEZ18xIq4GHYaIdklkBk5A_KjxIfM62aBrw764C_w?e=rab1yo","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1913466&id_documento=26142205&infra_hash=0fbea57432d8af160dbec140cd04cc48","lo":null},"p_lt_ribeiro_colinas":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273495&infra_hash=b5be384662ef5fa5139f48dea3ddc52e","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":null,"li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273495&id_documento=12254987&infra_hash=c018097d5fa0dc77e40575d15ca5bb5e","lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273495&id_documento=26630467&infra_hash=f2e5275927e4c8640fbb1661a4cdd180"},"p_lt_gov_valadares":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273555&infra_hash=974fd923d8c40f7c07e6723467dc733e","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273555&id_documento=25459963&infra_hash=6c5622a9c71c936ba2f06a0a99053ea0","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273555&id_documento=26251078&infra_hash=b7134fcebbea173cc588eebcda21db07","lo":null},"p_lt_pocoes_c2":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1551759&infra_hash=55c99c7a76425218285eca608866a001","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1551759&id_documento=23504704&infra_hash=ae46171f5a8ec2b67ae10622eb642aed","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1551759&id_documento=26652334&infra_hash=68908c6a37127bc295946a8b6d91d1f2","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1551759&id_documento=27558593&infra_hash=7b2611055eab1afbfb15425407ff5b2f","lo":null},"p_lt_bom_jesus_lapa":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1547781&infra_hash=80e0b42568f22a544eec240caf6c50ed","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547781&id_documento=20061248&infra_hash=a8f2398e4b87e3e28789aeac87852606","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547781&id_documento=27179055&infra_hash=c69e9533d88d9e655d0636a6cd2b5cba","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547781&id_documento=28375912&infra_hash=b3fa7583ea1b6835739eee4c04e72fd2","lo":null},"p_lt_graca_aranha":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1417476&infra_hash=c3cb6837faa6e37b5a6aa3a76dd82e1e","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1417476&id_documento=21079793&infra_hash=c2d9330c78b23b252c7cdc5d2c18f855","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1417476&id_documento=29768774&infra_hash=d45bf564f5bdecd3dbbd74989f6f1643","lo":null},"p_lt_silvania_ribeirao":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1276837&infra_hash=f3c9443c2d695bba2516418e4a84a78d","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1276837&id_documento=27496258&infra_hash=11db1d93cd91380c2b6ebe4942ceb06d","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1276837&id_documento=30251927&infra_hash=8e82c05216264a91056e53fc60c4b1a2","lo":null},"p_lt_quixada_crateus":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1547797&infra_hash=dd8d318b490a506fabeb630b0094e47f","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547797&id_documento=23050354&infra_hash=f03e04468c4acf4e7f66952fa7e049a1","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547797&id_documento=29748792&infra_hash=ac07a2134fb91ccb0f61768fd5c8619e","li":null,"lo":null}};
+    const mappedLicenseLinks = {"p_fiol2":{"processo":null,"tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":null,"li":null,"lo":null,"raw":[{"x":372.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":381.3,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"}]},"p_fico1":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229866&infra_hash=51eddca08c6c5b94f7c737efec6d80cb","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EcAFRcbV1GlGtnhswAeBOpEBAka37Sv3mkBIMSS0FOVdqQ?e=jFDknH","li":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/Eakq2j0NONpLms63D7aiRDQBLrRVMdG7tIEPkEfbG6rapg?e=Ldmegn","lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229866&infra_hash=51eddca08c6c5b94f7c737efec6d80cb"},{"x":372.8,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":408.3,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EcAFRcbV1GlGtnhswAeBOpEBAka37Sv3mkBIMSS0FOVdqQ?e=jFDknH"},{"x":444.7,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EcNQEXuJwUBCjdcliEvTxhMBrBdI7t7GklyKn8eFanAISA?e=SMqtMK"},{"x":452.1,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EcNQEXuJwUBCjdcliEvTxhMBrBdI7t7GklyKn8eFanAISA?e=SMqtMK"},{"x":485.1,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/Eakq2j0NONpLms63D7aiRDQBLrRVMdG7tIEPkEfbG6rapg?e=Ldmegn"},{"x":507.7,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/Eakq2j0NONpLms63D7aiRDQBLrRVMdG7tIEPkEfbG6rapg?e=Ldmegn"}]},"p_transnord_suape":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229873&infra_hash=2e0e390d778a0dc8d6d90704eb0db84e","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EQWOaVrftM1BjlMbdux_bR0BynGtee4POR0B8Leym-bVvg?e=JOs3qv","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229873&id_documento=27841664&infra_hash=a916451ae3993fbe06b3f1c986bad8de","lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229873&infra_hash=2e0e390d778a0dc8d6d90704eb0db84e"},{"x":371.8,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":376.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":379.0,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":444.8,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EQWOaVrftM1BjlMbdux_bR0BynGtee4POR0B8Leym-bVvg?e=JOs3qv"},{"x":452.1,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EQWOaVrftM1BjlMbdux_bR0BynGtee4POR0B8Leym-bVvg?e=JOs3qv"},{"x":483.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229873&id_documento=27841664&infra_hash=a916451ae3993fbe06b3f1c986bad8de"},{"x":498.2,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229873&id_documento=27841664&infra_hash=a916451ae3993fbe06b3f1c986bad8de"}]},"p_transnord_lo":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=950942&infra_hash=d5cb1835fb18737914e7f7d23c54b110","tr":null,"lp":"https://servicos.ibama.gov.br/licenciamento/consulta_empreendimentos.php","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=950942&id_documento=28583938&infra_hash=21b6694dde66c362ba544ad35f0dd0e8","lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=950942&infra_hash=d5cb1835fb18737914e7f7d23c54b110"},{"x":444.7,"uri":"https://servicos.ibama.gov.br/licenciamento/consulta_empreendimentos.php"},{"x":452.1,"uri":"https://servicos.ibama.gov.br/licenciamento/consulta_empreendimentos.php"},{"x":503.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=950942&id_documento=28583938&infra_hash=21b6694dde66c362ba544ad35f0dd0e8"}]},"p_transnord_li":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1936923&infra_hash=5780e665d14cfd8d8c148b2f31fbc1a9","tr":null,"lp":null,"li":null,"lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1936923&infra_hash=5780e665d14cfd8d8c148b2f31fbc1a9"}]},"p_ferrograo":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null,"raw":[{"x":401.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"}]},"p_ef118":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null,"raw":[{"x":401.6,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"}]},"p_br158_mt":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=2393111&infra_hash=04c2ad7c7a4b998f41c5fd3ef4eb5e3c","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=2393111&id_documento=29634586&infra_hash=a4f37f387eceb0cfa44bea22cae33463","lp":null,"li":null,"lo":null,"raw":[{"x":275.7,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=2393111&infra_hash=04c2ad7c7a4b998f41c5fd3ef4eb5e3c"},{"x":342.9,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=2393111&id_documento=29634586&infra_hash=a4f37f387eceb0cfa44bea22cae33463"}]},"p_br135_mg":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null,"raw":[{"x":401.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"}]},"p_br135_ma":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null,"raw":[{"x":401.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"}]},"p_br230_pa_medici":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229917&infra_hash=dbd371aef38761ea428620e9dd1c8a3a","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EflRSIxDkE9NiqUqOWQY5sEBGTxzz_Qr3-VJ073TnWJ7BA?e=7R9Uj9","li":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EdH3zmKP0IVLvudw_BBpqQ8BKRTI3fJAsg2bQGZVXKuumA?e=RucuL0","lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229917&infra_hash=dbd371aef38761ea428620e9dd1c8a3a"},{"x":375.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":376.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":444.7,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EflRSIxDkE9NiqUqOWQY5sEBGTxzz_Qr3-VJ073TnWJ7BA?e=7R9Uj9"},{"x":448.4,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EflRSIxDkE9NiqUqOWQY5sEBGTxzz_Qr3-VJ073TnWJ7BA?e=7R9Uj9"},{"x":452.1,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EflRSIxDkE9NiqUqOWQY5sEBGTxzz_Qr3-VJ073TnWJ7BA?e=7R9Uj9"},{"x":509.4,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EdH3zmKP0IVLvudw_BBpqQ8BKRTI3fJAsg2bQGZVXKuumA?e=RucuL0"}]},"p_pontes230_pa":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229917&infra_hash=dbd371aef38761ea428620e9dd1c8a3a","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EflRSIxDkE9NiqUqOWQY5sEBGTxzz_Qr3-VJ073TnWJ7BA?e=7R9Uj9","li":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EdH3zmKP0IVLvudw_BBpqQ8BKRTI3fJAsg2bQGZVXKuumA?e=RucuL0","lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229917&infra_hash=dbd371aef38761ea428620e9dd1c8a3a"},{"x":375.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":376.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":444.7,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EflRSIxDkE9NiqUqOWQY5sEBGTxzz_Qr3-VJ073TnWJ7BA?e=7R9Uj9"},{"x":448.4,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EflRSIxDkE9NiqUqOWQY5sEBGTxzz_Qr3-VJ073TnWJ7BA?e=7R9Uj9"},{"x":452.1,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EflRSIxDkE9NiqUqOWQY5sEBGTxzz_Qr3-VJ073TnWJ7BA?e=7R9Uj9"},{"x":483.1,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EdH3zmKP0IVLvudw_BBpqQ8BKRTI3fJAsg2bQGZVXKuumA?e=RucuL0"},{"x":507.8,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EdH3zmKP0IVLvudw_BBpqQ8BKRTI3fJAsg2bQGZVXKuumA?e=RucuL0"}]},"p_br101_se":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1231307&infra_hash=d1949750bcb34936b555879b944e499c","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231307&id_documento=6590178&infra_hash=b2f0881c5ebefe751d818165d50ff6c4","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ER2fTDlXUQVDuwyiw3NwA18BedTYWlf4EilXsjl6G3fjhg?e=akZXVv","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231307&id_documento=11711057&infra_hash=6d509376ac7dabe643d76794c1f1c846","lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1231307&infra_hash=d1949750bcb34936b555879b944e499c"},{"x":344.0,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231307&id_documento=6590178&infra_hash=b2f0881c5ebefe751d818165d50ff6c4"},{"x":372.2,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":408.8,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ER2fTDlXUQVDuwyiw3NwA18BedTYWlf4EilXsjl6G3fjhg?e=akZXVv"},{"x":444.8,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231307&id_documento=5509629&infra_hash=5b92a54e27e111f454ab17b1bfbc4874"},{"x":452.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231307&id_documento=5509629&infra_hash=5b92a54e27e111f454ab17b1bfbc4874"},{"x":486.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231307&id_documento=11711057&infra_hash=6d509376ac7dabe643d76794c1f1c846"},{"x":506.0,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231307&id_documento=11711057&infra_hash=6d509376ac7dabe643d76794c1f1c846"}]},"p_br242_to":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1309000&infra_hash=905ab09462d9481ff9b2001ffc38f164","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EeCgmJjUA91LgzVJIoEJbMsBt1n0ODii4HAe3cngrTxFXw?e=1fuQCu","li":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EfIAGr-Pek1IrN5HVw0LVVMB05ZbMARr21UGcgpBrJFf7g?e=oyChTM","lo":null,"raw":[{"x":269.0,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1309000&infra_hash=905ab09462d9481ff9b2001ffc38f164"},{"x":383.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":444.7,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EeCgmJjUA91LgzVJIoEJbMsBt1n0ODii4HAe3cngrTxFXw?e=1fuQCu"},{"x":452.1,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EeCgmJjUA91LgzVJIoEJbMsBt1n0ODii4HAe3cngrTxFXw?e=1fuQCu"},{"x":484.5,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EfIAGr-Pek1IrN5HVw0LVVMB05ZbMARr21UGcgpBrJFf7g?e=oyChTM"},{"x":506.1,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EfIAGr-Pek1IrN5HVw0LVVMB05ZbMARr21UGcgpBrJFf7g?e=oyChTM"}]},"p_br135_ba_cocos":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229898&infra_hash=52aacdac0aeb46ca97802c5f0bff57b3","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=2094227&infra_hash=9379d0cb37ee4669c8cb8855a236a97b","lp":null,"li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=3632272&infra_hash=8c62d35ff32d52fcdc92adb1e3b500da","lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229898&infra_hash=52aacdac0aeb46ca97802c5f0bff57b3"},{"x":342.8,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=2094227&infra_hash=9379d0cb37ee4669c8cb8855a236a97b"},{"x":383.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":488.2,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=3632272&infra_hash=8c62d35ff32d52fcdc92adb1e3b500da"}]},"p_br135_ba_desiderio":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229898&infra_hash=52aacdac0aeb46ca97802c5f0bff57b3","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":null,"li":null,"lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229898&infra_hash=52aacdac0aeb46ca97802c5f0bff57b3"},{"x":383.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"}]},"p_br080_ponte":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1903440&infra_hash=5dce4edc7e9b0ffe64f56ab25e53f536","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=764893&id_documento=2073162&infra_hash=59ae62d23fd983de6b77828b68b291cb","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=3632272&infra_hash=8c62d35ff32d52fcdc92adb1e3b500da","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=764893&id_documento=24773331&infra_hash=2b6263301b7b16a5cfca362e80a98120","lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1903440&infra_hash=5dce4edc7e9b0ffe64f56ab25e53f536"},{"x":343.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=764893&id_documento=2073162&infra_hash=59ae62d23fd983de6b77828b68b291cb"},{"x":375.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":376.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":444.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=3632272&infra_hash=8c62d35ff32d52fcdc92adb1e3b500da"},{"x":452.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=3632272&infra_hash=8c62d35ff32d52fcdc92adb1e3b500da"},{"x":485.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=764893&id_documento=24773331&infra_hash=2b6263301b7b16a5cfca362e80a98120"},{"x":486.8,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=764893&id_documento=24773331&infra_hash=2b6263301b7b16a5cfca362e80a98120"}]},"p_br080_lotes":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1903440&infra_hash=5dce4edc7e9b0ffe64f56ab25e53f536","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=764893&id_documento=2073162&infra_hash=59ae62d23fd983de6b77828b68b291cb","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=3632272&infra_hash=8c62d35ff32d52fcdc92adb1e3b500da","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1903440&id_documento=27088191&infra_hash=327312ba2c1445c5895ac3295801ffe3","lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1903440&infra_hash=5dce4edc7e9b0ffe64f56ab25e53f536"},{"x":343.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=764893&id_documento=2073162&infra_hash=59ae62d23fd983de6b77828b68b291cb"},{"x":375.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":376.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":444.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=3632272&infra_hash=8c62d35ff32d52fcdc92adb1e3b500da"},{"x":452.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229898&id_documento=3632272&infra_hash=8c62d35ff32d52fcdc92adb1e3b500da"},{"x":482.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1903440&id_documento=27088191&infra_hash=327312ba2c1445c5895ac3295801ffe3"},{"x":484.8,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1903440&id_documento=27088191&infra_hash=327312ba2c1445c5895ac3295801ffe3"}]},"p_br319_meio":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=542681&infra_hash=d7cfdffbea9ae4cb6be9f00966a5e583","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=542681&id_documento=1036196&infra_hash=d8477e6d3b50ba12adbe1362c220e98b","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ERzPw0YVwRJJum_V5HJPUbUBopmGVK2ztZqEr343a4s0Eg?e=gEGQrI","li":null,"lo":null,"raw":[{"x":269.7,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=542681&infra_hash=d7cfdffbea9ae4cb6be9f00966a5e583"},{"x":343.3,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=542681&id_documento=1036196&infra_hash=d8477e6d3b50ba12adbe1362c220e98b"},{"x":374.0,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":376.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":443.2,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ERzPw0YVwRJJum_V5HJPUbUBopmGVK2ztZqEr343a4s0Eg?e=gEGQrI"},{"x":452.1,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ERzPw0YVwRJJum_V5HJPUbUBopmGVK2ztZqEr343a4s0Eg?e=gEGQrI"}]},"p_br319_pontes":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=542681&infra_hash=d7cfdffbea9ae4cb6be9f00966a5e583","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=542681&id_documento=1036196&infra_hash=d8477e6d3b50ba12adbe1362c220e98b","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ERzPw0YVwRJJum_V5HJPUbUBopmGVK2ztZqEr343a4s0Eg?e=gEGQrI","li":null,"lo":null,"raw":[{"x":269.7,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=542681&infra_hash=d7cfdffbea9ae4cb6be9f00966a5e583"},{"x":342.9,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=542681&id_documento=1036196&infra_hash=d8477e6d3b50ba12adbe1362c220e98b"},{"x":374.0,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":376.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":443.2,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ERzPw0YVwRJJum_V5HJPUbUBopmGVK2ztZqEr343a4s0Eg?e=gEGQrI"},{"x":452.1,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ERzPw0YVwRJJum_V5HJPUbUBopmGVK2ztZqEr343a4s0Eg?e=gEGQrI"}]},"p_br156_ap":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1231326&infra_hash=48d8724cd9cea0d569978227e64fb821","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231326&id_documento=24296664&infra_hash=7ae43ee98440c19dfa8812c3e98120ec","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231326&id_documento=26392014&infra_hash=ff51615e89123bf1badbb4e7d7c492ed","lo":null,"raw":[{"x":269.0,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1231326&infra_hash=48d8724cd9cea0d569978227e64fb821"},{"x":383.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":403.9,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231326&id_documento=24296664&infra_hash=7ae43ee98440c19dfa8812c3e98120ec"},{"x":407.6,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231326&id_documento=24296664&infra_hash=7ae43ee98440c19dfa8812c3e98120ec"},{"x":413.8,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231326&id_documento=24296664&infra_hash=7ae43ee98440c19dfa8812c3e98120ec"},{"x":444.8,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ERDzDRfBClhCsqDC29IY5bcBvS_6TfP1N8f_FqG5R2AwtQ?e=7ePCtr"},{"x":452.1,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/ERDzDRfBClhCsqDC29IY5bcBvS_6TfP1N8f_FqG5R2AwtQ?e=7ePCtr"},{"x":483.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231326&id_documento=26392014&infra_hash=ff51615e89123bf1badbb4e7d7c492ed"},{"x":496.0,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1231326&id_documento=26392014&infra_hash=ff51615e89123bf1badbb4e7d7c492ed"}]},"p_br110_pe":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229925&infra_hash=08e1c90b966072e164cbd3a69cccb9e1","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229925&id_documento=18632940&infra_hash=ff0ecfe64f9377646c40738b53949f6e","lp":null,"li":null,"lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229925&infra_hash=08e1c90b966072e164cbd3a69cccb9e1"},{"x":343.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1229925&id_documento=18632940&infra_hash=ff0ecfe64f9377646c40738b53949f6e"},{"x":374.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":375.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":381.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"}]},"p_br401_rr":{"processo":null,"tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":null,"li":null,"lo":null,"raw":[{"x":374.8,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"}]},"p_br010_to":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229948&infra_hash=ba0ac42fa9f2d4e8611928f4143280cd","tr":null,"lp":null,"li":null,"lo":null,"raw":[{"x":268.4,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1229948&infra_hash=ba0ac42fa9f2d4e8611928f4143280cd"}]},"p_br242_mt":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null,"raw":[{"x":401.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"}]},"p_br235_se":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=2183771&infra_hash=30d5394a5ed06c17e71e3ffa428e94c6","tr":null,"lp":null,"li":null,"lo":null,"raw":[{"x":276.2,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=2183771&infra_hash=30d5394a5ed06c17e71e3ffa428e94c6"}]},"p_br230_am_mucuim":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null,"raw":[{"x":401.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"}]},"p_br235_pi":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1547861&infra_hash=9fd5ad526bd31a49c581c192bd5af68f","tr":null,"lp":null,"li":null,"lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1547861&infra_hash=9fd5ad526bd31a49c581c192bd5af68f"}]},"p_br330_pi_lotes":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null,"raw":[{"x":401.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"}]},"p_br330_ponte":{"processo":"https://sei.iphan.gov.br/sei/modulos/pesquisa/md_pesq_processo_exibir.php?iI3OtHvPArITY997V09rhsSkbDKbaYSycOHqqF2xsM0IaDkkEyJpus7kCPb435VNEAb16AAxmJKUdrsNWVIqQ-4sVttNlDJd-Qj41leINVfjdFXQL-g_x8uBiuwc4gj0","tr":null,"lp":null,"li":null,"lo":null,"raw":[{"x":269.8,"uri":"https://sei.iphan.gov.br/sei/modulos/pesquisa/md_pesq_processo_exibir.php?iI3OtHvPArITY997V09rhsSkbDKbaYSycOHqqF2xsM0IaDkkEyJpus7kCPb435VNEAb16AAxmJKUdrsNWVIqQ-4sVttNlDJd-Qj41leINVfjdFXQL-g_x8uBiuwc4gj0"}]},"p_br280_sc":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null,"raw":[{"x":401.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"}]},"p_riosp_dutra":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1977354&infra_hash=6251b3e39e2464d355eb8a5d51883e82","tr":null,"lp":null,"li":null,"lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1977354&infra_hash=6251b3e39e2464d355eb8a5d51883e82"}]},"p_br030_ba":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null,"raw":[{"x":401.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"}]},"p_etapa4_presal":{"processo":"https://sei.iphan.gov.br/sei/modulos/pesquisa/md_pesq_processo_exibir.php?iI3OtHvPArITY997V09rhsSkbDKbaYSycOHqqF2xsM0IaDkkEyJpus7kCPb435VNEAb16AAxmJKUdrsNWVIqQ5dw7ynLj8d14eMCW1aB5gGOTSppUFNMNQe3GMYcCk13","tr":null,"lp":null,"li":"https://planaltopr.sharepoint.com/:b:/r/sites/SADJ-IMeioAmbiente/Documentos Compartilhados/Transportes - Rodovias/BR-030_BA/BR-030_BA-Lote_3_EntrBR-101_Ubaitaba","lo":null,"raw":[{"x":269.8,"uri":"https://sei.iphan.gov.br/sei/modulos/pesquisa/md_pesq_processo_exibir.php?iI3OtHvPArITY997V09rhsSkbDKbaYSycOHqqF2xsM0IaDkkEyJpus7kCPb435VNEAb16AAxmJKUdrsNWVIqQ5dw7ynLj8d14eMCW1aB5gGOTSppUFNMNQe3GMYcCk13"},{"x":485.2,"uri":"https://planaltopr.sharepoint.com/:b:/r/sites/SADJ-IMeioAmbiente/Documentos Compartilhados/Transportes - Rodovias/BR-030_BA/BR-030_BA-Lote_3_EntrBR-101_Ubaitaba"},{"x":493.8,"uri":"https://planaltopr.sharepoint.com/:b:/r/sites/SADJ-IMeioAmbiente/Documentos Compartilhados/Transportes - Rodovias/BR-030_BA/BR-030_BA-Lote_3_EntrBR-101_Ubaitaba"},{"x":498.3,"uri":"https://planaltopr.sharepoint.com/:b:/r/sites/SADJ-IMeioAmbiente/Documentos Compartilhados/Transportes - Rodovias/BR-030_BA/BR-030_BA-Lote_3_EntrBR-101_Ubaitaba"}]},"p_projeto_raia":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":null,"raw":[{"x":401.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"}]},"p_projeto_wahoo":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1387636&infra_hash=3bddb7f0836630d0affdb99ea7e18504","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387636&id_documento=26789381&infra_hash=42f32220db2508240bdd43bc58d33c4a","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387636&id_documento=30311522&infra_hash=df9cb0277e498d67431d745450c98dbd","lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1387636&infra_hash=3bddb7f0836630d0affdb99ea7e18504"},{"x":383.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":441.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387636&id_documento=26789381&infra_hash=42f32220db2508240bdd43bc58d33c4a"},{"x":447.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387636&id_documento=26789381&infra_hash=42f32220db2508240bdd43bc58d33c4a"},{"x":480.9,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387636&id_documento=30311522&infra_hash=df9cb0277e498d67431d745450c98dbd"},{"x":481.6,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387636&id_documento=30311522&infra_hash=df9cb0277e498d67431d745450c98dbd"},{"x":483.8,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387636&id_documento=30311522&infra_hash=df9cb0277e498d67431d745450c98dbd"}]},"p_seap":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1387630&infra_hash=0f2ef8f3f2da397002b30afad343280d","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387630&id_documento=25870158&infra_hash=e4b32bd15ea5a47b8ac752eae65b06f9","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387630&id_documento=26712115&infra_hash=8ec4b43fde2b05dd3ae644d1ff77a213","lo":null,"raw":[{"x":269.0,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1387630&infra_hash=0f2ef8f3f2da397002b30afad343280d"},{"x":383.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":443.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387630&id_documento=25870158&infra_hash=e4b32bd15ea5a47b8ac752eae65b06f9"},{"x":448.8,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387630&id_documento=25870158&infra_hash=e4b32bd15ea5a47b8ac752eae65b06f9"},{"x":450.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387630&id_documento=25870158&infra_hash=e4b32bd15ea5a47b8ac752eae65b06f9"},{"x":483.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387630&id_documento=26712115&infra_hash=8ec4b43fde2b05dd3ae644d1ff77a213"},{"x":483.9,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387630&id_documento=26712115&infra_hash=8ec4b43fde2b05dd3ae644d1ff77a213"},{"x":503.0,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1387630&id_documento=26712115&infra_hash=8ec4b43fde2b05dd3ae644d1ff77a213"}]},"p_fza_m_59":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=929496&infra_hash=2a930caec0be8bcab0b7e5822122e86d","tr":null,"lp":null,"li":null,"lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=929496&id_documento=27194456&infra_hash=95473c57c3d38ee3141149d6d9794732","raw":[{"x":276.5,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=929496&infra_hash=2a930caec0be8bcab0b7e5822122e86d"},{"x":557.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=929496&id_documento=27194456&infra_hash=95473c57c3d38ee3141149d6d9794732"},{"x":562.3,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=929496&id_documento=27194456&infra_hash=95473c57c3d38ee3141149d6d9794732"}]},"p_lt_terminal_rio":{"processo":null,"tr":null,"lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","li":null,"lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=13963064&infra_hash=7365779ec00ab4e4772657186ed207c2","raw":[{"x":401.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":555.8,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=13963064&infra_hash=7365779ec00ab4e4772657186ed207c2"}]},"p_lt_xingo":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273498&infra_hash=d738a8d571bbe58d5b4200214dfa5abf","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=10323288&infra_hash=8a9201988063f7ccb60354e81c193ab0","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=12977954&infra_hash=3e440669a801f2b77cd7776972c02df1","lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=13963064&infra_hash=7365779ec00ab4e4772657186ed207c2","raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273498&infra_hash=d738a8d571bbe58d5b4200214dfa5abf"},{"x":383.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":404.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=10323288&infra_hash=8a9201988063f7ccb60354e81c193ab0"},{"x":410.3,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=10323288&infra_hash=8a9201988063f7ccb60354e81c193ab0"},{"x":413.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=10323288&infra_hash=8a9201988063f7ccb60354e81c193ab0"},{"x":445.3,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=10830807&infra_hash=b289fbf50e9bfa6c0169a6913956aa75"},{"x":449.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=10830807&infra_hash=b289fbf50e9bfa6c0169a6913956aa75"},{"x":486.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=12977954&infra_hash=3e440669a801f2b77cd7776972c02df1"},{"x":554.6,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=13963064&infra_hash=7365779ec00ab4e4772657186ed207c2"},{"x":560.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=13963064&infra_hash=7365779ec00ab4e4772657186ed207c2"}]},"p_lt_pocoes_c1":{"processo":null,"tr":null,"lp":null,"li":null,"lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=13963064&infra_hash=7365779ec00ab4e4772657186ed207c2","raw":[{"x":562.3,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273498&id_documento=13963064&infra_hash=7365779ec00ab4e4772657186ed207c2"}]},"p_lt_laranjal_macapa":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273551&infra_hash=fcff5b9e692279e34b71bdd09dc79152","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=19567546&infra_hash=ac2eb5260ed54d8090558f646ddd9358","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=21102259&infra_hash=7a8bbcc6822f09bdd9ba435fc571f7b3","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=24860485&infra_hash=a880523cc73dc10032f940ee61d9fbf1","lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=29727955&infra_hash=e207ef89c4bd2e74af7df2db584b9091","raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273551&infra_hash=fcff5b9e692279e34b71bdd09dc79152"},{"x":343.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=19567546&infra_hash=ac2eb5260ed54d8090558f646ddd9358"},{"x":383.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":412.0,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=21102259&infra_hash=7a8bbcc6822f09bdd9ba435fc571f7b3"},{"x":413.0,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=21102259&infra_hash=7a8bbcc6822f09bdd9ba435fc571f7b3"},{"x":443.2,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=22991924&infra_hash=f7320c01a165a9b102b10fcba25016d4"},{"x":452.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=22991924&infra_hash=f7320c01a165a9b102b10fcba25016d4"},{"x":488.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=24860485&infra_hash=a880523cc73dc10032f940ee61d9fbf1"},{"x":557.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=29727955&infra_hash=e207ef89c4bd2e74af7df2db584b9091"},{"x":562.3,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273551&id_documento=29727955&infra_hash=e207ef89c4bd2e74af7df2db584b9091"}]},"p_lt_marimbondo":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273488&infra_hash=964e9009b30fbe1e5d93a990147900c9","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273488&id_documento=14275582&infra_hash=9e2379095543cf3e772d94286307fbad","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273488&id_documento=16013952&infra_hash=8a34e32dba85fc0c6534b076b7f31812","lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273488&id_documento=28462749&infra_hash=64dab80fb52fccbf073699c660c72500","raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273488&infra_hash=964e9009b30fbe1e5d93a990147900c9"},{"x":383.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":443.2,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273488&id_documento=14275582&infra_hash=9e2379095543cf3e772d94286307fbad"},{"x":452.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273488&id_documento=14275582&infra_hash=9e2379095543cf3e772d94286307fbad"},{"x":486.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273488&id_documento=16013952&infra_hash=8a34e32dba85fc0c6534b076b7f31812"},{"x":554.2,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273488&id_documento=28462749&infra_hash=64dab80fb52fccbf073699c660c72500"},{"x":555.9,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273488&id_documento=28462749&infra_hash=64dab80fb52fccbf073699c660c72500"},{"x":562.3,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273488&id_documento=28462749&infra_hash=64dab80fb52fccbf073699c660c72500"}]},"p_lt_lechuga_boavista":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273574&infra_hash=22e816f1153f8d2c389bee583039eea8","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=16686874&infra_hash=e7fb746f8af7c17e20e1c3ac2d134c1c","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=21619099&infra_hash=b2fee7a2d288abbcee10c7783e3990cd","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=23663235&infra_hash=8e53f9f1ba081c9d8ed1020a6ba56788","lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=30673655&infra_hash=2d9bf9468676841d7f48559357a5cdca","raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273574&infra_hash=22e816f1153f8d2c389bee583039eea8"},{"x":342.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=16686874&infra_hash=e7fb746f8af7c17e20e1c3ac2d134c1c"},{"x":383.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":443.2,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=21619099&infra_hash=b2fee7a2d288abbcee10c7783e3990cd"},{"x":452.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=21619099&infra_hash=b2fee7a2d288abbcee10c7783e3990cd"},{"x":486.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=23663235&infra_hash=8e53f9f1ba081c9d8ed1020a6ba56788"},{"x":557.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=30673655&infra_hash=2d9bf9468676841d7f48559357a5cdca"},{"x":562.3,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273574&id_documento=30673655&infra_hash=2d9bf9468676841d7f48559357a5cdca"}]},"p_lt_barra2_arinos":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1913466&infra_hash=53c2f9af7fb543f1a0d1da2ef66074b5","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EbkB5lEZ18xIq4GHYaIdklkBk5A_KjxIfM62aBrw764C_w?e=rab1yo","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1913466&id_documento=26142205&infra_hash=0fbea57432d8af160dbec140cd04cc48","lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1913466&infra_hash=53c2f9af7fb543f1a0d1da2ef66074b5"},{"x":383.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":446.7,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EbkB5lEZ18xIq4GHYaIdklkBk5A_KjxIfM62aBrw764C_w?e=rab1yo"},{"x":452.1,"uri":"https://planaltopr.sharepoint.com/:b:/s/SADJ-IMeioAmbiente/EbkB5lEZ18xIq4GHYaIdklkBk5A_KjxIfM62aBrw764C_w?e=rab1yo"},{"x":485.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1913466&id_documento=26142205&infra_hash=0fbea57432d8af160dbec140cd04cc48"}]},"p_lt_ribeiro_colinas":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273495&infra_hash=b5be384662ef5fa5139f48dea3ddc52e","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":null,"li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273495&id_documento=12254987&infra_hash=c018097d5fa0dc77e40575d15ca5bb5e","lo":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273495&id_documento=26630467&infra_hash=f2e5275927e4c8640fbb1661a4cdd180","raw":[{"x":276.5,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273495&infra_hash=b5be384662ef5fa5139f48dea3ddc52e"},{"x":383.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":484.8,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273495&id_documento=12254987&infra_hash=c018097d5fa0dc77e40575d15ca5bb5e"},{"x":557.7,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273495&id_documento=26630467&infra_hash=f2e5275927e4c8640fbb1661a4cdd180"},{"x":562.3,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273495&id_documento=26630467&infra_hash=f2e5275927e4c8640fbb1661a4cdd180"}]},"p_lt_gov_valadares":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273555&infra_hash=974fd923d8c40f7c07e6723467dc733e","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273555&id_documento=25459963&infra_hash=6c5622a9c71c936ba2f06a0a99053ea0","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273555&id_documento=26251078&infra_hash=b7134fcebbea173cc588eebcda21db07","lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1273555&infra_hash=974fd923d8c40f7c07e6723467dc733e"},{"x":383.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":447.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273555&id_documento=25459963&infra_hash=6c5622a9c71c936ba2f06a0a99053ea0"},{"x":450.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273555&id_documento=25459963&infra_hash=6c5622a9c71c936ba2f06a0a99053ea0"},{"x":493.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273555&id_documento=26251078&infra_hash=b7134fcebbea173cc588eebcda21db07"}]},"p_lt_pocoes_c2":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1551759&infra_hash=55c99c7a76425218285eca608866a001","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1551759&id_documento=23504704&infra_hash=ae46171f5a8ec2b67ae10622eb642aed","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1551759&id_documento=26652334&infra_hash=68908c6a37127bc295946a8b6d91d1f2","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1551759&id_documento=27558593&infra_hash=7b2611055eab1afbfb15425407ff5b2f","lo":null,"raw":[{"x":269.7,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1551759&infra_hash=55c99c7a76425218285eca608866a001"},{"x":343.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1551759&id_documento=23504704&infra_hash=ae46171f5a8ec2b67ae10622eb642aed"},{"x":383.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":447.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1551759&id_documento=26652334&infra_hash=68908c6a37127bc295946a8b6d91d1f2"},{"x":450.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1551759&id_documento=26652334&infra_hash=68908c6a37127bc295946a8b6d91d1f2"},{"x":493.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1551759&id_documento=27558593&infra_hash=7b2611055eab1afbfb15425407ff5b2f"}]},"p_lt_bom_jesus_lapa":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1547781&infra_hash=80e0b42568f22a544eec240caf6c50ed","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547781&id_documento=20061248&infra_hash=a8f2398e4b87e3e28789aeac87852606","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547781&id_documento=27179055&infra_hash=c69e9533d88d9e655d0636a6cd2b5cba","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547781&id_documento=28375912&infra_hash=b3fa7583ea1b6835739eee4c04e72fd2","lo":null,"raw":[{"x":269.3,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1547781&infra_hash=80e0b42568f22a544eec240caf6c50ed"},{"x":343.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547781&id_documento=20061248&infra_hash=a8f2398e4b87e3e28789aeac87852606"},{"x":383.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":447.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547781&id_documento=27179055&infra_hash=c69e9533d88d9e655d0636a6cd2b5cba"},{"x":450.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547781&id_documento=27179055&infra_hash=c69e9533d88d9e655d0636a6cd2b5cba"},{"x":493.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547781&id_documento=28375912&infra_hash=b3fa7583ea1b6835739eee4c04e72fd2"}]},"p_lt_graca_aranha":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1417476&infra_hash=c3cb6837faa6e37b5a6aa3a76dd82e1e","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1417476&id_documento=21079793&infra_hash=c2d9330c78b23b252c7cdc5d2c18f855","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1417476&id_documento=29768774&infra_hash=d45bf564f5bdecd3dbbd74989f6f1643","lo":null,"raw":[{"x":269.7,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1417476&infra_hash=c3cb6837faa6e37b5a6aa3a76dd82e1e"},{"x":383.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":412.0,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1417476&id_documento=21079793&infra_hash=c2d9330c78b23b252c7cdc5d2c18f855"},{"x":413.0,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1417476&id_documento=21079793&infra_hash=c2d9330c78b23b252c7cdc5d2c18f855"},{"x":447.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1417476&id_documento=26379142&infra_hash=4b484722cfc6478318809949e5d226e5"},{"x":450.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1417476&id_documento=26379142&infra_hash=4b484722cfc6478318809949e5d226e5"},{"x":495.9,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1417476&id_documento=29768774&infra_hash=d45bf564f5bdecd3dbbd74989f6f1643"}]},"p_lt_silvania_ribeirao":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1276837&infra_hash=f3c9443c2d695bba2516418e4a84a78d","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1276837&id_documento=27496258&infra_hash=11db1d93cd91380c2b6ebe4942ceb06d","li":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1276837&id_documento=30251927&infra_hash=8e82c05216264a91056e53fc60c4b1a2","lo":null,"raw":[{"x":269.7,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1276837&infra_hash=f3c9443c2d695bba2516418e4a84a78d"},{"x":383.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":447.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1276837&id_documento=27496258&infra_hash=11db1d93cd91380c2b6ebe4942ceb06d"},{"x":450.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1276837&id_documento=27496258&infra_hash=11db1d93cd91380c2b6ebe4942ceb06d"},{"x":493.5,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1276837&id_documento=30251927&infra_hash=8e82c05216264a91056e53fc60c4b1a2"}]},"p_lt_quixada_crateus":{"processo":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1547797&infra_hash=dd8d318b490a506fabeb630b0094e47f","tr":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547797&id_documento=23050354&infra_hash=f03e04468c4acf4e7f66952fa7e049a1","lp":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547797&id_documento=29748792&infra_hash=ac07a2134fb91ccb0f61768fd5c8619e","li":null,"lo":null,"raw":[{"x":269.7,"uri":"https://sei.ibama.gov.br/processo_acesso_externo_consulta.php?id_acesso_externo=1547797&infra_hash=dd8d318b490a506fabeb630b0094e47f"},{"x":343.0,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547797&id_documento=23050354&infra_hash=f03e04468c4acf4e7f66952fa7e049a1"},{"x":383.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1273549&id_documento=29237137&infra_hash=3b8e3c0a745db8ace49876c28a22cbd5"},{"x":447.1,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547797&id_documento=29748792&infra_hash=ac07a2134fb91ccb0f61768fd5c8619e"},{"x":450.4,"uri":"https://sei.ibama.gov.br/documento_consulta_externa.php?id_acesso_externo=1547797&id_documento=29748792&infra_hash=ac07a2134fb91ccb0f61768fd5c8619e"}]}};
     function renderOriginalCellWithLink(text, url, fieldType) {
       if (!text || text.trim() === "" || text.trim() === "-") {
         return `<span class="text-slate-300 font-mono text-xs">-</span>`;
@@ -2333,9 +2428,9 @@
     ];
 
     // STORAGE V5 (Fresh load with all 56 projects and Executive Layout)
-    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V9";
-    const HISTORY_KEY = "LICENCAS_PAC_FULL_HISTORY_V9";
-    const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('licencas_pac_channel_v9') : null;
+    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V6";
+    const HISTORY_KEY = "LICENCAS_PAC_FULL_HISTORY_V6";
+    const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('licencas_pac_channel_v6') : null;
 
     function loadData() {
       try {
@@ -2426,11 +2521,23 @@
 
     function extractAgenciesFromTasks(tasks) {
       if (!tasks || tasks.length === 0) return "Nenhuma";
-      const agencies = [...new Set(tasks.map(t => t.responsavel).filter(Boolean))];
-      if (agencies.length === 0) return "A definir";
-      if (agencies.length === 1) return agencies[0];
-      if (agencies.length === 2) return `${agencies[0]} e ${agencies[1]}`;
-      return `${agencies.slice(0, -1).join(', ')} e ${agencies[agencies.length - 1]}`;
+      const openTasks = tasks.filter(t => !t.concluida);
+      if (openTasks.length === 0) return "Concluído";
+      const agencies = [...new Set(openTasks.map(t => t.responsavel))];
+      return agencies.join(", ");
+    }
+
+    function syncProjectProvidenciasText(project) {
+      if (!project) return;
+      const tasks = project.providencias_list || [];
+      const openTasks = tasks.filter(t => !t.concluida);
+      if (openTasks.length === 0) {
+        project.providencias = "Sem providências pendentes.";
+      } else {
+        project.providencias = openTasks.map(t => `${t.responsavel}: ${t.descricao} (prazo: ${t.prazo})`).join("\n");
+      }
+      project.pendencia = extractAgenciesFromTasks(tasks);
+      project.modificado_em = getTodayFormatted();
     }
 
     function getAgencyBadgeColor(agency) {
@@ -2522,35 +2629,48 @@
 
     function renderTasksChecklist(project) {
       const tasks = project.providencias_list || [];
+      let itemsHtml = "";
+
       if (tasks.length === 0) {
-        return `
+        itemsHtml = `
           <div class="text-slate-400 italic text-[11px] py-1">
             ${project.providencias || 'Sem providências registradas.'}
           </div>
         `;
+      } else {
+        itemsHtml = tasks.map(t => {
+          const agencyClass = getAgencyBadgeColor(t.responsavel);
+          const deadlineHtml = getDeadlineBadge(t.prazo);
+
+          return `
+            <div class="task-item flex items-start gap-1.5 p-1.5 rounded-lg bg-slate-50 border border-slate-200 hover:border-emerald-300 transition-all text-[11px] mb-1 group/task">
+              <button class="task-check-btn mt-0.5 w-4 h-4 rounded border-2 border-slate-300 hover:border-emerald-500 bg-white flex items-center justify-center text-transparent hover:text-emerald-600 cursor-pointer shrink-0 transition-colors shadow-2xs" data-pid="${project.id}" data-tid="${t.id}" title="Marcar como realizada">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+              </button>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center flex-wrap gap-1.5 mb-0.5">
+                  <span class="px-1.5 py-0.2 rounded font-bold text-[10px] border ${agencyClass}">${t.responsavel}</span>
+                  ${deadlineHtml}
+                </div>
+                <p class="text-slate-700 leading-snug text-[11px] select-text">${t.descricao}</p>
+              </div>
+              <button class="btn-delete-task opacity-0 group-hover/task:opacity-100 p-0.5 text-slate-400 hover:text-red-600 rounded transition-opacity no-print" data-pid="${project.id}" data-tid="${t.id}" title="Excluir esta providência">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+              </button>
+            </div>
+          `;
+        }).join('');
       }
 
-      const itemsHtml = tasks.map(t => {
-        const agencyClass = getAgencyBadgeColor(t.responsavel);
-        const deadlineHtml = getDeadlineBadge(t.prazo);
-
-        return `
-          <div class="task-item flex items-start gap-2 p-1.5 rounded-lg bg-[#FAF7F2] border border-[#E8E1D5] hover:border-emerald-300 transition-all text-[11px] mb-1.5 group/task">
-            <button class="task-check-btn mt-0.5 w-4 h-4 rounded border-2 border-[#DCD3C4] hover:border-emerald-500 bg-[#FFFFFF] flex items-center justify-center text-transparent hover:text-emerald-600 cursor-pointer shrink-0 transition-colors shadow-2xs" data-pid="${project.id}" data-tid="${t.id}" title="Marcar como realizada">
-              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-            </button>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center flex-wrap gap-1.5 mb-0.5">
-                <span class="px-1.5 py-0.2 rounded font-bold text-[10px] border ${agencyClass}">${t.responsavel}</span>
-                ${deadlineHtml}
-              </div>
-              <p class="text-slate-700 leading-snug text-[11px] select-text">${t.descricao}</p>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      return `<div class="space-y-1">${itemsHtml}</div>`;
+      return `
+        <div class="space-y-1">
+          ${itemsHtml}
+          <button class="btn-add-task mt-1 inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 hover:text-emerald-900 bg-emerald-50/90 hover:bg-emerald-100 px-2 py-0.5 rounded border border-dashed border-emerald-300 transition-all shadow-2xs no-print" data-pid="${project.id}">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            + Nova Providência
+          </button>
+        </div>
+      `;
     }
 
     function renderExecutiveTable() {
@@ -2595,8 +2715,8 @@
             <td class="py-2.5 px-3 border border-[#DCD3C4] text-slate-700 whitespace-pre-line text-xs leading-relaxed editable-cell" data-field="comentarios" data-idx="${rawIndex}">
               ${item.comentarios || ''}
             </td>
-            <td class="py-2.5 px-3 border border-[#DCD3C4] min-w-[320px]">
-              ${renderTasksChecklist(item)}
+            <td class="py-2.5 px-3 border border-[#DCD3C4] text-slate-700 whitespace-pre-line text-xs leading-relaxed editable-cell" data-field="providencias_exec" data-idx="${rawIndex}">
+              ${item.providencias_exec || item.providencias ? `<p class="leading-relaxed select-text">${item.providencias_exec || item.providencias}</p>` : '<span class="text-slate-400 italic">Sem providências informadas</span>'}
             </td>
             <td class="py-2.5 px-2.5 border border-[#DCD3C4] font-bold text-slate-800 text-xs text-center">
               <span class="inline-block px-2 py-0.5 rounded bg-[#F5EFE6] border border-[#DCD3C4] font-mono text-[10px]">${item.pendencia || 'Nenhuma'}</span>
@@ -2606,6 +2726,7 @@
       }).join('');
 
       attachTableEvents();
+      renderTransversalRisks();
     }
 
     function renderMasterTable() {
@@ -2829,13 +2950,127 @@
       else if (currentView === "history") renderHistoryTable();
     }
 
+        let activeProjectIdForNewTask = null;
+
+    function openAddTaskModal(pid) {
+      const project = projectsData.find(p => p.id === pid);
+      if (!project) return;
+
+      activeProjectIdForNewTask = pid;
+      document.getElementById("addTaskProjectName").textContent = project.empreendimento;
+      document.getElementById("addTaskAgency").value = "IBAMA";
+      document.getElementById("addTaskDeadline").value = "";
+      document.getElementById("addTaskDesc").value = "";
+      document.getElementById("modalAddTask").classList.remove("hidden");
+    }
+
+    document.getElementById("btnCloseAddTaskModal").addEventListener("click", () => {
+      document.getElementById("modalAddTask").classList.add("hidden");
+      activeProjectIdForNewTask = null;
+    });
+
+    document.getElementById("btnCancelAddTaskModal").addEventListener("click", () => {
+      document.getElementById("modalAddTask").classList.add("hidden");
+      activeProjectIdForNewTask = null;
+    });
+
+    document.getElementById("formAddTask").addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!activeProjectIdForNewTask) return;
+
+      const project = projectsData.find(p => p.id === activeProjectIdForNewTask);
+      if (!project) return;
+
+      const resp = document.getElementById("addTaskAgency").value;
+      let deadline = document.getElementById("addTaskDeadline").value.trim();
+      const desc = document.getElementById("addTaskDesc").value.trim();
+
+      if (!deadline) deadline = "a definir";
+
+      if (!project.providencias_list) project.providencias_list = [];
+
+      const newTask = {
+        id: `task_${Date.now()}_${Math.floor(Math.random()*1000)}`,
+        responsavel: resp,
+        descricao: desc,
+        prazo: deadline,
+        concluida: false
+      };
+
+      project.providencias_list.push(newTask);
+      syncProjectProvidenciasText(project);
+
+      saveData(true);
+      document.getElementById("modalAddTask").classList.add("hidden");
+      activeProjectIdForNewTask = null;
+      renderAll();
+      showToast(`Nova providência adicionada ao empreendimento "${project.empreendimento}"!`, "success");
+    });
+
+    function deleteTask(pid, tid) {
+      const project = projectsData.find(p => p.id === pid);
+      if (!project || !project.providencias_list) return;
+
+      const taskIdx = project.providencias_list.findIndex(t => t.id === tid);
+      if (taskIdx === -1) return;
+
+      if (confirm(`Deseja excluir esta providência?\n"${project.providencias_list[taskIdx].descricao}"`)) {
+        project.providencias_list.splice(taskIdx, 1);
+        syncProjectProvidenciasText(project);
+        saveData(true);
+        renderAll();
+        showToast("Providência excluída.", "info");
+      }
+    }
+
     function attachTableEvents() {
+      document.querySelectorAll(".pendencia-badge").forEach(badge => {
+        badge.addEventListener("click", function(e) {
+          e.stopPropagation();
+          const pend = this.getAttribute("data-pend");
+          if (!pend) return;
+          const firstAgency = pend.split(",")[0].trim();
+          filters.orgao = firstAgency;
+          const selectEl = document.getElementById("filterOrgao");
+          if (selectEl) {
+            let matched = false;
+            for (let opt of selectEl.options) {
+              if (opt.value.toLowerCase() === firstAgency.toLowerCase()) {
+                selectEl.value = opt.value;
+                matched = true;
+                break;
+              }
+            }
+            if (!matched) selectEl.value = "ALL";
+          }
+          renderAll();
+          showToast(`Filtrando por pendência: "${firstAgency}"`, "info");
+        });
+      });
+
       document.querySelectorAll(".task-check-btn").forEach(btn => {
         btn.addEventListener("click", function(e) {
           e.stopPropagation();
           const pid = this.getAttribute("data-pid");
           const tid = this.getAttribute("data-tid");
           openCompleteModal(pid, tid);
+        });
+      });
+
+      document.querySelectorAll(".btn-add-task").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          const pid = this.getAttribute("data-pid");
+          openAddTaskModal(pid);
+        });
+      });
+
+      document.querySelectorAll(".btn-delete-task").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          const pid = this.getAttribute("data-pid");
+          const tid = this.getAttribute("data-tid");
+          deleteTask(pid, tid);
         });
       });
 
@@ -2846,7 +3081,7 @@
           const idx = parseInt(this.getAttribute("data-idx"));
           const currentVal = projectsData[idx][field] || "";
 
-          const isLongText = (field === "comentarios" || field === "riscos_oportunidades");
+          const isLongText = (field === "comentarios" || field === "riscos_oportunidades" || field === "providencias_exec" || field === "providencias");
           const inputEl = isLongText ? document.createElement("textarea") : document.createElement("input");
           inputEl.value = currentVal;
           inputEl.className = "w-full p-1.5 text-xs bg-blue-50/80 border-2 border-blue-600 rounded focus:outline-none shadow-sm font-sans";
@@ -2972,8 +3207,7 @@
       completedHistory.unshift(historyRecord);
 
       project.providencias_list = project.providencias_list.filter(t => t.id !== task.id);
-      project.pendencia = extractAgenciesFromTasks(project.providencias_list);
-      project.modificado_em = getTodayFormatted();
+      syncProjectProvidenciasText(project);
 
       saveData(true);
       document.getElementById("completeTaskModal").classList.add("hidden");
@@ -3004,8 +3238,7 @@
           prazo: h.prazo_original,
           concluida: false
         });
-        project.pendencia = extractAgenciesFromTasks(project.providencias_list);
-        project.modificado_em = getTodayFormatted();
+        syncProjectProvidenciasText(project);
       }
 
       completedHistory.splice(idx, 1);
@@ -3016,31 +3249,19 @@
 
     function switchView(viewName) {
       currentView = viewName;
-      
-      // Update tab buttons visual state
       document.querySelectorAll(".tab-btn").forEach(btn => {
-        const v = btn.getAttribute("data-view");
-        if (v === viewName) {
-          btn.className = "tab-btn px-3.5 py-1.5 rounded-lg text-xs font-bold text-[#1F1B16] bg-[#FFFFFF] shadow-xs border border-[#D8CEBE] transition-all flex items-center gap-1.5 ring-2 ring-emerald-600/20";
+        if (btn.getAttribute("data-view") === viewName) {
+          btn.className = "tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-800 bg-[#FFFFFF] shadow-sm border border-[#E8E1D5]/80 transition-all flex items-center gap-1.5";
         } else {
-          btn.className = "tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-[#665E54] hover:text-[#1F1B16] hover:bg-[#DDD5C7] transition-all flex items-center gap-1.5";
+          btn.className = "tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all flex items-center gap-1.5";
         }
       });
 
-      // Show/Hide views
-      const views = {
-        "executive": document.getElementById("viewExecutive"),
-        "master": document.getElementById("viewMaster"),
-        "deadlines": document.getElementById("viewDeadlines"),
-        "history": document.getElementById("viewHistory")
-      };
-
-      Object.entries(views).forEach(([k, el]) => {
-        if (el) {
-          if (k === viewName) el.classList.remove("hidden");
-          else el.classList.add("hidden");
-        }
-      });
+      document.querySelectorAll(".view-content").forEach(v => v.classList.add("hidden"));
+      if (viewName === "master") document.getElementById("viewMaster").classList.remove("hidden");
+      else if (viewName === "executive") document.getElementById("viewExecutive").classList.remove("hidden");
+      else if (viewName === "deadlines") document.getElementById("viewDeadlines").classList.remove("hidden");
+      else if (viewName === "history") document.getElementById("viewHistory").classList.remove("hidden");
 
       renderAll();
     }
@@ -3053,6 +3274,11 @@
 
     document.getElementById("btnExportPDF").addEventListener("click", () => {
       switchView("executive");
+      setTimeout(() => window.print(), 250);
+    });
+
+    document.getElementById("btnExportMasterPDF").addEventListener("click", () => {
+      switchView("master");
       setTimeout(() => window.print(), 250);
     });
 
@@ -3178,6 +3404,149 @@
       switchView("deadlines");
     });
 
+        const RISKS_STORAGE_KEY = "LICENCAS_PAC_TRANSVERSAL_RISKS_V10";
+    let transversalRisks = [
+      {
+        id: "risk_relaf",
+        titulo: "1. RELAF e Reestruturação de Carreira do IBAMA",
+        descricao: "Mobilização e greve dos servidores ambientais (ASCEMA/IBAMA) com impacto direto na emissão de pareceres, vistorias de campo e expedição de licenças prévias e de instalação."
+      },
+      {
+        id: "risk_foz",
+        titulo: "2. Margem Equatorial / Foz do Amazonas (AAAS)",
+        descricao: "Exigência de Avaliação Ambiental de Área Sedimentar (AAAS) pelo MMA versus posição técnica do MME e Petrobras quanto ao cumprimento dos requisitos do bloco FZA-M-59."
+      }
+    ];
+
+    function loadTransversalRisks() {
+      try {
+        const saved = localStorage.getItem(RISKS_STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            transversalRisks = parsed;
+          }
+        }
+      } catch (e) {
+        console.error("Error loading transversal risks:", e);
+      }
+    }
+
+    function saveTransversalRisks() {
+      try {
+        localStorage.setItem(RISKS_STORAGE_KEY, JSON.stringify(transversalRisks));
+      } catch (e) {
+        console.error("Error saving transversal risks:", e);
+      }
+    }
+
+    function renderTransversalRisks() {
+      const container = document.getElementById("transversalRisksContainer");
+      if (!container) return;
+
+      if (transversalRisks.length === 0) {
+        container.innerHTML = `<div class="col-span-2 p-3 text-center text-slate-400 italic">Nenhum risco transversal cadastrado. Clique no botão acima para adicionar.</div>`;
+        return;
+      }
+
+      container.innerHTML = transversalRisks.map((risk, idx) => {
+        return `
+          <div class="bg-slate-800/90 p-3 rounded-lg border border-slate-700 relative group/risk hover:border-amber-500/50 transition-all flex flex-col justify-between" data-id="${risk.id}">
+            <div>
+              <div class="flex items-start justify-between gap-2 mb-1.5">
+                <span class="font-bold text-white block text-xs select-text">${risk.titulo}</span>
+                <div class="flex items-center space-x-1 opacity-0 group-hover/risk:opacity-100 transition-opacity no-print">
+                  <button class="btn-edit-risk p-1 text-slate-400 hover:text-amber-300 rounded hover:bg-slate-700" data-idx="${idx}" title="Editar este risco">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                  </button>
+                  <button class="btn-delete-risk p-1 text-slate-400 hover:text-red-400 rounded hover:bg-slate-700" data-idx="${idx}" title="Excluir este risco">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                  </button>
+                </div>
+              </div>
+              <p class="text-[11px] leading-relaxed text-slate-300 select-text whitespace-pre-line">${risk.descricao}</p>
+            </div>
+            <div class="mt-2 pt-1 border-t border-slate-700/60 flex items-center justify-between text-[10px] text-slate-400 no-print">
+              <span>Duplo clique ou use o ícone para editar</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Event listeners for risks
+      document.querySelectorAll(".btn-edit-risk").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          const idx = parseInt(this.getAttribute("data-idx"));
+          openRiskModal(idx);
+        });
+      });
+
+      document.querySelectorAll(".btn-delete-risk").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          const idx = parseInt(this.getAttribute("data-idx"));
+          if (confirm(`Deseja excluir o risco transversal "${transversalRisks[idx].titulo}"?`)) {
+            transversalRisks.splice(idx, 1);
+            saveTransversalRisks();
+            renderTransversalRisks();
+            showToast("Risco transversal removido.", "info");
+          }
+        });
+      });
+    }
+
+    function openRiskModal(idx = null) {
+      if (idx !== null && transversalRisks[idx]) {
+        const r = transversalRisks[idx];
+        document.getElementById("riskModalTitle").textContent = "Editar Risco Transversal";
+        document.getElementById("riskEditId").value = r.id;
+        document.getElementById("riskInputTitle").value = r.titulo;
+        document.getElementById("riskInputDesc").value = r.descricao;
+      } else {
+        document.getElementById("riskModalTitle").textContent = "Adicionar Novo Risco Transversal";
+        document.getElementById("riskEditId").value = "";
+        document.getElementById("riskInputTitle").value = `${transversalRisks.length + 1}. `;
+        document.getElementById("riskInputDesc").value = "";
+      }
+      document.getElementById("modalTransversalRisk").classList.remove("hidden");
+    }
+
+    document.getElementById("btnAddTransversalRisk").addEventListener("click", () => openRiskModal(null));
+    document.getElementById("btnCloseRiskModal").addEventListener("click", () => {
+      document.getElementById("modalTransversalRisk").classList.add("hidden");
+    });
+    document.getElementById("btnCancelRiskModal").addEventListener("click", () => {
+      document.getElementById("modalTransversalRisk").classList.add("hidden");
+    });
+
+    document.getElementById("formTransversalRisk").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const editId = document.getElementById("riskEditId").value;
+      const title = document.getElementById("riskInputTitle").value.trim();
+      const desc = document.getElementById("riskInputDesc").value.trim();
+
+      if (editId) {
+        const r = transversalRisks.find(x => x.id === editId);
+        if (r) {
+          r.titulo = title;
+          r.descricao = desc;
+        }
+      } else {
+        transversalRisks.push({
+          id: `risk_${Date.now()}`,
+          titulo: title,
+          descricao: desc
+        });
+      }
+
+      saveTransversalRisks();
+      document.getElementById("modalTransversalRisk").classList.add("hidden");
+      renderTransversalRisks();
+      showToast("Risco transversal salvo com sucesso!", "success");
+    });
+
+    loadTransversalRisks();
     loadData();
     renderAll();
   </script>

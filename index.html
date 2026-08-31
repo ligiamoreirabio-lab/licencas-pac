@@ -349,7 +349,7 @@
                 <th class="py-2 px-3 border border-[#DCD3C4] w-52">Empreendimento</th>
                 <th class="py-2 px-3 border border-[#DCD3C4] min-w-[240px] w-72 bg-amber-50/40">Riscos e Oportunidades</th>
                 <th class="py-2 px-3 border border-[#DCD3C4] min-w-[280px]">Comentários</th>
-                <th class="py-2 px-3 border border-[#DCD3C4] min-w-[340px]">Providência(s) & Checklist</th>
+                <th class="py-2 px-3 border border-[#DCD3C4] min-w-[300px]">Providência(s)</th>
                 <th class="py-2 px-2.5 border border-[#DCD3C4] w-28 text-center">Pendência</th>
               </tr>
             </thead>
@@ -357,29 +357,20 @@
           </table>
         </div>
 
-        <!-- Global Risks & Transversal Sector Block (Page 11 of PDF) -->
+        <!-- Global Risks & Transversal Sector Block (Editável) -->
         <div class="mt-6 p-4 rounded-xl border border-red-200 bg-red-50/30">
-          <div class="flex items-center gap-2 mb-3">
-            <span class="px-2 py-0.5 rounded bg-red-600 text-white font-black text-xs uppercase tracking-wider">Outros Riscos Transversais</span>
-            <span class="text-xs text-slate-500 font-medium">(Monitoramento Estratégico Casa Civil / SEPAC)</span>
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded bg-red-600 text-white font-black text-xs uppercase tracking-wider">Outros Riscos Transversais</span>
+              <span class="text-xs text-slate-500 font-medium">(Monitoramento Estratégico Casa Civil / SEPAC)</span>
+            </div>
+            <button id="btnAddTransversalRisk" class="no-print inline-flex items-center gap-1 text-[11px] font-semibold text-red-700 hover:text-white bg-white hover:bg-red-600 px-2.5 py-1 rounded-lg border border-red-300 transition-all shadow-2xs cursor-pointer" title="Adicionar novo risco transversal">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+              + Novo Risco Transversal
+            </button>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            <div class="p-3 bg-[#FFFFFF] rounded-lg border border-[#E8E1D5] shadow-2xs">
-              <h4 class="font-bold text-slate-800 mb-1 flex items-center gap-1.5 text-red-700">
-                <span>⚠️</span> Revisão de Procedimentos RELAF / IBAMA & Lei Geral
-              </h4>
-              <p class="text-slate-600 leading-relaxed">
-                O IBAMA vem trabalhando na revisão e consolidação de procedimentos internos sobre o licenciamento ambiental federal (RELAF). Esta revisão inclui novos procedimentos vinculados à Lei Geral de licenciamento. O documento não tem sido objeto de consulta pública ou internamente ao governo e são desconhecidos seus eventuais reflexos sobre o licenciamento ambiental da grande infraestrutura. Encontra-se em avaliação no MMA.
-              </p>
-            </div>
-            <div class="p-3 bg-[#FFFFFF] rounded-lg border border-[#E8E1D5] shadow-2xs">
-              <h4 class="font-bold text-slate-800 mb-1 flex items-center gap-1.5 text-red-700">
-                <span>⚠️</span> Margem Equatorial / Foz do Amazonas (AAAS vs Exploração)
-              </h4>
-              <p class="text-slate-600 leading-relaxed">
-                A Petrobras está buscando ampliar os blocos de exploração na Bacia Sedimentar da Foz do Amazonas (margem equatorial) (algumas licenças já foram solicitadas e outras ainda serão). Entretanto, parece haver oposição do MMA a esta ampliação sem que haja a realização prévia de Avaliação Ambiental de Área Sedimentar (AAAS) para a Bacia Sedimentar.
-              </p>
-            </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs" id="transversalRisksContainer">
+            <!-- Renderizado dinamicamente via JS -->
           </div>
         </div>
 
@@ -3624,7 +3615,7 @@
         const savedHistory = localStorage.getItem(HISTORY_KEY);
         if (savedData) {
           const parsed = JSON.parse(savedData);
-          if (parsed && parsed.length >= 50) {
+          if (Array.isArray(parsed) && parsed.length > 0) {
             projectsData = parsed;
           } else {
             saveData(false);
@@ -3793,6 +3784,11 @@
         </button>
         <span class="font-mono text-[10px] border px-1.5 py-0.2 rounded ${badgeColor} hidden print:inline">${label}</span>
       `;
+    }
+
+        function safeAddListener(id, event, fn) {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener(event, fn);
     }
 
     let currentView = "executive"; // Default directly to Executive View for Ministers/Directors
@@ -4189,21 +4185,21 @@
       document.getElementById("modalEditDeadline").classList.remove("hidden");
     }
 
-    document.getElementById("editDeadlineDatePick").addEventListener("change", function() {
+    safeAddListener("editDeadlineDatePick", "change", function() {
       if (this.value) {
         const [yyyy, mm, dd] = this.value.split("-");
         document.getElementById("editDeadlineInput").value = `${dd}/${mm}/${yyyy}`;
       }
     });
 
-    document.getElementById("btnCloseEditDeadlineModal").addEventListener("click", () => {
+    safeAddListener("btnCloseEditDeadlineModal", "click", () => {
       document.getElementById("modalEditDeadline").classList.add("hidden");
     });
-    document.getElementById("btnCancelEditDeadlineModal").addEventListener("click", () => {
+    safeAddListener("btnCancelEditDeadlineModal", "click", () => {
       document.getElementById("modalEditDeadline").classList.add("hidden");
     });
 
-    document.getElementById("formEditDeadline").addEventListener("submit", (e) => {
+    safeAddListener("formEditDeadline", "submit", (e) => {
       e.preventDefault();
       const pid = document.getElementById("editDeadlinePid").value;
       const tid = document.getElementById("editDeadlineTid").value;
@@ -4235,17 +4231,17 @@
       document.getElementById("modalAddTask").classList.remove("hidden");
     }
 
-    document.getElementById("btnCloseAddTaskModal").addEventListener("click", () => {
+    safeAddListener("btnCloseAddTaskModal", "click", () => {
       document.getElementById("modalAddTask").classList.add("hidden");
       activeProjectIdForNewTask = null;
     });
 
-    document.getElementById("btnCancelAddTaskModal").addEventListener("click", () => {
+    safeAddListener("btnCancelAddTaskModal", "click", () => {
       document.getElementById("modalAddTask").classList.add("hidden");
       activeProjectIdForNewTask = null;
     });
 
-    document.getElementById("formAddTask").addEventListener("submit", (e) => {
+    safeAddListener("formAddTask", "submit", (e) => {
       e.preventDefault();
       if (!activeProjectIdForNewTask) return;
 
@@ -4457,9 +4453,9 @@
       }
     }
 
-    document.getElementById("completeInputDate").addEventListener("change", updateCompleteDiffPreview);
+    safeAddListener("completeInputDate", "change", updateCompleteDiffPreview);
 
-    document.getElementById("btnConfirmCompleteTask").addEventListener("click", () => {
+    safeAddListener("btnConfirmCompleteTask", "click", () => {
       if (!activeTaskToComplete) return;
       const { project, task } = activeTaskToComplete;
 
@@ -4496,10 +4492,10 @@
       showToast(`✔ Providência concluída e registrada no Histórico! (${diffResult.label})`, "success");
     });
 
-    document.getElementById("btnCloseCompleteModal").addEventListener("click", () => {
+    safeAddListener("btnCloseCompleteModal", "click", () => {
       document.getElementById("completeTaskModal").classList.add("hidden");
     });
-    document.getElementById("btnCancelCompleteModal").addEventListener("click", () => {
+    safeAddListener("btnCancelCompleteModal", "click", () => {
       document.getElementById("completeTaskModal").classList.add("hidden");
     });
 
@@ -4552,37 +4548,37 @@
       });
     });
 
-    document.getElementById("btnExportPDF").addEventListener("click", () => {
+    safeAddListener("btnExportPDF", "click", () => {
       switchView("executive");
       setTimeout(() => window.print(), 250);
     });
 
-    document.getElementById("btnExportMasterPDF").addEventListener("click", () => {
+    safeAddListener("btnExportMasterPDF", "click", () => {
       switchView("master");
       setTimeout(() => window.print(), 250);
     });
 
-    document.getElementById("searchInput").addEventListener("input", (e) => {
+    safeAddListener("searchInput", "input", (e) => {
       filters.search = e.target.value;
       renderAll();
     });
-    document.getElementById("filterSubeixo").addEventListener("change", (e) => {
+    safeAddListener("filterSubeixo", "change", (e) => {
       filters.subeixo = e.target.value;
       renderAll();
     });
-    document.getElementById("filterStatus").addEventListener("change", (e) => {
+    safeAddListener("filterStatus", "change", (e) => {
       filters.status = e.target.value;
       renderAll();
     });
-    document.getElementById("filterOrgao").addEventListener("change", (e) => {
+    safeAddListener("filterOrgao", "change", (e) => {
       filters.orgao = e.target.value;
       renderAll();
     });
-    document.getElementById("filterPrioritario").addEventListener("change", (e) => {
+    safeAddListener("filterPrioritario", "change", (e) => {
       filters.prioritarioOnly = e.target.checked;
       renderAll();
     });
-    document.getElementById("btnClearFilters").addEventListener("click", () => {
+    safeAddListener("btnClearFilters", "click", () => {
       document.getElementById("searchInput").value = "";
       document.getElementById("filterSubeixo").value = "ALL";
       document.getElementById("filterStatus").value = "ALL";
@@ -4592,11 +4588,11 @@
       renderAll();
     });
 
-    document.getElementById("historySearchInput").addEventListener("input", (e) => {
+    safeAddListener("historySearchInput", "input", (e) => {
       historyFilters.search = e.target.value;
       renderHistoryTable();
     });
-    document.getElementById("historyFilterDesempenho").addEventListener("change", (e) => {
+    safeAddListener("historyFilterDesempenho", "change", (e) => {
       historyFilters.desempenho = e.target.value;
       renderHistoryTable();
     });
@@ -4620,18 +4616,18 @@
     }
 
         // New Project Modal Handlers
-    document.getElementById("btnNewProject").addEventListener("click", () => {
+    safeAddListener("btnNewProject", "click", () => {
       document.getElementById("newProjectForm").reset();
       document.getElementById("newProjectModal").classList.remove("hidden");
     });
-    document.getElementById("btnCloseNewModal").addEventListener("click", () => {
+    safeAddListener("btnCloseNewModal", "click", () => {
       document.getElementById("newProjectModal").classList.add("hidden");
     });
-    document.getElementById("btnCancelNewModal").addEventListener("click", () => {
+    safeAddListener("btnCancelNewModal", "click", () => {
       document.getElementById("newProjectModal").classList.add("hidden");
     });
 
-    document.getElementById("newProjectForm").addEventListener("submit", (e) => {
+    safeAddListener("newProjectForm", "submit", (e) => {
       e.preventDefault();
       const subeixo = document.getElementById("newSubeixo").value;
       const idCode = document.getElementById("newIdCode").value.trim();
@@ -4675,12 +4671,12 @@
     });
 
     // KPI Shortcuts
-    document.getElementById("kpiSemLP").addEventListener("click", () => {
+    safeAddListener("kpiSemLP", "click", () => {
       filters.status = "Sem Licença Prévia";
       document.getElementById("filterStatus").value = "Sem Licença Prévia";
       renderAll();
     });
-    document.getElementById("kpiPrazosAlert").addEventListener("click", () => {
+    safeAddListener("kpiPrazosAlert", "click", () => {
       switchView("deadlines");
     });
 
@@ -4688,16 +4684,15 @@
     let transversalRisks = [
       {
         id: "risk_relaf",
-        titulo: "1. RELAF e Reestruturação de Carreira do IBAMA",
-        descricao: "Mobilização e greve dos servidores ambientais (ASCEMA/IBAMA) com impacto direto na emissão de pareceres, vistorias de campo e expedição de licenças prévias e de instalação."
+        titulo: "Revisão de Procedimentos RELAF / IBAMA & Lei Geral",
+        descricao: "O IBAMA vem trabalhando na revisão e consolidação de procedimentos internos sobre o licenciamento ambiental federal (RELAF). Esta revisão inclui novos procedimentos vinculados à Lei Geral de licenciamento. O documento não tem sido objeto de consulta pública ou internamente ao governo e são desconhecidos seus eventuais reflexos sobre o licenciamento ambiental da grande infraestrutura. Encontra-se em avaliação no MMA."
       },
       {
         id: "risk_foz",
-        titulo: "2. Margem Equatorial / Foz do Amazonas (AAAS)",
-        descricao: "Exigência de Avaliação Ambiental de Área Sedimentar (AAAS) pelo MMA versus posição técnica do MME e Petrobras quanto ao cumprimento dos requisitos do bloco FZA-M-59."
+        titulo: "Margem Equatorial / Foz do Amazonas (AAAS vs Exploração)",
+        descricao: "A Petrobras está buscando ampliar os blocos de exploração na Bacia Sedimentar da Foz do Amazonas (margem equatorial) (algumas licenças já foram solicitadas e outras ainda serão). Entretanto, parece haver oposição do MMA a esta ampliação sem que haja a realização prévia de Avaliação Ambiental de Área Sedimentar (AAAS) para a Bacia Sedimentar."
       }
     ];
-
     function loadTransversalRisks() {
       try {
         const saved = localStorage.getItem(RISKS_STORAGE_KEY);
@@ -4724,30 +4719,32 @@
       const container = document.getElementById("transversalRisksContainer");
       if (!container) return;
 
-      if (transversalRisks.length === 0) {
+      if (!transversalRisks || transversalRisks.length === 0) {
         container.innerHTML = `<div class="col-span-2 p-3 text-center text-slate-400 italic">Nenhum risco transversal cadastrado. Clique no botão acima para adicionar.</div>`;
         return;
       }
 
       container.innerHTML = transversalRisks.map((risk, idx) => {
         return `
-          <div class="bg-slate-800/90 p-3 rounded-lg border border-slate-700 relative group/risk hover:border-amber-500/50 transition-all flex flex-col justify-between" data-id="${risk.id}">
+          <div class="p-3 bg-[#FFFFFF] rounded-lg border border-[#E8E1D5] shadow-2xs relative group/risk hover:border-red-300 transition-all flex flex-col justify-between" data-id="${risk.id}">
             <div>
               <div class="flex items-start justify-between gap-2 mb-1.5">
-                <span class="font-bold text-white block text-xs select-text">${risk.titulo}</span>
+                <h4 class="font-bold text-slate-800 flex items-center gap-1.5 text-red-700 text-xs select-text">
+                  <span>⚠️</span> ${risk.titulo}
+                </h4>
                 <div class="flex items-center space-x-1 opacity-0 group-hover/risk:opacity-100 transition-opacity no-print">
-                  <button class="btn-edit-risk p-1 text-slate-400 hover:text-amber-300 rounded hover:bg-slate-700" data-idx="${idx}" title="Editar este risco">
+                  <button class="btn-edit-risk p-1 text-slate-400 hover:text-red-700 rounded hover:bg-red-50" data-idx="${idx}" title="Editar este risco">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                   </button>
-                  <button class="btn-delete-risk p-1 text-slate-400 hover:text-red-400 rounded hover:bg-slate-700" data-idx="${idx}" title="Excluir este risco">
+                  <button class="btn-delete-risk p-1 text-slate-400 hover:text-red-700 rounded hover:bg-red-50" data-idx="${idx}" title="Excluir este risco">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                   </button>
                 </div>
               </div>
-              <p class="text-[11px] leading-relaxed text-slate-300 select-text whitespace-pre-line">${risk.descricao}</p>
+              <p class="text-[11px] leading-relaxed text-slate-600 select-text whitespace-pre-line">${risk.descricao}</p>
             </div>
-            <div class="mt-2 pt-1 border-t border-slate-700/60 flex items-center justify-between text-[10px] text-slate-400 no-print">
-              <span>Duplo clique ou use o ícone para editar</span>
+            <div class="mt-2 pt-1 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 no-print">
+              <span>Duplo clique ou clique no ícone para editar</span>
             </div>
           </div>
         `;
@@ -4792,15 +4789,15 @@
       document.getElementById("modalTransversalRisk").classList.remove("hidden");
     }
 
-    document.getElementById("btnAddTransversalRisk").addEventListener("click", () => openRiskModal(null));
-    document.getElementById("btnCloseRiskModal").addEventListener("click", () => {
+    safeAddListener("btnAddTransversalRisk", "click", () => openRiskModal(null));
+    safeAddListener("btnCloseRiskModal", "click", () => {
       document.getElementById("modalTransversalRisk").classList.add("hidden");
     });
-    document.getElementById("btnCancelRiskModal").addEventListener("click", () => {
+    safeAddListener("btnCancelRiskModal", "click", () => {
       document.getElementById("modalTransversalRisk").classList.add("hidden");
     });
 
-    document.getElementById("formTransversalRisk").addEventListener("submit", (e) => {
+    safeAddListener("formTransversalRisk", "submit", (e) => {
       e.preventDefault();
       const editId = document.getElementById("riskEditId").value;
       const title = document.getElementById("riskInputTitle").value.trim();

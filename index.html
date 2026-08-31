@@ -788,6 +788,46 @@
     </div>
   </div>
 
+    <!-- MODAL: ALTERAR PRAZO DA PROVIDÊNCIA -->
+  <div id="modalEditDeadline" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-sm w-full shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="px-5 py-3.5 bg-amber-700 text-white flex items-center justify-between">
+        <div class="flex items-center space-x-2 font-bold text-sm">
+          <svg class="w-4 h-4 text-amber-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+          <span>Definir / Alterar Prazo</span>
+        </div>
+        <button id="btnCloseEditDeadlineModal" class="text-amber-200 hover:text-white text-base font-bold">✕</button>
+      </div>
+
+      <form id="formEditDeadline" class="p-5 space-y-3 text-xs">
+        <input type="hidden" id="editDeadlinePid" value="">
+        <input type="hidden" id="editDeadlineTid" value="">
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Providência:</label>
+          <p id="editDeadlineTaskDesc" class="p-2 bg-slate-50 rounded-lg border border-slate-200 text-slate-700 text-[11px] leading-snug"></p>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Novo Prazo Estipulado:</label>
+          <div class="flex gap-2 items-center">
+            <input type="text" id="editDeadlineInput" placeholder="Ex: 30/11/2026 ou a definir" required class="flex-1 border border-slate-300 rounded-lg p-2 bg-slate-50 text-xs font-mono focus:ring-2 focus:ring-amber-500 focus:outline-none">
+            <input type="date" id="editDeadlineDatePick" class="border border-slate-300 rounded-lg p-1.5 bg-slate-50 text-xs text-slate-600" title="Escolher no calendário">
+          </div>
+          <p class="text-[10px] text-slate-500 mt-1">Formato DD/MM/AAAA ou selecione no calendário ao lado.</p>
+        </div>
+
+        <div class="flex items-center justify-end space-x-2 pt-3 border-t border-slate-200">
+          <button type="button" id="btnCancelEditDeadlineModal" class="px-3.5 py-1.5 rounded-lg border border-slate-300 text-slate-600 font-semibold hover:bg-slate-50">Cancelar</button>
+          <button type="submit" class="px-3.5 py-1.5 rounded-lg bg-amber-600 text-white font-semibold hover:bg-amber-700 flex items-center gap-1 shadow-sm">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            Salvar Prazo
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Toast Notification System -->
   <div id="toastContainer" class="no-print fixed bottom-4 right-4 z-50 flex flex-col space-y-2 pointer-events-none"></div>
 
@@ -3708,25 +3748,51 @@
       return map[agency] || "bg-[#F5EFE6] text-slate-800 border-[#DCD3C4]";
     }
 
-    function getDeadlineBadge(prazo) {
-      if (!prazo || prazo.toLowerCase().includes("definir")) {
-        return `<span class="text-[10px] text-slate-500 font-mono">⚪ A definir</span>`;
+    function getDeadlineBadge(prazo, pid, tid) {
+      const isUndefined = !prazo || prazo.toLowerCase().includes("definir") || prazo.toLowerCase().includes("sem prazo");
+
+      if (isUndefined) {
+        return `
+          <button type="button" class="btn-edit-deadline inline-flex items-center gap-1 px-1.5 py-0.2 rounded font-mono text-[10px] bg-slate-100 text-slate-600 border border-dashed border-slate-300 hover:bg-amber-50 hover:text-amber-800 hover:border-amber-400 transition-all cursor-pointer no-print shadow-2xs" data-pid="${pid}" data-tid="${tid}" title="Clique para definir uma data de prazo">
+            <span>⚪ A definir</span>
+            <svg class="w-2.5 h-2.5 text-slate-400 hover:text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+          </button>
+          <span class="font-mono text-[10px] text-slate-500 hidden print:inline">⚪ A definir</span>
+        `;
       }
-      const d = parseDate(prazo);
+
+      const d = parseDateBR(prazo);
       if (!d) {
-        return `<span class="text-[10px] text-slate-500 font-mono">${prazo}</span>`;
+        return `
+          <button type="button" class="btn-edit-deadline inline-flex items-center gap-1 px-1.5 py-0.2 rounded font-mono text-[10px] bg-slate-100 text-slate-600 border border-slate-300 hover:bg-amber-50 hover:text-amber-800 transition-all cursor-pointer no-print shadow-2xs" data-pid="${pid}" data-tid="${tid}" title="Clique para alterar este prazo">
+            <span>${escapeHtml(prazo)}</span>
+            <svg class="w-2.5 h-2.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+          </button>
+          <span class="font-mono text-[10px] text-slate-600 hidden print:inline">${escapeHtml(prazo)}</span>
+        `;
       }
+
       const today = new Date();
       today.setHours(0,0,0,0);
-      const diff = Math.round((d.getTime() - today.getTime()) / (1000*60*60*24));
+      const diffDays = Math.ceil((d - today) / (1000 * 60 * 60 * 24));
 
-      if (diff < 0) {
-        return `<span class="text-[10px] bg-red-100 text-red-800 border border-red-200 px-1.5 py-0.2 rounded font-bold">🔴 Vencido (${prazo})</span>`;
-      } else if (diff <= 15) {
-        return `<span class="text-[10px] bg-amber-100 text-amber-800 border border-amber-200 px-1.5 py-0.2 rounded font-bold">🟡 Atenção (${prazo})</span>`;
-      } else {
-        return `<span class="text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 px-1.5 py-0.2 rounded font-medium">🟢 No Prazo (${prazo})</span>`;
+      let badgeColor = "bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100";
+      let label = `Prazo: ${prazo}`;
+      if (diffDays < 0) {
+        badgeColor = "bg-red-50 text-red-700 border-red-300 hover:bg-red-100 font-bold";
+        label = `Venceu em ${prazo} (${Math.abs(diffDays)}d atrás)`;
+      } else if (diffDays <= 15) {
+        badgeColor = "bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100 font-bold";
+        label = `Vence em ${prazo} (${diffDays}d)`;
       }
+
+      return `
+        <button type="button" class="btn-edit-deadline inline-flex items-center gap-1 px-1.5 py-0.2 rounded font-mono text-[10px] border ${badgeColor} transition-all cursor-pointer no-print shadow-2xs" data-pid="${pid}" data-tid="${tid}" title="Clique para alterar a data deste prazo">
+          <span>${label}</span>
+          <svg class="w-2.5 h-2.5 opacity-60 hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+        </button>
+        <span class="font-mono text-[10px] border px-1.5 py-0.2 rounded ${badgeColor} hidden print:inline">${label}</span>
+      `;
     }
 
     let currentView = "executive"; // Default directly to Executive View for Ministers/Directors
@@ -3786,7 +3852,7 @@
       } else {
         itemsHtml = tasks.map(t => {
           const agencyClass = getAgencyBadgeColor(t.responsavel);
-          const deadlineHtml = getDeadlineBadge(t.prazo);
+          const deadlineHtml = getDeadlineBadge(t.prazo, project.id, t.id);
 
           return `
             <div class="task-item flex items-start gap-1.5 p-1.5 rounded-lg bg-slate-50 border border-slate-200 hover:border-emerald-300 transition-all text-[11px] mb-1 group/task">
@@ -3813,7 +3879,7 @@
           ${itemsHtml}
           <button class="btn-add-task mt-1 inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 hover:text-emerald-900 bg-emerald-50/90 hover:bg-emerald-100 px-2 py-0.5 rounded border border-dashed border-emerald-300 transition-all shadow-2xs no-print" data-pid="${project.id}">
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-            + Nova Providência
+            Nova Providência
           </button>
         </div>
       `;
@@ -4098,6 +4164,65 @@
 
         let activeProjectIdForNewTask = null;
 
+        function openEditDeadlineModal(pid, tid) {
+      const project = projectsData.find(p => p.id === pid);
+      if (!project || !project.providencias_list) return;
+
+      const task = project.providencias_list.find(t => t.id === tid);
+      if (!task) return;
+
+      document.getElementById("editDeadlinePid").value = pid;
+      document.getElementById("editDeadlineTid").value = tid;
+      document.getElementById("editDeadlineTaskDesc").textContent = `${task.responsavel}: ${task.descricao}`;
+      document.getElementById("editDeadlineInput").value = task.prazo || "";
+      document.getElementById("editDeadlineDatePick").value = "";
+
+      // If task.prazo matches DD/MM/YYYY, set date picker
+      const d = parseDateBR(task.prazo);
+      if (d) {
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        document.getElementById("editDeadlineDatePick").value = `${yyyy}-${mm}-${dd}`;
+      }
+
+      document.getElementById("modalEditDeadline").classList.remove("hidden");
+    }
+
+    document.getElementById("editDeadlineDatePick").addEventListener("change", function() {
+      if (this.value) {
+        const [yyyy, mm, dd] = this.value.split("-");
+        document.getElementById("editDeadlineInput").value = `${dd}/${mm}/${yyyy}`;
+      }
+    });
+
+    document.getElementById("btnCloseEditDeadlineModal").addEventListener("click", () => {
+      document.getElementById("modalEditDeadline").classList.add("hidden");
+    });
+    document.getElementById("btnCancelEditDeadlineModal").addEventListener("click", () => {
+      document.getElementById("modalEditDeadline").classList.add("hidden");
+    });
+
+    document.getElementById("formEditDeadline").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const pid = document.getElementById("editDeadlinePid").value;
+      const tid = document.getElementById("editDeadlineTid").value;
+      const newDeadline = document.getElementById("editDeadlineInput").value.trim() || "a definir";
+
+      const project = projectsData.find(p => p.id === pid);
+      if (!project || !project.providencias_list) return;
+
+      const task = project.providencias_list.find(t => t.id === tid);
+      if (!task) return;
+
+      task.prazo = newDeadline;
+      syncProjectProvidenciasText(project);
+      saveData(true);
+      document.getElementById("modalEditDeadline").classList.add("hidden");
+      renderAll();
+      showToast(`Prazo atualizado para "${newDeadline}" com sucesso!`, "success");
+    });
+
     function openAddTaskModal(pid) {
       const project = projectsData.find(p => p.id === pid);
       if (!project) return;
@@ -4217,6 +4342,15 @@
           const pid = this.getAttribute("data-pid");
           const tid = this.getAttribute("data-tid");
           deleteTask(pid, tid);
+        });
+      });
+
+      document.querySelectorAll(".btn-edit-deadline").forEach(btn => {
+        btn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          const pid = this.getAttribute("data-pid");
+          const tid = this.getAttribute("data-tid");
+          openEditDeadlineModal(pid, tid);
         });
       });
 

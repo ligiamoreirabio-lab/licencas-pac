@@ -424,7 +424,7 @@
         <span class="font-bold text-slate-700 uppercase tracking-wider text-[10px] mr-1">Legenda Oficial:</span>
         <span class="inline-flex items-center px-2.5 py-1 rounded bg-[#FFFFFF] border border-red-200 text-red-700 font-semibold text-[11px] shadow-2xs">
           <span class="w-2.5 h-2.5 rounded-sm bg-red-500 mr-1.5 inline-block"></span>
-          Sem Licença Prévia (vermelho: prioritários)
+          Sem Licença Prévia
         </span>
         <span class="inline-flex items-center px-2.5 py-1 rounded bg-blue-50 border border-blue-200 text-blue-800 font-semibold text-[11px] shadow-2xs">
           <span class="w-2.5 h-2.5 rounded-sm bg-blue-400 mr-1.5 inline-block"></span>
@@ -499,12 +499,6 @@
           <option value="Nenhuma">Pendência: Nenhuma / Concluído</option>
         </select>
 
-        <!-- Filter Prioritários Only -->
-        <label class="inline-flex items-center cursor-pointer bg-[#FAF7F2] border border-[#DCD3C4] px-3 py-1.5 rounded-lg text-slate-700 select-none hover:bg-[#F5EFE6] transition-colors">
-          <input type="checkbox" id="filterPrioritario" class="w-3.5 h-3.5 text-red-600 rounded border-[#DCD3C4] focus:ring-red-500">
-          <span class="ml-1.5 font-medium text-xs text-red-600">Apenas Prioritários</span>
-        </label>
-
         <!-- Clear Filters -->
         <button id="btnClearFilters" class="px-2.5 py-1.5 text-slate-500 hover:text-slate-800 text-xs font-medium hover:underline">
           Limpar Filtros
@@ -561,10 +555,6 @@
             <div class="flex items-center gap-1.5">
               <span class="w-4 h-4 rounded border border-[#93C5FD] bg-[#DBEAFE] inline-block shadow-2xs shrink-0"></span>
               <span class="text-black font-semibold text-[11px]">Com Licença de Operação - LO (Azul claro)</span>
-            </div>
-            <div class="flex items-center gap-2 pl-3 border-l border-slate-300">
-              <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase shadow-2xs shrink-0">★ Prioritário</span>
-              <span class="text-black font-bold text-[11px]">Prioritários (Preenchimento da licença + Destaque)</span>
             </div>
           </div>
         </div>
@@ -637,7 +627,6 @@
                 <th class="py-2.5 px-2.5 border border-[#DCD3C4] min-w-[190px] bg-amber-50/30">Licença Prévia</th>
                 <th class="py-2.5 px-2.5 border border-[#DCD3C4] min-w-[220px] bg-emerald-50/30">Licença de Instalação</th>
                 <th class="py-2.5 px-2.5 border border-[#DCD3C4] min-w-[190px] bg-blue-50/30">Licença de Operação</th>
-                <th class="py-2.5 px-3 border border-[#DCD3C4] min-w-[280px]">Comentários Detalhados</th>
                 <th class="py-2.5 px-2 text-center w-14 border border-[#DCD3C4]">Ações</th>
               </tr>
             </thead>
@@ -669,6 +658,7 @@
                 <th class="py-2.5 px-2 border border-[#DCD3C4] w-16 text-center">ID</th>
                 <th class="py-2.5 px-3 border border-[#DCD3C4] w-64 min-w-[220px]">Empreendimento</th>
                 <th class="py-2.5 px-3 border border-[#DCD3C4] w-56 min-w-[200px]">Licença</th>
+                <th class="py-2.5 px-3 border border-[#DCD3C4] min-w-[280px]">Comentários Detalhados</th>
                 <th class="py-2.5 px-3 border border-[#DCD3C4] min-w-[380px] bg-emerald-50/30">Providência(s) & Checklist</th>
                 <th class="py-2.5 px-2.5 border border-[#DCD3C4] w-32 text-center">Pendência</th>
                 <th class="py-2.5 px-2.5 border border-[#DCD3C4] w-24 text-center">Modificado em</th>
@@ -920,11 +910,6 @@
               <option value="Com Licença de Operação">Com Licença de Operação (LO)</option>
             </select>
           </div>
-        </div>
-
-        <div class="flex items-center space-x-2 bg-red-50/50 p-2.5 rounded-lg border border-red-200">
-          <input type="checkbox" id="newPrioritario" class="w-4 h-4 text-red-600 rounded">
-          <label for="newPrioritario" class="font-semibold text-red-700 cursor-pointer text-xs">Marcar como Empreendimento Prioritário (destaque vermelho)</label>
         </div>
 
         <div>
@@ -4072,8 +4057,8 @@
       }
     ];
 
-    // STORAGE V15 (Standardized extensive license names)
-    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V16";
+    // STORAGE V17 (Removed prioritario mentions)
+    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V17";
     const HISTORY_KEY = "LICENCAS_PAC_FULL_HISTORY_V12";
     const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('licencas_pac_channel_v6') : null;
 
@@ -4100,8 +4085,8 @@
 
     function loadData() {
       try {
-        // Clear older version caches to guarantee fresh standardized licenses
-        ["LICENCAS_PAC_FULL_DATABASE_V15", "LICENCAS_PAC_FULL_DATABASE_V14", "LICENCAS_PAC_FULL_DATABASE_V13", "LICENCAS_PAC_FULL_DATABASE_V12", "LICENCAS_PAC_FULL_DATABASE_V11"].forEach(k => {
+        // Clear older version caches to guarantee fresh database
+        ["LICENCAS_PAC_FULL_DATABASE_V16", "LICENCAS_PAC_FULL_DATABASE_V15", "LICENCAS_PAC_FULL_DATABASE_V14", "LICENCAS_PAC_FULL_DATABASE_V13", "LICENCAS_PAC_FULL_DATABASE_V12", "LICENCAS_PAC_FULL_DATABASE_V11"].forEach(k => {
           try { localStorage.removeItem(k); } catch(e) {}
         });
 
@@ -4302,7 +4287,7 @@
     }
 
     let currentView = "master"; // Default directly to Executive View for Ministers/Directors
-    let filters = { search: "", subeixo: "ALL", status: "ALL", orgao: "ALL", prioritarioOnly: false };
+    let filters = { search: "", subeixo: "ALL", status: "ALL", orgao: "ALL" };
     let historyFilters = { search: "", desempenho: "ALL" };
 
     function getFilteredData() {
@@ -4323,7 +4308,6 @@
         if (filters.subeixo !== "ALL" && item.subeixo !== filters.subeixo) return false;
         if (filters.status !== "ALL" && item.status_licenca !== filters.status) return false;
         if (filters.orgao !== "ALL" && (!item.pendencia || !item.pendencia.toUpperCase().includes(filters.orgao.toUpperCase()))) return false;
-        if (filters.prioritarioOnly && !item.prioritario) return false;
         return true;
       });
     }
@@ -4396,7 +4380,7 @@
       `;
     }
 
-        function getLicenseStatusBadge(status, isPrioritario) {
+        function getLicenseStatusBadge(status) {
       let bgStyle = "bg-[#FFE4E6] text-black border-[#FDA4AF]"; // Rosa claro padrão para Sem LP
       if (status === "Com Licença Prévia") {
         bgStyle = "bg-[#FEF9C3] text-black border-[#FDE047]"; // Amarelo claro
@@ -4406,16 +4390,11 @@
         bgStyle = "bg-[#DBEAFE] text-black border-[#93C5FD]"; // Azul claro
       }
 
-      const prioTag = isPrioritario
-        ? `<span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded bg-red-600 text-white font-black text-[9px] uppercase tracking-wide shadow-2xs">★ Prioritário</span>`
-        : "";
-
       return `
         <div class="flex flex-wrap items-center gap-1.5 mt-1">
           <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold border ${bgStyle} shadow-2xs">
             ${status || 'Sem Licença Prévia'}
           </span>
-          ${prioTag}
         </div>
       `;
     }
@@ -4434,7 +4413,7 @@
         const l_map = mappedLicenseLinks[item.id] || {};
         const processoUrl = item.processo_url || l_map.processo;
 
-        let bgRow = item.prioritario ? "bg-red-50/20 hover:bg-red-50/40" : "hover:bg-[#FAF7F2]";
+        let bgRow = "hover:bg-[#FAF7F2]";
 
         return `
           <tr class="${bgRow} border-b border-[#DCD3C4]" data-id="${item.id}">
@@ -4442,7 +4421,7 @@
             <td class="py-2.5 px-2 border border-[#DCD3C4] text-center font-mono text-black text-xs font-semibold">${item.id_code || ''}</td>
             <td class="py-2.5 px-3 border border-[#DCD3C4]">
               <div class="text-black font-bold text-xs leading-snug select-text">${item.empreendimento}</div>
-              ${getLicenseStatusBadge(item.status_licenca, item.prioritario)}
+              ${getLicenseStatusBadge(item.status_licenca)}
               ${item.processo ? `<div class="mt-1">${renderOriginalCellWithLink(item.processo, processoUrl, 'processo')}</div>` : ''}
             </td>
             <td class="py-2.5 px-3 border border-[#DCD3C4] bg-amber-50/20 text-black font-medium text-xs leading-relaxed editable-cell" data-field="riscos_oportunidades" data-idx="${rawIndex}">
@@ -4474,7 +4453,7 @@
       if (data.length === 0) {
         tbodyMaster.innerHTML = `
           <tr>
-            <td colspan="13" class="py-12 text-center text-slate-500">
+            <td colspan="11" class="py-12 text-center text-slate-500">
               <div class="max-w-md mx-auto space-y-2">
                 <p class="font-semibold text-sm text-slate-700">Nenhum processo encontrado para os filtros atuais.</p>
                 <button onclick="clearAllAppFilters()" class="mt-2 inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-xs transition-all cursor-pointer">
@@ -4496,7 +4475,7 @@
         const liUrl = item.li_url || l_map.li;
         const loUrl = item.lo_url || l_map.lo;
 
-        const rowBg = item.prioritario ? "bg-red-50/20 hover:bg-red-50/40" : "hover:bg-[#FAF7F2]";
+        const rowBg = "hover:bg-[#FAF7F2]";
 
         return `
           <tr class="${rowBg} transition-colors group border-b border-[#DCD3C4]" data-id="${item.id}">
@@ -4504,7 +4483,7 @@
             <td class="py-2.5 px-2 border border-[#DCD3C4] text-center font-mono text-black text-xs font-semibold">${item.id_code || ''}</td>
             <td class="py-2.5 px-3 border border-[#DCD3C4] editable-cell" data-field="empreendimento" data-idx="${rawIndex}">
               <div class="text-black font-bold text-xs leading-snug select-text">${item.empreendimento}</div>
-              ${getLicenseStatusBadge(item.status_licenca, item.prioritario)}
+              ${getLicenseStatusBadge(item.status_licenca)}
             </td>
             <td class="py-2.5 px-2.5 border border-[#DCD3C4] text-[11px] editable-cell" data-field="processo" data-idx="${rawIndex}">
               ${renderOriginalCellWithLink(item.processo, processoUrl, 'processo')}
@@ -4526,9 +4505,6 @@
             </td>
             <td class="py-2.5 px-2 border border-[#DCD3C4] text-[11px] editable-cell bg-blue-50/10" data-field="lo" data-idx="${rawIndex}">
               ${renderOriginalCellWithLink(formatLicenseExtenso(item.lo, 'lo'), loUrl, 'lo')}
-            </td>
-            <td class="py-2.5 px-3 border border-[#DCD3C4] text-black whitespace-pre-line text-[11px] leading-relaxed editable-cell min-w-[280px]" data-field="comentarios" data-idx="${rawIndex}">
-              ${item.comentarios || ''}
             </td>
             <td class="py-2.5 px-2 text-center border border-[#DCD3C4]">
               <button class="btn-delete-row p-1 text-slate-400 hover:text-red-600 rounded hover:bg-[#F5EFE6]" data-idx="${rawIndex}" title="Excluir Processo">
@@ -4590,7 +4566,7 @@ function getLastIssuedLicenseHtml(item) {
       if (data.length === 0) {
         tbodyTasks.innerHTML = `
           <tr>
-            <td colspan="8" class="py-12 text-center text-slate-500">
+            <td colspan="9" class="py-12 text-center text-slate-500">
               <div class="max-w-md mx-auto space-y-2">
                 <p class="font-semibold text-sm text-slate-700">Nenhum processo encontrado para os filtros atuais.</p>
                 <button onclick="clearAllAppFilters()" class="mt-2 inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-xs transition-all cursor-pointer">
@@ -4605,7 +4581,7 @@ function getLastIssuedLicenseHtml(item) {
 
       tbodyTasks.innerHTML = data.map((item) => {
         const rawIndex = projectsData.findIndex(p => p.id === item.id);
-        const rowBg = item.prioritario ? "bg-red-50/20 hover:bg-red-50/40" : "hover:bg-[#FAF7F2]";
+        const rowBg = "hover:bg-[#FAF7F2]";
 
         return `
           <tr class="${rowBg} transition-colors group border-b border-[#DCD3C4]" data-id="${item.id}">
@@ -4613,10 +4589,12 @@ function getLastIssuedLicenseHtml(item) {
             <td class="py-2.5 px-2 border border-[#DCD3C4] text-center font-mono text-black text-xs font-semibold">${item.id_code || ''}</td>
             <td class="py-2.5 px-3 border border-[#DCD3C4] editable-cell" data-field="empreendimento" data-idx="${rawIndex}">
               <div class="text-black font-bold text-xs leading-snug select-text">${item.empreendimento}</div>
-              ${item.prioritario ? '<div class="mt-1"><span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded bg-red-600 text-white font-black text-[9px] uppercase tracking-wide shadow-2xs">★ Prioritário</span></div>' : ''}
             </td>
             <td class="py-2.5 px-3 border border-[#DCD3C4] text-left">
               ${getLastIssuedLicenseHtml(item)}
+            </td>
+            <td class="py-2.5 px-3 border border-[#DCD3C4] text-black whitespace-pre-line text-[11px] leading-relaxed editable-cell min-w-[280px]" data-field="comentarios" data-idx="${rawIndex}">
+              ${item.comentarios || ''}
             </td>
             <td class="py-2.5 px-3 border border-[#DCD3C4] bg-emerald-50/10 min-w-[380px]">
               ${renderTasksChecklist(item)}
@@ -5242,7 +5220,6 @@ function getLastIssuedLicenseHtml(item) {
         "Subeixo",
         "ID",
         "Empreendimento",
-        "Prioritário (Presidência)",
         "Status Licença",
         "Processo",
         "Processo (Link)",
@@ -5276,7 +5253,6 @@ function getLastIssuedLicenseHtml(item) {
           p.subeixo || "",
           p.id_code || "",
           p.empreendimento || "",
-          p.prioritario ? "SIM" : "NÃO",
           p.status_licenca || "",
           p.processo || "",
           p.processo_url || l_map.processo || "",
@@ -5338,25 +5314,19 @@ function getLastIssuedLicenseHtml(item) {
       filters.orgao = e.target.value;
       renderAll();
     });
-    safeAddListener("filterPrioritario", "change", (e) => {
-      filters.prioritarioOnly = e.target.checked;
-      renderAll();
-    });
     safeAddListener("btnClearFilters", "click", clearAllAppFilters);
     function clearAllAppFilters() {
       const searchInput = document.getElementById("searchInput");
       const filterSubeixo = document.getElementById("filterSubeixo");
       const filterStatus = document.getElementById("filterStatus");
       const filterOrgao = document.getElementById("filterOrgao");
-      const filterPrioritario = document.getElementById("filterPrioritario");
 
       if (searchInput) searchInput.value = "";
       if (filterSubeixo) filterSubeixo.value = "ALL";
       if (filterStatus) filterStatus.value = "ALL";
       if (filterOrgao) filterOrgao.value = "ALL";
-      if (filterPrioritario) filterPrioritario.checked = false;
 
-      filters = { search: "", subeixo: "ALL", status: "ALL", orgao: "ALL", prioritarioOnly: false };
+      filters = { search: "", subeixo: "ALL", status: "ALL", orgao: "ALL" };
       renderAll();
       showToast("Filtros resetados. Exibindo todos os 77 processos.", "info");
     }
@@ -5408,7 +5378,6 @@ function getLastIssuedLicenseHtml(item) {
       const empreendimento = document.getElementById("newEmpreendimento").value.trim();
       const processo = document.getElementById("newProcesso").value.trim();
       const statusLicenca = document.getElementById("newStatusLicenca").value;
-      const prioritario = document.getElementById("newPrioritario").checked;
       const riscos = document.getElementById("newRiscos").value.trim();
       const comentarios = document.getElementById("newComentarios").value.trim();
       const providencia = document.getElementById("newProvidencia").value.trim();
@@ -5425,7 +5394,7 @@ function getLastIssuedLicenseHtml(item) {
         lp: statusLicenca === "Com Licença Prévia" ? "LP Concedida" : "",
         li: statusLicenca === "Com Licença de Instalação" ? "LI Concedida" : "",
         lo: statusLicenca === "Com Licença de Operação" ? "LO Concedida" : "",
-        prioritario: prioritario,
+        prioritario: false,
         status_licenca: statusLicenca,
         riscos_oportunidades: riscos,
         comentarios: comentarios,
@@ -5445,13 +5414,7 @@ function getLastIssuedLicenseHtml(item) {
     });
 
     // KPI Shortcuts
-    safeAddListener("kpiPrioritariosCard", "click", () => {
-        filters.prioritarioOnly = !filters.prioritarioOnly;
-        const cb = document.getElementById("filterPrioritario");
-        if (cb) cb.checked = filters.prioritarioOnly;
-        renderAll();
-      });
-      safeAddListener("kpiSemLP", "click", () => {
+    safeAddListener("kpiSemLP", "click", () => {
       filters.status = "Sem Licença Prévia";
       document.getElementById("filterStatus").value = "Sem Licença Prévia";
       renderAll();

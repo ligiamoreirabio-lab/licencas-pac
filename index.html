@@ -20,14 +20,35 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     
     html, body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #FAF7F2 !important;
-      color: #2C2824 !important;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+      background-color: #F8FAFC !important;
+      color: #1E293B !important;
       min-height: 100vh;
       font-size: 13px;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
+
+    /* MODERN CARD & TABLE SHADOWS */
+    .shadow-card { box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04); }
+    .shadow-soft { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -2px rgba(0, 0, 0, 0.04); }
+    .border-card { border: 1px solid #E2E8F0; }
+
+    /* TABELAS MODERNAS NOTION / ASANA / LINEAR */
+    table { width: 100%; border-collapse: separate; border-spacing: 0; text-align: left; }
+    th { font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; background-color: #F8FAFC; color: #475569; border-bottom: 2px solid #CBD5E1; padding: 12px 16px; }
+    td { padding: 12px 16px; border-bottom: 1px solid #CBD5E1; vertical-align: top; color: #1E293B; }
+
+    /* BORDAS NÍTIDAS PARA DEMARCAR CLARAMENTE CADA PROCESSO */
+    #tableMaster tbody tr, #tableTasks tbody tr, #tableExecutive tbody tr, #tableHistory tbody tr {
+      border-bottom: 1px solid #CBD5E1 !important;
+    }
+    #tableMaster tbody td, #tableTasks tbody td, #tableExecutive tbody td, #tableHistory tbody td {
+      border-bottom: 1px solid #CBD5E1 !important;
+    }
+    tr { transition: background-color 150ms ease; }
+    tr:hover { background-color: #F8FAFC; }
 
     /* CONTROLE ESTRITO DE SVGS / ÍCONES */
     svg {
@@ -158,13 +179,13 @@
     .overflow-y-auto { overflow-y: auto; }
 
     /* PALETA BEGE / OFF-WHITE / GOVERNO */
-    .bg-\[\#FAF7F2\] { background-color: #FAF7F2 !important; }
+    .bg-\[\#FAF7F2\] { background-color: #F8FAFC !important; }
     .bg-\[\#FDFBF7\] { background-color: #FDFBF7 !important; }
     .bg-\[\#FFFFFF\] { background-color: #FFFFFF !important; }
-    .bg-\[\#F5EFE6\] { background-color: #F5EFE6 !important; }
-    .bg-\[\#EBE4D8\] { background-color: #EBE4D8 !important; }
-    .border-\[\#E8E1D5\] { border-color: #E8E1D5 !important; }
-    .border-\[\#DCD3C4\] { border-color: #DCD3C4 !important; }
+    .bg-\[\#F5EFE6\] { background-color: #F8FAFC !important; }
+    .bg-\[\#EBE4D8\] { background-color: #F8FAFC !important; }
+    .border-\[\#E8E1D5\] { border-color: #E2E8F0 !important; }
+    .border-\[\#DCD3C4\] { border-color: #E2E8F0 !important; }
     .text-\[\#1F1B16\] { color: #1F1B16 !important; }
     .text-\[\#2C2824\] { color: #2C2824 !important; }
 
@@ -247,11 +268,33 @@
     .text-indigo-900 { color: #312E81 !important; }
     .border-indigo-200 { border-color: #C7D2FE !important; }
 
-    /* TABELAS */
-    table { width: 100%; border-collapse: collapse; text-align: left; }
-    th { font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em; background-color: #EBE4D8 !important; color: #1F1B16 !important; }
-    th, td { padding: 8px 10px; border: 1px solid #DCD3C4; vertical-align: top; }
-    tr:hover { background-color: #F7F2E8; }
+    /* TABELAS MODERNAS OFF-WHITE */
+    table { width: 100%; border-collapse: separate; border-spacing: 0; text-align: left; }
+    th {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      background-color: #F8FAFC !important;
+      color: #334155 !important;
+      border-bottom: 1px solid #E2E8F0 !important;
+      border-top: none !important;
+      border-left: none !important;
+      border-right: none !important;
+      padding: 12px 14px;
+    }
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #F1F5F9;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      vertical-align: middle;
+      color: #1E293B;
+    }
+    tr:hover {
+      background-color: #F8FAFC !important;
+    }
 
     /* TIPOGRAFIA */
     .font-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
@@ -283,7 +326,7 @@
 
     /* SCROLLBAR */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #F5EFE6; }
+    ::-webkit-scrollbar-track { background: #F1F5F9; }
     ::-webkit-scrollbar-thumb { background: #D0C5B4; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #B0A390; }
 
@@ -312,8 +355,10 @@
     .text-black { color: #000000 !important; }
 
   </style>
+  <!-- Chart.js for Executive Visual Dashboard -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
-<body class="bg-[#FAF7F2] text-[#2C2824] antialiased min-h-screen flex flex-col font-sans">
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col font-sans">
 
   <!-- Top Global Header (Gov.br / Casa Civil style) -->
   <header class="no-print bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50 shadow-md">
@@ -362,13 +407,13 @@
   </header>
 
   <!-- View Selector & Top KPI Ribbon -->
-  <div class="no-print bg-[#FDFBF7] border-b border-[#E8E1D5] shadow-xs">
+  <div class="no-print bg-white/80 backdrop-blur-xs border-b border-slate-200/80 shadow-xs sticky top-14 z-40">
     <div class="max-w-[1750px] mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-4">
       
       <!-- Views Navigation Tabs (5 Abas Especializadas) -->
       <!-- Views Navigation Tabs (5 Abas Especializadas) -->
-      <nav class="flex flex-wrap gap-1.5 bg-[#EBE4D8] p-1.5 rounded-xl border border-[#DCD3C4]" id="viewTabs">
-        <button data-view="master" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-800 bg-[#FFFFFF] shadow-sm border border-[#E8E1D5] transition-all flex items-center gap-1.5 cursor-pointer">
+      <nav class="flex flex-wrap gap-1 bg-slate-100/90 p-1.5 rounded-xl border border-slate-200/80 shadow-2xs" id="viewTabs">
+        <button data-view="master" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-800 bg-[#FFFFFF] shadow-sm border border-slate-200 transition-all flex items-center gap-1.5 cursor-pointer">
           <svg width="16" height="16" class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           1. Dados & Licenciamento
         </button>
@@ -391,25 +436,26 @@
         </button>
       </nav>
 
-      <!-- Quick KPI Counters -->
+      <!-- Quick KPI Counters Modernizados -->
       <div class="flex items-center flex-wrap gap-2 text-xs">
-        <div class="bg-[#FAF7F2] border border-[#E8E1D5] px-3 py-1.5 rounded-lg flex items-center gap-2">
-          <span class="text-slate-500 font-medium">Total Processos:</span>
-          <span class="font-bold text-slate-900" id="kpiTotal">56</span>
+        <div class="bg-white border border-slate-200/80 px-3 py-1.5 rounded-lg flex items-center gap-2 shadow-2xs">
+          <span class="text-slate-500 font-medium">Total:</span>
+          <span class="font-bold text-slate-900 font-mono" id="kpiTotal">77</span>
         </div>
-        <div class="bg-red-50 border border-red-200 text-red-700 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium cursor-pointer hover:bg-red-100 transition-colors" id="kpiSemLP" title="Filtrar por Sem Licença Prévia">
-          <span class="w-2 h-2 rounded-full bg-red-600"></span>
+        <div class="bg-rose-50/80 border border-rose-200/80 text-rose-800 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium cursor-pointer hover:bg-rose-100 transition-colors shadow-2xs" id="kpiSemLP" title="Filtrar por Sem Licença Prévia">
+          <span class="w-2 h-2 rounded-full bg-rose-500"></span>
           <span>Sem LP:</span>
-          <span class="font-bold" id="kpiSemLPCnt">0</span>
+          <span class="font-bold font-mono" id="kpiSemLPCnt">0</span>
         </div>
-        <div class="bg-amber-50 border border-amber-200 text-amber-800 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium cursor-pointer hover:bg-amber-100 transition-colors" id="kpiPrazosAlert" title="Prazos em alerta">
+        <div class="bg-amber-50/80 border border-amber-200/80 text-amber-800 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium cursor-pointer hover:bg-amber-100 transition-colors shadow-2xs" id="kpiPrazosAlert" title="Prazos em alerta">
           <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
-          <span>Prazos Alerta/Vencidos:</span>
-          <span class="font-bold" id="kpiPrazosCnt">0</span>
+          <span>Alertas de Prazo:</span>
+          <span class="font-bold font-mono" id="kpiPrazosCnt">0</span>
         </div>
-        <div class="bg-emerald-50 border border-emerald-200 text-emerald-800 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium">
-          <span>Providências Concluídas:</span>
-          <span class="font-bold" id="kpiConcluidasCnt">0</span>
+        <div class="bg-emerald-50/80 border border-emerald-200/80 text-emerald-800 px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium shadow-2xs">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          <span>Concluídas:</span>
+          <span class="font-bold font-mono" id="kpiConcluidasCnt">0</span>
         </div>
       </div>
 
@@ -417,25 +463,25 @@
   </div>
 
   <!-- Legend Bar (Official Novo PAC / Casa Civil specification) -->
-  <div class="no-print bg-[#F5EFE6] border-b border-[#E8E1D5] px-4 sm:px-6 py-2">
+  <div class="no-print bg-slate-100/60 border-b border-slate-200/80 px-4 sm:px-6 py-2">
     <div class="max-w-[1750px] mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
       
       <div class="flex items-center flex-wrap gap-2">
         <span class="font-bold text-slate-700 uppercase tracking-wider text-[10px] mr-1">Legenda Oficial:</span>
-        <span class="inline-flex items-center px-2.5 py-1 rounded bg-[#FFFFFF] border border-red-200 text-red-700 font-semibold text-[11px] shadow-2xs">
-          <span class="w-2.5 h-2.5 rounded-sm bg-red-500 mr-1.5 inline-block"></span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-50 border border-rose-200 text-rose-800 font-semibold text-[11px] shadow-2xs">
+          <span class="w-2 h-2 rounded-full bg-rose-500 inline-block"></span>
           Sem Licença Prévia
         </span>
-        <span class="inline-flex items-center px-2.5 py-1 rounded bg-blue-50 border border-blue-200 text-blue-800 font-semibold text-[11px] shadow-2xs">
-          <span class="w-2.5 h-2.5 rounded-sm bg-blue-400 mr-1.5 inline-block"></span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-800 font-semibold text-[11px] shadow-2xs">
+          <span class="w-2 h-2 rounded-full bg-amber-500 inline-block"></span>
           Com Licença Prévia (LP)
         </span>
-        <span class="inline-flex items-center px-2.5 py-1 rounded bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold text-[11px] shadow-2xs">
-          <span class="w-2.5 h-2.5 rounded-sm bg-emerald-500 mr-1.5 inline-block"></span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold text-[11px] shadow-2xs">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span>
           Com Licença de Instalação (LI)
         </span>
-        <span class="inline-flex items-center px-2.5 py-1 rounded bg-purple-50 border border-purple-200 text-purple-800 font-semibold text-[11px] shadow-2xs">
-          <span class="w-2.5 h-2.5 rounded-sm bg-purple-500 mr-1.5 inline-block"></span>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50 border border-blue-200 text-blue-800 font-semibold text-[11px] shadow-2xs">
+          <span class="w-2 h-2 rounded-full bg-blue-500 inline-block"></span>
           Com Licença de Operação (LO)
         </span>
       </div>
@@ -449,16 +495,16 @@
 
   <!-- Search & Filter Controls -->
   <div class="no-print max-w-[1750px] mx-auto px-4 sm:px-6 py-3.5 w-full">
-    <div class="bg-[#FDFBF7] p-3.5 rounded-xl border border-[#E8E1D5] shadow-xs flex flex-wrap items-center justify-between gap-3">
+    <div class="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
       
       <div class="flex items-center flex-1 min-w-[260px] relative">
         <svg width="16" height="16"  class="w-4 h-4 text-slate-400 absolute left-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-        <input type="text" id="searchInput" placeholder="Pesquisar por rodovia, ferrovia, hidrovia, porto, UHE, linha de transmissão, petróleo e gás, ID..." class="w-full pl-9 pr-4 py-1.5 text-xs bg-[#FAF7F2] border border-[#DCD3C4] rounded-lg focus:ring-2 focus:ring-blue-500 focus:bg-[#FFFFFF] focus:outline-none transition-all">
+        <input type="text" id="searchInput" placeholder="Pesquisar por rodovia, ferrovia, hidrovia, porto, UHE, linha de transmissão, petróleo e gás, ID..." class="w-full pl-9 pr-4 py-1.5 text-xs bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-lg text-slate-800 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all">
       </div>
 
       <div class="flex items-center flex-wrap gap-2 text-xs">
         <!-- Filter Subeixo (Complete list) -->
-        <select id="filterSubeixo" class="bg-[#FAF7F2] border border-[#DCD3C4] text-slate-700 py-1.5 px-3 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        <select id="filterSubeixo" class="bg-slate-50 hover:bg-white border border-slate-200 text-slate-700 py-1.5 px-3 rounded-lg font-medium text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all">
           <option value="ALL">Todos os Subeixos</option>
           <option value="Hidrovias">Hidrovias</option>
           <option value="Portos (Santos)">Portos (Santos)</option>
@@ -472,7 +518,7 @@
         </select>
 
         <!-- Filter Status Licença -->
-        <select id="filterStatus" class="bg-[#FAF7F2] border border-[#DCD3C4] text-slate-700 py-1.5 px-3 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        <select id="filterStatus" class="bg-slate-50 hover:bg-white border border-slate-200 text-slate-700 py-1.5 px-3 rounded-lg font-medium text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all">
           <option value="ALL">Todas as Licenças</option>
           <option value="Sem Licença Prévia">Sem Licença Prévia</option>
           <option value="Com Licença Prévia">Com Licença Prévia (LP)</option>
@@ -481,7 +527,7 @@
         </select>
 
         <!-- Filter Pendência (Órgão Responsável) -->
-        <select id="filterOrgao" class="bg-[#FAF7F2] border border-[#DCD3C4] text-slate-700 py-1.5 px-3 rounded-lg font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none" title="Filtrar processos pelo órgão com pendência ativa">
+        <select id="filterOrgao" class="bg-slate-50 hover:bg-white border border-slate-200 text-slate-700 py-1.5 px-3 rounded-lg font-medium text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all" title="Filtrar processos pelo órgão com pendência ativa">
           <option value="ALL">🔍 Todas as Pendências</option>
           <option value="IBAMA">Pendência: IBAMA</option>
           <option value="DNIT">Pendência: DNIT</option>
@@ -496,6 +542,11 @@
           <option value="APS">Pendência: APS (Santos)</option>
           <option value="NESA">Pendência: NESA (Belo Monte)</option>
           <option value="FEMARH">Pendência: FEMARH</option>
+          <option value="SETRANS/PI">Pendência: SETRANS/PI</option>
+          <option value="INEMA/BA">Pendência: INEMA/BA</option>
+          <option value="DNOCS">Pendência: DNOCS</option>
+          <option value="FCP">Pendência: FCP (Palmares)</option>
+          <option value="SEPPI/CC/PR">Pendência: SEPPI/CC/PR</option>
           <option value="Nenhuma">Pendência: Nenhuma / Concluído</option>
         </select>
 
@@ -513,68 +564,174 @@
     
     <!-- VIEW 2: TABELA EXECUTIVA (CASA CIVIL) -->
     <div id="viewExecutive" class="view-content hidden">
-      <div class="executive-table-container bg-[#FFFFFF] rounded-xl border border-[#DCD3C4] shadow-sm p-6">
+      <div class="executive-table-container bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6">
         
-        <!-- Official Casa Civil Header -->
-        <div class="border-b-2 border-slate-800 pb-4 mb-4 flex flex-wrap items-center justify-between gap-4">
+        <!-- Official Casa Civil Header Modernizado -->
+        <div class="border-b border-slate-200 pb-5 mb-5 flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center space-x-4">
-            <div class="flex items-center space-x-2 border-r border-[#DCD3C4] pr-4">
-              <div class="w-8 h-8 rounded bg-slate-900 text-white flex items-center justify-center font-black text-xs">BR</div>
+            <div class="flex items-center space-x-3 border-r border-slate-200 pr-5">
+              <div class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-black text-sm shadow-sm border border-slate-800">BR</div>
               <div>
-                <div class="text-[10px] font-bold tracking-widest text-slate-500 uppercase">Presidência da República</div>
-                <div class="text-sm font-extrabold text-slate-900 tracking-tight">CASA CIVIL</div>
+                <div class="text-[10px] font-bold tracking-widest text-slate-400 uppercase">Presidência da República</div>
+                <div class="text-base font-extrabold text-slate-900 tracking-tight">CASA CIVIL</div>
               </div>
             </div>
             <div>
-              <div class="text-xs font-semibold text-emerald-700 tracking-wide uppercase">PROGRAMA DE ACELERAÇÃO DO CRESCIMENTO</div>
-              <h1 class="text-lg font-extrabold text-slate-900">Pendências de Licenciamento Ambiental - 28/08/2026</h1>
+              <div class="text-xs font-semibold text-emerald-700 tracking-wider uppercase flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                PROGRAMA DE ACELERAÇÃO DO CRESCIMENTO
+              </div>
+              <h1 class="text-lg font-extrabold text-slate-900 tracking-tight">Painel Executivo de Licenciamento Ambiental</h1>
             </div>
           </div>
 
           <div class="text-right">
-            <div class="text-xs font-bold text-slate-800" id="execUpdateDate">Posição Oficial: 28/08/2026</div>
-            <div class="text-[11px] font-semibold text-slate-600">Relatório Executivo para Tomada de Decisão</div>
+            <div class="inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1 rounded-full text-xs font-semibold text-slate-700" id="execUpdateDate">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              Posição Oficial: 28/08/2026
+            </div>
+            <div class="text-[11px] font-medium text-slate-500 mt-1">Monitoramento Estratégico para Tomada de Decisão</div>
           </div>
         </div>
 
-        <!-- Executive Legend Strip (Atualizada conforme diretriz oficial) -->
-        <div class="bg-[#FAF7F2] border border-[#DCD3C4] p-3 rounded-lg mb-4 flex flex-wrap items-center justify-between gap-3 text-xs shadow-2xs">
-          <div class="flex flex-wrap items-center gap-3.5">
-            <div class="flex items-center gap-1.5">
-              <span class="w-4 h-4 rounded border border-[#FDA4AF] bg-[#FFE4E6] inline-block shadow-2xs shrink-0"></span>
-              <span class="text-black font-semibold text-[11px]">Sem Licença Prévia (Rosa claro)</span>
+        <!-- VISUAL EXECUTIVE DASHBOARD (CARDS & GRÁFICOS INTERATIVOS) -->
+        <div class="mb-6 space-y-4" id="execDashboardContainer">
+          
+          <!-- KPI Hero Stat Cards -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+            
+            <div class="bg-slate-50/70 border border-slate-200/80 rounded-xl p-3.5 shadow-2xs hover:shadow-xs transition-shadow">
+              <div class="flex items-center justify-between text-slate-500 mb-1">
+                <span class="text-[11px] font-semibold uppercase tracking-wider">Total Monitorado</span>
+                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="text-2xl font-black text-slate-900 font-mono" id="execCardTotal">77</span>
+                <span class="text-xs text-slate-500 font-medium">obras</span>
+              </div>
+              <div class="mt-2 w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                <div class="bg-slate-600 h-full rounded-full" style="width: 100%"></div>
+              </div>
             </div>
-            <div class="flex items-center gap-1.5">
-              <span class="w-4 h-4 rounded border border-[#FDE047] bg-[#FEF9C3] inline-block shadow-2xs shrink-0"></span>
-              <span class="text-black font-semibold text-[11px]">Com Licença Prévia - LP (Amarelo claro)</span>
+
+            <div class="bg-emerald-50/50 border border-emerald-200/80 rounded-xl p-3.5 shadow-2xs hover:shadow-xs transition-shadow">
+              <div class="flex items-center justify-between text-emerald-800 mb-1">
+                <span class="text-[11px] font-semibold uppercase tracking-wider">Com LI ou LO (Fase Obras)</span>
+                <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="text-2xl font-black text-emerald-900 font-mono" id="execCardLiLo">44</span>
+                <span class="text-xs font-semibold text-emerald-700 font-mono" id="execCardLiLoPct">57.1%</span>
+              </div>
+              <div class="mt-2 w-full bg-emerald-100 rounded-full h-1.5 overflow-hidden">
+                <div class="bg-emerald-500 h-full rounded-full transition-all duration-500" id="execCardLiLoBar" style="width: 57.1%"></div>
+              </div>
             </div>
-            <div class="flex items-center gap-1.5">
-              <span class="w-4 h-4 rounded border border-[#86EFAC] bg-[#DCFCE7] inline-block shadow-2xs shrink-0"></span>
-              <span class="text-black font-semibold text-[11px]">Com Licença de Instalação - LI (Verde claro)</span>
+
+            <div class="bg-amber-50/50 border border-amber-200/80 rounded-xl p-3.5 shadow-2xs hover:shadow-xs transition-shadow">
+              <div class="flex items-center justify-between text-amber-800 mb-1">
+                <span class="text-[11px] font-semibold uppercase tracking-wider">Com Licença Prévia (LP)</span>
+                <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="text-2xl font-black text-amber-900 font-mono" id="execCardLp">9</span>
+                <span class="text-xs font-semibold text-amber-700 font-mono" id="execCardLpPct">11.7%</span>
+              </div>
+              <div class="mt-2 w-full bg-amber-100 rounded-full h-1.5 overflow-hidden">
+                <div class="bg-amber-500 h-full rounded-full transition-all duration-500" id="execCardLpBar" style="width: 11.7%"></div>
+              </div>
             </div>
-            <div class="flex items-center gap-1.5">
-              <span class="w-4 h-4 rounded border border-[#93C5FD] bg-[#DBEAFE] inline-block shadow-2xs shrink-0"></span>
-              <span class="text-black font-semibold text-[11px]">Com Licença de Operação - LO (Azul claro)</span>
+
+            <div class="bg-rose-50/50 border border-rose-200/80 rounded-xl p-3.5 shadow-2xs hover:shadow-xs transition-shadow">
+              <div class="flex items-center justify-between text-rose-800 mb-1">
+                <span class="text-[11px] font-semibold uppercase tracking-wider">Sem Licença Prévia</span>
+                <svg class="w-4 h-4 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span class="text-2xl font-black text-rose-900 font-mono" id="execCardSemLp">24</span>
+                <span class="text-xs font-semibold text-rose-700 font-mono" id="execCardSemLpPct">31.2%</span>
+              </div>
+              <div class="mt-2 w-full bg-rose-100 rounded-full h-1.5 overflow-hidden">
+                <div class="bg-rose-500 h-full rounded-full transition-all duration-500" id="execCardSemLpBar" style="width: 31.2%"></div>
+              </div>
             </div>
+
           </div>
-        </div>
+
+          <!-- Interactive Charts Row (2 Visual Cards) -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            
+            <!-- Card 1: Panorama Geral de Licenças (Donut + Progress) -->
+            <div class="lg:col-span-5 bg-white border border-slate-200/80 rounded-xl p-4 shadow-2xs flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2.5">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                    <h3 class="font-bold text-slate-800 text-xs tracking-tight">Status de Licenciamento das Obras</h3>
+                  </div>
+                  <span class="text-[10px] font-semibold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full" id="execChartTotalLabel">77 obras</span>
+                </div>
+                
+                <div class="flex items-center gap-4 py-2">
+                  <div class="relative w-36 h-36 shrink-0 flex items-center justify-center">
+                    <canvas id="chartLicencasCanvas" width="144" height="144"></canvas>
+                  </div>
+                  <div class="flex-1 space-y-1.5 text-xs" id="execLicencasLegend">
+                    <!-- Gerado dinamicamente via JS com counts e pcts -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Segmented Horizontal Stacked Bar -->
+              <div class="mt-3 pt-2.5 border-t border-slate-100">
+                <div class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1.5">Distribuição Proporcional</div>
+                <div class="w-full h-2.5 rounded-full flex overflow-hidden bg-slate-100 p-0.5 gap-0.5" id="execStackedProgressBar">
+                  <!-- Segmentos de barra gerados dinamicamente -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Ranking de Órgãos com Pendência Ativa (Barras Horizontais Interativas) -->
+            <div class="lg:col-span-7 bg-white border border-slate-200/80 rounded-xl p-4 shadow-2xs flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2.5">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                    <h3 class="font-bold text-slate-800 text-xs tracking-tight">Obras por Órgão Responsável com Pendência Ativa</h3>
+                  </div>
+                  <span class="text-[10px] font-medium text-slate-400">Clique na barra para filtrar</span>
+                </div>
+
+                <div class="space-y-2 py-1" id="execAgenciesBarsContainer">
+                  <!-- Barras horizontais interativas de órgãos geradas dinamicamente -->
+                </div>
+              </div>
+
+              <div class="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+                <span>💡 <i>Dica:</i> Processos com mais de um interveniente são contabilizados em cada órgão respectivo.</span>
+                <button onclick="clearAllAppFilters()" class="text-blue-600 hover:text-blue-800 font-semibold cursor-pointer">Ver Todas</button>
+              </div>
+            </div>
+
+          </div>
+
         </div>
 
         <!-- Executive Table -->
-        <div class="overflow-x-auto">
-          <table class="executive-table w-full text-left text-xs border border-[#DCD3C4] border-collapse" id="tableExecutive">
-            <thead class="bg-[#F5EFE6] text-slate-900 font-bold text-[11px] border-b-2 border-slate-400">
+        <div class="overflow-x-auto rounded-xl border border-slate-200/80">
+          <table class="executive-table w-full text-left text-xs border-collapse" id="tableExecutive">
+            <thead class="bg-slate-50/95 backdrop-blur-xs text-slate-700 font-semibold text-[11px] uppercase tracking-wider border-b border-slate-200">
               <tr>
-                <th class="py-2 px-2.5 border border-[#DCD3C4] w-24">Subeixo</th>
-                <th class="py-2 px-2 border border-[#DCD3C4] w-16 text-center">ID</th>
-                <th class="py-2 px-3 border border-[#DCD3C4] w-52">Empreendimento</th>
-                <th class="py-2 px-3 border border-[#DCD3C4] min-w-[240px] w-72 bg-amber-50/40">Riscos e Oportunidades</th>
-                <th class="py-2 px-3 border border-[#DCD3C4] min-w-[280px]">Comentários</th>
-                <th class="py-2 px-3 border border-[#DCD3C4] min-w-[300px]">Providência(s)</th>
-                <th class="py-2 px-2.5 border border-[#DCD3C4] w-28 text-center">Pendência</th>
+                <th class="py-3 px-3 w-24">Subeixo</th>
+                <th class="py-3 px-2 w-16 text-center">ID</th>
+                <th class="py-3 px-3 w-56 min-w-[200px]">Empreendimento</th>
+                <th class="py-3 px-3 min-w-[240px] w-72 bg-amber-50/20">Riscos e Oportunidades</th>
+                <th class="py-3 px-3 min-w-[260px]">Comentários</th>
+                <th class="py-3 px-3 min-w-[280px]">Providência(s)</th>
+                <th class="py-3 px-3 w-32 text-center">Pendência</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-300 bg-[#FFFFFF]" id="tbodyExecutive"></tbody>
+            <tbody class="divide-y divide-slate-300 bg-white" id="tbodyExecutive"></tbody>
           </table>
         </div>
 
@@ -601,9 +758,9 @@
     <!-- VIEW 1: TABELA MESTRA (TÉCNICA) -->
     <!-- 1. VIEW DADOS & LICENCIAMENTO (FICHA CADASTRAL TÉCNICA) -->
     <div id="viewMaster" class="view-content">
-      <div class="bg-[#FFFFFF] rounded-xl border border-[#E8E1D5] shadow-2xs overflow-hidden">
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
         
-        <div class="px-4 py-3 bg-[#FAF7F2] border-b border-[#E8E1D5] flex flex-wrap items-center justify-between gap-2">
+        <div class="px-5 py-3.5 bg-slate-50/95 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
           <div class="flex items-center space-x-2">
             <h2 class="font-bold text-slate-800 text-sm">1. Ficha Técnica: Dados Cadastrais e Processos de Licenciamento Ambiental</h2>
             <span class="text-xs bg-slate-200 text-slate-800 px-2.5 py-0.5 rounded-full font-mono font-bold" id="masterRowCount">77 processos</span>
@@ -614,23 +771,23 @@
         </div>
 
         <div class="overflow-x-auto max-h-[calc(100vh-280px)] overflow-y-auto">
-          <table class="w-full text-left text-xs border-collapse divide-y divide-slate-200" id="tableMaster">
-            <thead class="bg-[#F5EFE6] text-slate-800 uppercase font-bold text-[11px] sticky top-0 z-10 shadow-2xs">
+          <table class="w-full text-left text-xs border-collapse divide-y divide-slate-300" id="tableMaster">
+            <thead class="bg-slate-50/95 backdrop-blur-xs text-slate-700 uppercase font-semibold text-[11px] tracking-wider sticky top-0 z-10 border-b border-slate-200 shadow-2xs">
               <tr>
-                <th class="py-2.5 px-3 border border-[#DCD3C4] w-24">Subeixo</th>
-                <th class="py-2.5 px-2 border border-[#DCD3C4] w-16 text-center">ID</th>
-                <th class="py-2.5 px-3 border border-[#DCD3C4] w-64 min-w-[220px]">Empreendimento</th>
-                <th class="py-2.5 px-2.5 border border-[#DCD3C4] w-40">Processo</th>
-                <th class="py-2.5 px-2 border border-[#DCD3C4] w-28 text-center" title="Data do Termo de Referência emitido pelo IBAMA">Data TR Geral</th>
-                <th class="py-2.5 px-2 border border-[#DCD3C4] w-28 text-center" title="Data do Termo de Referência Específico FUNAI">Data TR FUNAI</th>
-                <th class="py-2.5 px-2 border border-[#DCD3C4] w-28 text-center" title="Data do Termo de Referência Específico INCRA">Data TR INCRA</th>
-                <th class="py-2.5 px-2.5 border border-[#DCD3C4] min-w-[190px] bg-amber-50/30">Licença Prévia</th>
-                <th class="py-2.5 px-2.5 border border-[#DCD3C4] min-w-[220px] bg-emerald-50/30">Licença de Instalação</th>
-                <th class="py-2.5 px-2.5 border border-[#DCD3C4] min-w-[190px] bg-blue-50/30">Licença de Operação</th>
-                <th class="py-2.5 px-2 text-center w-14 border border-[#DCD3C4]">Ações</th>
+                <th class="py-3 px-3.5 border-b border-slate-200 w-28">Subeixo</th>
+                <th class="py-3 px-2 border-b border-slate-200 w-16 text-center">ID</th>
+                <th class="py-3 px-3.5 border-b border-slate-200 w-64 min-w-[220px]">Empreendimento</th>
+                <th class="py-3 px-3 border-b border-slate-200 w-44">Processo</th>
+                <th class="py-3 px-2.5 border-b border-slate-200 w-28 text-center" title="Data do Termo de Referência emitido pelo IBAMA">Data TR Geral</th>
+                <th class="py-3 px-2.5 border-b border-slate-200 w-28 text-center" title="Data do Termo de Referência Específico FUNAI">Data TR FUNAI</th>
+                <th class="py-3 px-2.5 border-b border-slate-200 w-28 text-center" title="Data do Termo de Referência Específico INCRA">Data TR INCRA</th>
+                <th class="py-3 px-3 border-b border-slate-200 min-w-[200px] bg-rose-50/40 text-rose-900 font-bold">Licença Prévia</th>
+                <th class="py-3 px-3 border-b border-slate-200 min-w-[230px] bg-emerald-50/40 text-emerald-900 font-bold">Licença de Instalação</th>
+                <th class="py-3 px-3 border-b border-slate-200 min-w-[200px] bg-blue-50/40 text-blue-900 font-bold">Licença de Operação</th>
+                <th class="py-3 px-2 text-center w-14 border-b border-slate-200">Ações</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-200 bg-[#FFFFFF]" id="tbodyMaster"></tbody>
+            <tbody class="divide-y divide-slate-300 bg-[#FFFFFF]" id="tbodyMaster"></tbody>
           </table>
         </div>
       </div>
@@ -638,9 +795,9 @@
 
     <!-- 2. VIEW PROVIDÊNCIAS & PRAZOS (GESTÃO OPERACIONAL DIÁRIA) -->
     <div id="viewTasks" class="view-content hidden">
-      <div class="bg-[#FFFFFF] rounded-xl border border-[#E8E1D5] shadow-2xs overflow-hidden">
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
         
-        <div class="px-4 py-3 bg-[#FAF7F2] border-b border-[#E8E1D5] flex flex-wrap items-center justify-between gap-2">
+        <div class="px-5 py-3.5 bg-slate-50/95 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
           <div class="flex items-center space-x-2">
             <h2 class="font-bold text-slate-800 text-sm">2. Gestão Operacional: Providências, Checklist e Prazos com Intervenientes</h2>
             <span class="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-mono font-bold" id="tasksRowCount">77 processos</span>
@@ -651,21 +808,21 @@
         </div>
 
         <div class="overflow-x-auto max-h-[calc(100vh-280px)] overflow-y-auto">
-          <table class="w-full text-left text-xs border-collapse divide-y divide-slate-200" id="tableTasks">
-            <thead class="bg-[#F5EFE6] text-slate-800 uppercase font-bold text-[11px] sticky top-0 z-10 shadow-2xs">
+          <table class="w-full text-left text-xs border-collapse divide-y divide-slate-300" id="tableTasks">
+            <thead class="bg-slate-50/95 backdrop-blur-xs text-slate-700 uppercase font-semibold text-[11px] tracking-wider sticky top-0 z-10 border-b border-slate-200 shadow-2xs">
               <tr>
-                <th class="py-2.5 px-3 border border-[#DCD3C4] w-24">Subeixo</th>
-                <th class="py-2.5 px-2 border border-[#DCD3C4] w-16 text-center">ID</th>
-                <th class="py-2.5 px-3 border border-[#DCD3C4] w-64 min-w-[220px]">Empreendimento</th>
-                <th class="py-2.5 px-3 border border-[#DCD3C4] w-56 min-w-[200px]">Licença</th>
-                <th class="py-2.5 px-3 border border-[#DCD3C4] min-w-[280px]">Comentários Detalhados</th>
-                <th class="py-2.5 px-3 border border-[#DCD3C4] min-w-[380px] bg-emerald-50/30">Providência(s) & Checklist</th>
-                <th class="py-2.5 px-2.5 border border-[#DCD3C4] w-32 text-center">Pendência</th>
-                <th class="py-2.5 px-2.5 border border-[#DCD3C4] w-24 text-center">Modificado em</th>
-                <th class="py-2.5 px-2 text-center w-14 border border-[#DCD3C4]">Ações</th>
+                <th class="py-3 px-3.5 border-b border-slate-200 w-28">Subeixo</th>
+                <th class="py-3 px-2 border-b border-slate-200 w-16 text-center">ID</th>
+                <th class="py-3 px-3.5 border-b border-slate-200 w-64 min-w-[220px]">Empreendimento</th>
+                <th class="py-3 px-3 border-b border-slate-200 w-60 min-w-[220px]">Licença Vigente</th>
+                <th class="py-3 px-3.5 border-b border-slate-200 min-w-[280px]">Comentários Detalhados</th>
+                <th class="py-3 px-3.5 border-b border-slate-200 min-w-[380px] bg-emerald-50/30">Providência(s) & Checklist</th>
+                <th class="py-3 px-3 border-b border-slate-200 w-36 text-center">Pendência</th>
+                <th class="py-3 px-2.5 border-b border-slate-200 w-28 text-center">Modificado em</th>
+                <th class="py-3 px-2 text-center w-14 border-b border-slate-200">Ações</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-200 bg-[#FFFFFF]" id="tbodyTasks"></tbody>
+            <tbody class="divide-y divide-slate-300 bg-[#FFFFFF]" id="tbodyTasks"></tbody>
           </table>
         </div>
       </div>
@@ -709,10 +866,10 @@
           <p class="text-[11px] text-slate-500 mt-1">Estudos e análises dentro do cronograma</p>
         </div>
 
-        <div class="bg-[#FFFFFF] p-4 rounded-xl border border-[#E8E1D5] shadow-2xs">
+        <div class="bg-[#FFFFFF] p-4 rounded-xl border border-slate-200 shadow-2xs">
           <div class="flex items-center justify-between">
             <span class="text-xs font-semibold text-slate-600 uppercase">Prazo a Definir</span>
-            <span class="p-2 bg-[#F5EFE6] text-slate-700 rounded-lg">
+            <span class="p-2 bg-slate-100 text-slate-700 rounded-lg">
               <svg width="16" height="16"  class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
             </span>
           </div>
@@ -722,12 +879,12 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="bg-[#FFFFFF] p-5 rounded-xl border border-[#E8E1D5] shadow-2xs">
+        <div class="bg-[#FFFFFF] p-5 rounded-xl border border-slate-200 shadow-2xs">
           <h3 class="font-bold text-slate-800 text-sm mb-3">Pendências por Órgão Interveniente</h3>
           <div class="space-y-3" id="agencyBreakdownList"></div>
         </div>
 
-        <div class="lg:col-span-2 bg-[#FFFFFF] p-5 rounded-xl border border-[#E8E1D5] shadow-2xs">
+        <div class="lg:col-span-2 bg-[#FFFFFF] p-5 rounded-xl border border-slate-200 shadow-2xs">
           <div class="flex items-center justify-between mb-4">
             <h3 class="font-bold text-slate-800 text-sm">Próximos Marcos e Prazos Críticos de Intervenientes</h3>
             <span class="text-xs text-slate-500">Ordenados por criticidade</span>
@@ -739,8 +896,8 @@
 
     <!-- VIEW 4: HISTÓRICO DE PROVIDÊNCIAS REALIZADAS -->
     <div id="viewHistory" class="view-content hidden">
-      <div class="bg-[#FFFFFF] rounded-xl border border-[#E8E1D5] shadow-2xs overflow-hidden p-6">
-        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#E8E1D5] pb-5 mb-5">
+      <div class="bg-[#FFFFFF] rounded-xl border border-slate-200 shadow-2xs overflow-hidden p-6">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-5 mb-5">
           <div>
             <h2 class="font-extrabold text-slate-900 text-base flex items-center gap-2">
               <span class="p-2 bg-emerald-100 text-emerald-800 rounded-lg">
@@ -761,12 +918,12 @@
           </div>
         </div>
 
-        <div class="bg-[#FAF7F2] p-3 rounded-lg border border-[#E8E1D5] mb-4 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 mb-4 flex flex-wrap items-center justify-between gap-3 text-xs">
           <div class="flex items-center flex-1 min-w-[220px]">
-            <input type="text" id="historySearchInput" placeholder="Filtrar histórico por ação, empreendimento ou órgão..." class="w-full p-1.5 px-3 bg-[#FFFFFF] border border-[#DCD3C4] rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs">
+            <input type="text" id="historySearchInput" placeholder="Filtrar histórico por ação, empreendimento ou órgão..." class="w-full p-1.5 px-3 bg-[#FFFFFF] border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs">
           </div>
           <div class="flex items-center gap-2">
-            <select id="historyFilterDesempenho" class="bg-[#FFFFFF] border border-[#DCD3C4] text-slate-700 py-1.5 px-2.5 rounded-md font-medium text-xs">
+            <select id="historyFilterDesempenho" class="bg-[#FFFFFF] border border-slate-300 text-slate-700 py-1.5 px-2.5 rounded-md font-medium text-xs">
               <option value="ALL">Todos os Desempenhos</option>
               <option value="antecedencia">🟢 Com Antecedência</option>
               <option value="no_prazo">🟢 No Prazo Exato</option>
@@ -777,15 +934,15 @@
         </div>
 
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border border-[#E8E1D5] border-collapse" id="tableHistory">
-            <thead class="bg-[#F5EFE6] text-slate-800 font-bold text-[11px] border-b border-[#DCD3C4]">
+          <table class="w-full text-left text-xs border border-slate-200 border-collapse" id="tableHistory">
+            <thead class="bg-slate-50/95 backdrop-blur-xs text-slate-700 uppercase font-semibold text-[11px] tracking-wider border-b border-slate-200 shadow-2xs">
               <tr>
-                <th class="py-2.5 px-3 border border-[#E8E1D5] w-52">Empreendimento</th>
-                <th class="py-2.5 px-3 border border-[#E8E1D5] min-w-[320px]">Providência Realizada</th>
-                <th class="py-2.5 px-2.5 border border-[#E8E1D5] w-28 text-center">Responsável</th>
-                <th class="py-2.5 px-2.5 border border-[#E8E1D5] w-28 text-center">Prazo Original</th>
-                <th class="py-2.5 px-2.5 border border-[#E8E1D5] w-28 text-center bg-emerald-50/50">Data de Realização</th>
-                <th class="py-2.5 px-3 border border-[#E8E1D5] w-44 text-center">Desvio / Desempenho</th>
+                <th class="py-3 px-3.5 border-b border-slate-200 w-52">Empreendimento</th>
+                <th class="py-3 px-3.5 border-b border-slate-200 min-w-[320px]">Providência Realizada</th>
+                <th class="py-2.5 px-2.5 border border-slate-200 w-28 text-center">Responsável</th>
+                <th class="py-2.5 px-2.5 border border-slate-200 w-28 text-center">Prazo Original</th>
+                <th class="py-2.5 px-2.5 border border-slate-200 w-28 text-center bg-emerald-50/50">Data de Realização</th>
+                <th class="py-3 px-3.5 border-b border-slate-200 w-44 text-center">Desvio / Desempenho</th>
                 <th class="py-2.5 px-2 text-center w-24">Ação</th>
               </tr>
             </thead>
@@ -799,7 +956,7 @@
 
   <!-- MODAL: DAR BAIXA EM PROVIDÊNCIA -->
   <div id="completeTaskModal" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-[#FFFFFF] rounded-2xl max-w-lg w-full shadow-2xl border border-[#E8E1D5] overflow-hidden">
+    <div class="bg-[#FFFFFF] rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
       
       <div class="px-6 py-4 bg-emerald-600 text-white flex items-center justify-between">
         <div class="flex items-center space-x-2 font-bold text-sm">
@@ -818,7 +975,7 @@
           <div class="font-bold text-slate-800 text-xs mt-0.5" id="completeProjectName">-</div>
         </div>
 
-        <div class="p-3 bg-[#FAF7F2] border border-[#E8E1D5] rounded-lg">
+        <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg">
           <div class="flex items-center justify-between gap-2 mb-1">
             <span class="font-bold text-slate-700" id="completeAgencyBadge">-</span>
             <span class="text-slate-500 font-mono text-[11px]" id="completeOriginalDeadline">-</span>
@@ -829,7 +986,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Data de Realização Efetiva:</label>
-            <input type="date" id="completeInputDate" class="w-full p-2 bg-[#FAF7F2] border border-[#DCD3C4] rounded-lg text-xs font-semibold focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+            <input type="date" id="completeInputDate" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-emerald-500 focus:outline-none">
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Cálculo de Desvio:</label>
@@ -841,11 +998,11 @@
 
         <div>
           <label class="block font-semibold text-slate-700 mb-1">Observações da Conclusão (Opcional):</label>
-          <input type="text" id="completeObs" placeholder="Ex: Protocolado sob número SEI 02001..." class="w-full p-2 bg-[#FAF7F2] border border-[#DCD3C4] rounded-lg text-xs">
+          <input type="text" id="completeObs" placeholder="Ex: Protocolado sob número SEI 02001..." class="w-full p-2 bg-slate-50 border border-slate-300 rounded-lg text-xs">
         </div>
 
-        <div class="flex items-center justify-end space-x-2 pt-4 border-t border-[#E8E1D5]">
-          <button type="button" id="btnCancelCompleteModal" class="px-4 py-2 rounded-lg border border-[#DCD3C4] text-slate-600 font-semibold hover:bg-[#FAF7F2]">Cancelar</button>
+        <div class="flex items-center justify-end space-x-2 pt-4 border-t border-slate-200">
+          <button type="button" id="btnCancelCompleteModal" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 font-semibold hover:bg-slate-50">Cancelar</button>
           <button type="button" id="btnConfirmCompleteTask" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700 flex items-center gap-1.5 shadow-sm">
             <svg width="16" height="16"  class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             Confirmar e Arquivar no Histórico
@@ -859,7 +1016,7 @@
 
     <!-- MODAL: NOVO PROCESSO / EMPREENDIMENTO -->
   <div id="newProjectModal" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-[#FFFFFF] rounded-2xl max-w-lg w-full shadow-2xl border border-[#E8E1D5] overflow-hidden">
+    <div class="bg-[#FFFFFF] rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden">
       
       <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
         <div class="flex items-center space-x-2 font-bold text-sm">
@@ -873,7 +1030,7 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Subeixo:</label>
-            <select id="newSubeixo" class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2] font-medium">
+            <select id="newSubeixo" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50 font-medium">
               <option value="Rodovias">Rodovias</option>
               <option value="Ferrovias">Ferrovias</option>
               <option value="Hidrovias">Hidrovias</option>
@@ -887,23 +1044,23 @@
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">ID (Código PAC):</label>
-            <input type="text" id="newIdCode" placeholder="Ex: 2046 ou S/N" required class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2]">
+            <input type="text" id="newIdCode" placeholder="Ex: 2046 ou S/N" required class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
           </div>
         </div>
 
         <div>
           <label class="block font-semibold text-slate-700 mb-1">Nome do Empreendimento:</label>
-          <input type="text" id="newEmpreendimento" placeholder="Ex: BR-101/SC - Obras Complementares" required class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2] font-semibold">
+          <input type="text" id="newEmpreendimento" placeholder="Ex: BR-101/SC - Obras Complementares" required class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50 font-semibold">
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Nº do Processo:</label>
-            <input type="text" id="newProcesso" placeholder="Ex: 02001.001234/2026-11" class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2] font-mono">
+            <input type="text" id="newProcesso" placeholder="Ex: 02001.001234/2026-11" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50 font-mono">
           </div>
           <div>
             <label class="block font-semibold text-slate-700 mb-1">Situação da Licença:</label>
-            <select id="newStatusLicenca" class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2] font-medium">
+            <select id="newStatusLicenca" class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50 font-medium">
               <option value="Sem Licença Prévia">Sem Licença Prévia</option>
               <option value="Com Licença Prévia">Com Licença Prévia (LP)</option>
               <option value="Com Licença de Instalação">Com Licença de Instalação (LI)</option>
@@ -914,21 +1071,21 @@
 
         <div>
           <label class="block font-semibold text-slate-700 mb-1">Riscos e Oportunidades (Síntese Executiva):</label>
-          <textarea id="newRiscos" rows="2" placeholder="Síntese para apresentação a diretores e ministros..." class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2]"></textarea>
+          <textarea id="newRiscos" rows="2" placeholder="Síntese para apresentação a diretores e ministros..." class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50"></textarea>
         </div>
 
         <div>
           <label class="block font-semibold text-slate-700 mb-1">Comentários Técnicos Detalhados:</label>
-          <textarea id="newComentarios" rows="2" placeholder="Detalhes do andamento e histórico do licenciamento..." class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2]"></textarea>
+          <textarea id="newComentarios" rows="2" placeholder="Detalhes do andamento e histórico do licenciamento..." class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50"></textarea>
         </div>
 
         <div>
           <label class="block font-semibold text-slate-700 mb-1">Providência Inicial (Opcional):</label>
-          <input type="text" id="newProvidencia" placeholder="Ex: DNIT apresentar complementações ao IBAMA..." class="w-full border border-[#DCD3C4] rounded-lg p-2 bg-[#FAF7F2]">
+          <input type="text" id="newProvidencia" placeholder="Ex: DNIT apresentar complementações ao IBAMA..." class="w-full border border-slate-300 rounded-lg p-2 bg-slate-50">
         </div>
 
-        <div class="flex items-center justify-end space-x-2 pt-4 border-t border-[#E8E1D5]">
-          <button type="button" id="btnCancelNewModal" class="px-4 py-2 rounded-lg border border-[#DCD3C4] text-slate-600 font-semibold hover:bg-[#FAF7F2]">Cancelar</button>
+        <div class="flex items-center justify-end space-x-2 pt-4 border-t border-slate-200">
+          <button type="button" id="btnCancelNewModal" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 font-semibold hover:bg-slate-50">Cancelar</button>
           <button type="submit" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700 flex items-center gap-1.5 shadow-sm">
             <svg width="16" height="16"  class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
             Salvar Processo
@@ -1252,7 +1409,7 @@
     ];
 
     function parseProvidenciasToTasks(text) {
-      if (!text || text.trim() === "" || /sem providências|concluído|não/i.test(text.trim())) return [];
+      if (!text || text.trim() === "" || /sem providências|concluído|concluída|em operação|sem informação/i.test(text.trim())) return [];
       
       let rawLines = text.split("\n");
       let lines = [];
@@ -4058,18 +4215,146 @@
     ];
 
     // STORAGE V17 (Removed prioritario mentions)
-    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V17";
+    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V23";
     const HISTORY_KEY = "LICENCAS_PAC_FULL_HISTORY_V12";
     const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('licencas_pac_channel_v6') : null;
+
+    const KNOWN_AGENCY_RULES = [
+      { name: "IBAMA", rx: /\b(IBAMA|CENEAC|DILIC|COHID|COTRA)\b/i },
+      { name: "FUNAI", rx: /\b(FUNAI|DIDEM)\b/i },
+      { name: "INCRA", rx: /\bINCRA\b/i },
+      { name: "IPHAN", rx: /\bIPHAN\b/i },
+      { name: "ICMBio", rx: /\bICMBio\b/i },
+      { name: "DNIT", rx: /\bDNIT\b/i },
+      { name: "INFRA", rx: /\b(INFRA|VALEC)\b/i },
+      { name: "MPOR", rx: /\bMPOR\b/i },
+      { name: "APS", rx: /\bAPS\b/i },
+      { name: "NESA", rx: /\bNESA\b/i },
+      { name: "Petrobras", rx: /\b(Petrobras|Petrobrás)\b/i },
+      { name: "FEMARH", rx: /\b(FEMARH|FERMARH)\b/i },
+      { name: "SETRANS/PI", rx: /\b(SETRANS|DER\/PI)\b/i },
+      { name: "INEMA/BA", rx: /\bINEMA\b/i },
+      { name: "DNOCS", rx: /\bDNOCS\b/i },
+      { name: "FCP", rx: /\b(FCP|Palmares)\b/i },
+      { name: "SEPPI/CC/PR", rx: /\b(SEPPI|SEPAC|CC\/PR|Casa Civil)\b/i },
+      { name: "Empreendedor", rx: /\b(TLSA|Concessionária|Concessionaria|Empreendedor|Eletrobrás|Eletrobras|GATE|DPW|Rumo)\b/i }
+    ];
+
+    function extractAgenciesFromText(text) {
+      if (!text || typeof text !== 'string') return [];
+      const matched = [];
+      KNOWN_AGENCY_RULES.forEach(r => {
+        if (r.rx.test(text)) matched.push(r.name);
+      });
+      return matched;
+    }
+
+    function extractAgenciesFromProject(project) {
+      if (!project) return "Nenhuma";
+      const tasks = project.providencias_list || [];
+
+      // If structured tasks exist
+      if (tasks.length > 0) {
+        const openTasks = tasks.filter(t => !t.concluida);
+        if (openTasks.length === 0) return "Concluído";
+
+        const found = new Set();
+        openTasks.forEach(t => {
+          if (t.responsavel && t.responsavel !== "Outro" && t.responsavel !== "A definir" && t.responsavel.trim() !== "") {
+            found.add(t.responsavel.trim());
+          }
+          const inDesc = extractAgenciesFromText(t.descricao || "");
+          inDesc.forEach(a => found.add(a));
+        });
+
+        if (found.size > 0) {
+          return Array.from(found).join(", ");
+        }
+      }
+
+      // If no open tasks, check raw providencias and existing pendencia
+      const provText = (project.providencias || "").trim();
+      if (project.pendencia === "Concluído" || project.pendencia === "Concluido" || /concluído|concluída|em operação/i.test(provText)) {
+        return "Concluído";
+      }
+
+      if (!provText || /sem providências|não há pendências|nenhuma|sem informação/i.test(provText)) {
+        return "Nenhuma";
+      }
+
+      const scanned = extractAgenciesFromText(provText);
+      if (scanned.length > 0) {
+        return scanned.join(", ");
+      }
+
+      return project.pendencia || "Nenhuma";
+    }
+
+    function extractAgenciesFromTasks(tasks) {
+      return extractAgenciesFromProject({ providencias_list: tasks });
+    }
+
+    function syncProjectProvidenciasText(project) {
+      if (!project) return;
+      const tasks = project.providencias_list || [];
+      const openTasks = tasks.filter(t => !t.concluida);
+      if (openTasks.length === 0) {
+        project.providencias = "Sem providências pendentes.";
+      } else {
+        project.providencias = openTasks.map(t => `${t.responsavel}: ${t.descricao} (prazo: ${t.prazo})`).join("\n");
+      }
+      project.pendencia = extractAgenciesFromProject(project);
+      project.modificado_em = getTodayFormatted();
+    }
+
+    function getAgencyBadgeColor(agency) {
+      if (!agency) return "bg-slate-100 text-slate-800 border-slate-300";
+      const a = agency.toUpperCase();
+      if (a.includes("IBAMA") || a.includes("CENEAC") || a.includes("DILIC")) return "bg-blue-100 text-blue-800 border-blue-200";
+      if (a.includes("FUNAI")) return "bg-emerald-100 text-emerald-800 border-emerald-200";
+      if (a.includes("INCRA")) return "bg-purple-100 text-purple-800 border-purple-200";
+      if (a.includes("IPHAN")) return "bg-amber-100 text-amber-800 border-amber-200";
+      if (a.includes("ICMBIO")) return "bg-teal-100 text-teal-800 border-teal-200";
+      if (a.includes("DNIT")) return "bg-slate-100 text-slate-800 border-slate-300";
+      if (a.includes("INFRA") || a.includes("VALEC")) return "bg-indigo-100 text-indigo-800 border-indigo-200";
+      if (a.includes("MPOR")) return "bg-sky-100 text-sky-800 border-sky-300 font-bold";
+      if (a.includes("APS")) return "bg-blue-100 text-blue-900 border-blue-300 font-bold";
+      if (a.includes("NESA")) return "bg-orange-100 text-orange-900 border-orange-300 font-bold";
+      if (a.includes("PETROBRAS")) return "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold";
+      if (a.includes("FEMARH") || a.includes("FERMARH")) return "bg-rose-100 text-rose-800 border-rose-200";
+      if (a.includes("SETRANS") || a.includes("DER/PI")) return "bg-cyan-100 text-cyan-800 border-cyan-200";
+      if (a.includes("INEMA")) return "bg-fuchsia-100 text-fuchsia-800 border-fuchsia-200";
+      if (a.includes("DNOCS")) return "bg-slate-100 text-slate-800 border-slate-300";
+      if (a.includes("FCP") || a.includes("PALMARES")) return "bg-yellow-100 text-yellow-900 border-yellow-300";
+      if (a.includes("SEPPI") || a.includes("SEPAC") || a.includes("CC/PR")) return "bg-lime-100 text-lime-900 border-lime-300";
+      if (a.includes("EMPREENDEDOR") || a.includes("TLSA") || a.includes("CONCESSION")) return "bg-orange-100 text-orange-800 border-orange-200";
+      return "bg-slate-100 text-slate-800 border-slate-300";
+    }
+
+    function renderAgencyBadges(pendenciaStr) {
+      if (!pendenciaStr || pendenciaStr.trim() === "" || pendenciaStr === "Nenhuma" || pendenciaStr === "-") {
+        return `<span class="inline-block px-2 py-0.5 rounded bg-slate-100 text-slate-500 border border-slate-200 text-[10px] font-medium font-mono">Nenhuma</span>`;
+      }
+      if (pendenciaStr === "Concluído" || pendenciaStr === "Concluido") {
+        return `<span class="inline-block px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold text-[10px] shadow-2xs">✓ Concluído</span>`;
+      }
+      const list = pendenciaStr.split(",").map(s => s.trim()).filter(Boolean);
+      return `
+        <div class="flex flex-wrap items-center justify-center gap-1">
+          ${list.map(agency => {
+            const badgeClass = getAgencyBadgeColor(agency);
+            return `<span class="pendencia-agency-badge inline-block px-1.5 py-0.5 rounded font-bold text-[10px] border shadow-2xs ${badgeClass} cursor-pointer hover:opacity-80 transition-opacity" data-agency="${agency}" title="Filtrar por ${agency}">${agency}</span>`;
+          }).join('')}
+        </div>
+      `;
+    }
 
     function ensureProjectIntegrity(p) {
       if (!p) return;
       if (!p.providencias_list || p.providencias_list.length === 0) {
         p.providencias_list = parseProvidenciasToTasks(p.providencias || '', p.id);
       }
-      if (!p.pendencia || p.pendencia === "Nenhuma" || p.pendencia === "nil") {
-        p.pendencia = extractAgenciesFromTasks(p.providencias_list);
-      }
+      p.pendencia = extractAgenciesFromProject(p);
       if (!p.modificado_em) {
         p.modificado_em = "28/08/2026";
       }
@@ -4086,7 +4371,7 @@
     function loadData() {
       try {
         // Clear older version caches to guarantee fresh database
-        ["LICENCAS_PAC_FULL_DATABASE_V16", "LICENCAS_PAC_FULL_DATABASE_V15", "LICENCAS_PAC_FULL_DATABASE_V14", "LICENCAS_PAC_FULL_DATABASE_V13", "LICENCAS_PAC_FULL_DATABASE_V12", "LICENCAS_PAC_FULL_DATABASE_V11"].forEach(k => {
+        ["LICENCAS_PAC_FULL_DATABASE_V20", "LICENCAS_PAC_FULL_DATABASE_V19", "LICENCAS_PAC_FULL_DATABASE_V18", "LICENCAS_PAC_FULL_DATABASE_V17", "LICENCAS_PAC_FULL_DATABASE_V16", "LICENCAS_PAC_FULL_DATABASE_V15", "LICENCAS_PAC_FULL_DATABASE_V14", "LICENCAS_PAC_FULL_DATABASE_V13", "LICENCAS_PAC_FULL_DATABASE_V12", "LICENCAS_PAC_FULL_DATABASE_V11"].forEach(k => {
           try { localStorage.removeItem(k); } catch(e) {}
         });
 
@@ -4186,49 +4471,7 @@
       return `${day}/${month}/${year}`;
     }
 
-    function extractAgenciesFromTasks(tasks) {
-      if (!tasks || tasks.length === 0) return "Nenhuma";
-      const openTasks = tasks.filter(t => !t.concluida);
-      if (openTasks.length === 0) return "Concluído";
-      const agencies = [...new Set(openTasks.map(t => t.responsavel))];
-      return agencies.join(", ");
-    }
-
-    function syncProjectProvidenciasText(project) {
-      if (!project) return;
-      const tasks = project.providencias_list || [];
-      const openTasks = tasks.filter(t => !t.concluida);
-      if (openTasks.length === 0) {
-        project.providencias = "Sem providências pendentes.";
-      } else {
-        project.providencias = openTasks.map(t => `${t.responsavel}: ${t.descricao} (prazo: ${t.prazo})`).join("\n");
-      }
-      project.pendencia = extractAgenciesFromTasks(tasks);
-      project.modificado_em = getTodayFormatted();
-    }
-
-    function getAgencyBadgeColor(agency) {
-      const map = {
-        "IBAMA": "bg-blue-100 text-blue-800 border-blue-200",
-        "FUNAI": "bg-emerald-100 text-emerald-800 border-emerald-200",
-        "INCRA": "bg-purple-100 text-purple-800 border-purple-200",
-        "IPHAN": "bg-amber-100 text-amber-800 border-amber-200",
-        "ICMBIO": "bg-teal-100 text-teal-800 border-teal-200",
-        "DNIT": "bg-[#F5EFE6] text-slate-800 border-[#DCD3C4]",
-        "INFRA": "bg-indigo-100 text-indigo-800 border-indigo-200",
-        "MPOR": "bg-sky-100 text-sky-800 border-sky-300 font-bold",
-        "APS": "bg-blue-100 text-blue-900 border-blue-300 font-bold",
-        "NESA": "bg-orange-100 text-orange-900 border-orange-300 font-bold",
-        "Petrobras": "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold",
-        "FEMARH": "bg-rose-100 text-rose-800 border-rose-200",
-        "SETRANS/PI": "bg-cyan-100 text-cyan-800 border-cyan-200",
-        "INEMA/BA": "bg-fuchsia-100 text-fuchsia-800 border-fuchsia-200",
-        "SEPPI/CC/PR": "bg-lime-100 text-lime-900 border-lime-300",
-        "Empreendedor": "bg-orange-100 text-orange-800 border-orange-200"
-      };
-      return map[agency] || "bg-[#F5EFE6] text-slate-800 border-[#DCD3C4]";
-    }
-
+    
     function getDeadlineBadge(prazo, pid, tid) {
       const isUndefined = !prazo || prazo.toLowerCase().includes("definir") || prazo.toLowerCase().includes("sem prazo");
 
@@ -4307,7 +4550,14 @@
         }
         if (filters.subeixo !== "ALL" && item.subeixo !== filters.subeixo) return false;
         if (filters.status !== "ALL" && item.status_licenca !== filters.status) return false;
-        if (filters.orgao !== "ALL" && (!item.pendencia || !item.pendencia.toUpperCase().includes(filters.orgao.toUpperCase()))) return false;
+        if (filters.orgao !== "ALL") {
+          if (filters.orgao === "Nenhuma") {
+            const isConcl = !item.pendencia || item.pendencia === "Nenhuma" || /concluído|concluido/i.test(item.pendencia);
+            if (!isConcl) return false;
+          } else {
+            if (!item.pendencia || !item.pendencia.toUpperCase().includes(filters.orgao.toUpperCase())) return false;
+          }
+        }
         return true;
       });
     }
@@ -4381,27 +4631,345 @@
     }
 
         function getLicenseStatusBadge(status) {
-      let bgStyle = "bg-[#FFE4E6] text-black border-[#FDA4AF]"; // Rosa claro padrão para Sem LP
+      let badgeClass = "bg-rose-50 text-rose-800 border-rose-200/90";
+      let dotColor = "bg-rose-500";
+      let label = status || 'Sem Licença Prévia';
+
       if (status === "Com Licença Prévia") {
-        bgStyle = "bg-[#FEF9C3] text-black border-[#FDE047]"; // Amarelo claro
+        badgeClass = "bg-amber-50 text-amber-800 border-amber-200/90";
+        dotColor = "bg-amber-500";
       } else if (status === "Com Licença de Instalação") {
-        bgStyle = "bg-[#DCFCE7] text-black border-[#86EFAC]"; // Verde claro
+        badgeClass = "bg-emerald-50 text-emerald-800 border-emerald-200/90";
+        dotColor = "bg-emerald-500";
       } else if (status === "Com Licença de Operação") {
-        bgStyle = "bg-[#DBEAFE] text-black border-[#93C5FD]"; // Azul claro
+        badgeClass = "bg-blue-50 text-blue-800 border-blue-200/90";
+        dotColor = "bg-blue-500";
       }
 
       return `
-        <div class="flex flex-wrap items-center gap-1.5 mt-1">
-          <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold border ${bgStyle} shadow-2xs">
-            ${status || 'Sem Licença Prévia'}
+        <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+          <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold border ${badgeClass} shadow-2xs">
+            <span class="w-1.5 h-1.5 rounded-full ${dotColor} shrink-0"></span>
+            <span>${label}</span>
           </span>
         </div>
       `;
     }
 
+    // =========================================================================
+    // RICH VISUAL DATAGRID COMPONENTS (NOTION / LINEAR / ASANA STYLE)
+    // =========================================================================
+
+    function renderLicenseChip(text, url, fieldType) {
+      if (!text || typeof text !== 'string' || text.trim() === "" || text.trim() === "-" || text.trim() === "#NAME?" || text.trim() === "nil") {
+        return `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium text-slate-400 bg-slate-50 border border-slate-200/60"><span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>Não emitida</span>`;
+      }
+
+      const rawLines = text.split(/\n+/).map(l => l.trim()).filter(Boolean);
+      if (rawLines.length === 0) {
+        return `<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium text-slate-400 bg-slate-50 border border-slate-200/60"><span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>Não emitida</span>`;
+      }
+
+      const type = (fieldType || '').toLowerCase();
+
+      return `
+        <div class="flex flex-col gap-1.5 items-start">
+          ${rawLines.map(line => {
+            const formatted = formatLicenseExtenso(line, fieldType);
+            const lLower = formatted.toLowerCase();
+
+            // Determinação de cor estrita conforme especificação:
+            // Licença Prévia (LP) -> Vermelha
+            // Licença de Instalação (LI) -> Verde
+            // Licença de Operação (LO) -> Azul
+            let chipClass = "bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100";
+            let iconColor = "text-emerald-600";
+
+            if (type === 'lp' || lLower.includes('prévia') || lLower.includes('previa') || lLower.startsWith('lp')) {
+              chipClass = "bg-rose-50 text-rose-800 border-rose-200 hover:bg-rose-100";
+              iconColor = "text-rose-600";
+            } else if (type === 'lo' || lLower.includes('operação') || lLower.includes('operacao') || lLower.startsWith('lo')) {
+              chipClass = "bg-blue-50 text-blue-800 border-blue-200 hover:bg-blue-100";
+              iconColor = "text-blue-600";
+            } else {
+              chipClass = "bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100";
+              iconColor = "text-emerald-600";
+            }
+
+            // Exceções de status operacional (bloqueado/em análise/dispensada)
+            const isBlocked = /bloquead|indeferid|suspens|vencid|cancelad/i.test(lLower);
+            const isReview = /em análise|em analise|solicitad|requerid|em tramitação|em tramitacao|avaliação|avaliacao/i.test(lLower);
+            const isExempt = /isenta|dispensad|não se aplica|nao se aplica/i.test(lLower);
+
+            let iconSvg = `<svg class="w-3.5 h-3.5 ${iconColor} shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>`;
+
+            if (isBlocked) {
+              chipClass = "bg-rose-100/80 text-rose-900 border-rose-300 hover:bg-rose-200";
+              iconSvg = `<svg class="w-3.5 h-3.5 text-rose-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>`;
+            } else if (isReview) {
+              chipClass = "bg-amber-50 text-amber-800 border-amber-200 hover:bg-amber-100";
+              iconSvg = `<svg class="w-3.5 h-3.5 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
+            } else if (isExempt) {
+              chipClass = "bg-sky-50 text-sky-800 border-sky-200 hover:bg-sky-100";
+              iconSvg = `<svg class="w-3.5 h-3.5 text-sky-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
+            }
+
+            const hasUrl = url && url.startsWith("http");
+
+            return `
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs border shadow-2xs transition-all max-w-full ${chipClass} group/lic">
+                ${iconSvg}
+                <span class="font-semibold select-text leading-snug break-words">${formatted}</span>
+                ${hasUrl ? `
+                  <a href="${url}" target="_blank" rel="noopener noreferrer" class="ml-1 p-0.5 rounded hover:bg-white/80 transition-colors text-current shrink-0" title="Abrir documento oficial da licença">
+                    <svg class="w-3.5 h-3.5 opacity-70 group-hover/lic:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  </a>
+                ` : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function renderProcessoCell(processo, url) {
+      if (!processo || processo.trim() === "" || processo.trim() === "-") {
+        return `<span class="text-slate-300 font-mono text-xs">-</span>`;
+      }
+      const cleanProc = processo.trim();
+      const hasUrl = url && url.startsWith("http");
+
+      if (hasUrl) {
+        return `
+          <a href="${url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-[11px] font-mono font-medium bg-blue-50/80 text-blue-800 border border-blue-200/70 hover:bg-blue-100 hover:text-blue-950 hover:border-blue-300 transition-all shadow-2xs group/link" title="Abrir processo no SEI">
+            <svg class="w-3 h-3 text-blue-500 group-hover/link:text-blue-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <span class="truncate max-w-[170px] select-text">${cleanProc}</span>
+            <svg class="w-2.5 h-2.5 text-blue-400 group-hover/link:text-blue-700 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+        `;
+      }
+      return `
+        <span class="inline-flex items-center gap-1 text-[11px] font-mono text-slate-700 select-text">
+          <svg class="w-3 h-3 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          ${cleanProc}
+        </span>
+      `;
+    }
+
+    function renderTrCell(trVal, url) {
+      if (!trVal || trVal.trim() === "" || trVal.trim() === "-") {
+        return `<span class="text-slate-300 font-mono text-xs">-</span>`;
+      }
+      const cleanDate = formatExcelSerialDate(trVal);
+      const hasUrl = url && url.startsWith("http");
+
+      if (hasUrl) {
+        return `
+          <a href="${url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100 hover:text-slate-900 transition-all shadow-2xs group/tr" title="Abrir Termo de Referência">
+            <svg class="w-3 h-3 text-slate-400 group-hover/tr:text-slate-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span class="select-text">${cleanDate}</span>
+            <svg class="w-2.5 h-2.5 text-slate-400 group-hover/tr:text-slate-600 shrink-0 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+        `;
+      }
+      return `
+        <span class="inline-flex items-center gap-1 text-[11px] text-slate-700 font-medium select-text">
+          <svg class="w-3 h-3 text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          ${cleanDate}
+        </span>
+      `;
+    }
+
+    let executiveDonutChart = null;
+
+    function renderExecutiveDashboard(customData) {
+      const container = document.getElementById("execDashboardContainer");
+      if (!container) return;
+
+      const currentData = (customData && customData.length > 0) ? customData : projectsData;
+      const totalAll = currentData.length;
+      const liCount = currentData.filter(p => p.status_licenca === "Com Licença de Instalação").length;
+      const loCount = currentData.filter(p => p.status_licenca === "Com Licença de Operação").length;
+      const lpCount = currentData.filter(p => p.status_licenca === "Com Licença Prévia").length;
+      const semLpCount = currentData.filter(p => p.status_licenca === "Sem Licença Prévia" || !p.status_licenca).length;
+      const liLoTotal = liCount + loCount;
+
+      const liLoPct = totalAll ? ((liLoTotal / totalAll) * 100).toFixed(1) : "0.0";
+      const lpPct = totalAll ? ((lpCount / totalAll) * 100).toFixed(1) : "0.0";
+      const semLpPct = totalAll ? ((semLpCount / totalAll) * 100).toFixed(1) : "0.0";
+
+      // 1. Update Hero Cards
+      safeSetText("execCardTotal", totalAll);
+      safeSetText("execCardLiLo", liLoTotal);
+      safeSetText("execCardLiLoPct", `${liLoPct}%`);
+      const liLoBar = document.getElementById("execCardLiLoBar");
+      if (liLoBar) liLoBar.style.width = `${liLoPct}%`;
+
+      safeSetText("execCardLp", lpCount);
+      safeSetText("execCardLpPct", `${lpPct}%`);
+      const lpBar = document.getElementById("execCardLpBar");
+      if (lpBar) lpBar.style.width = `${lpPct}%`;
+
+      safeSetText("execCardSemLp", semLpCount);
+      safeSetText("execCardSemLpPct", `${semLpPct}%`);
+      const semLpBar = document.getElementById("execCardSemLpBar");
+      if (semLpBar) semLpBar.style.width = `${semLpPct}%`;
+
+      safeSetText("execChartTotalLabel", `${totalAll} obras`);
+
+      // 2. Render Donut Legend
+      const legendContainer = document.getElementById("execLicencasLegend");
+      if (legendContainer) {
+        const items = [
+          { label: "Com Licença de Instalação (LI)", count: liCount, color: "#10B981", bg: "bg-emerald-500", status: "Com Licença de Instalação" },
+          { label: "Com Licença de Operação (LO)", count: loCount, color: "#3B82F6", bg: "bg-blue-500", status: "Com Licença de Operação" },
+          { label: "Com Licença Prévia (LP)", count: lpCount, color: "#F59E0B", bg: "bg-amber-500", status: "Com Licença Prévia" },
+          { label: "Sem Licença Prévia", count: semLpCount, color: "#EF4444", bg: "bg-rose-500", status: "Sem Licença Prévia" }
+        ];
+
+        legendContainer.innerHTML = items.map(it => {
+          const pct = totalAll ? ((it.count / totalAll) * 100).toFixed(1) : "0.0";
+          return `
+            <div class="flex items-center justify-between p-1 rounded hover:bg-slate-50 cursor-pointer transition-colors group/leg" onclick="applyLicenseStatusFilter('${it.status}')" title="Filtrar por ${it.label}">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full ${it.bg} shrink-0 shadow-2xs"></span>
+                <span class="text-[11px] font-medium text-slate-700 group-hover/leg:text-slate-900 group-hover/leg:underline">${it.label}</span>
+              </div>
+              <div class="flex items-center gap-1.5 font-mono text-[11px]">
+                <span class="font-bold text-slate-900">${it.count}</span>
+                <span class="text-slate-400">(${pct}%)</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // 3. Render Stacked Progress Bar
+      const stackedBar = document.getElementById("execStackedProgressBar");
+      if (stackedBar && totalAll) {
+        const liPct = ((liCount / totalAll) * 100).toFixed(1);
+        const loPct = ((loCount / totalAll) * 100).toFixed(1);
+        const lpSegmentPct = ((lpCount / totalAll) * 100).toFixed(1);
+        const semLpSegmentPct = ((semLpCount / totalAll) * 100).toFixed(1);
+
+        stackedBar.innerHTML = `
+          <div style="width: ${liPct}%" class="bg-emerald-500 h-full rounded-l-full transition-all duration-500" title="LI: ${liCount} obras (${liPct}%)"></div>
+          <div style="width: ${loPct}%" class="bg-blue-500 h-full transition-all duration-500" title="LO: ${loCount} obras (${loPct}%)"></div>
+          <div style="width: ${lpSegmentPct}%" class="bg-amber-500 h-full transition-all duration-500" title="LP: ${lpCount} obras (${lpSegmentPct}%)"></div>
+          <div style="width: ${semLpSegmentPct}%" class="bg-rose-500 h-full rounded-r-full transition-all duration-500" title="Sem LP: ${semLpCount} obras (${semLpSegmentPct}%)"></div>
+        `;
+      }
+
+      // 4. Initialize or update Chart.js Donut
+      const canvas = document.getElementById("chartLicencasCanvas");
+      if (canvas && typeof Chart !== 'undefined') {
+        try {
+          if (executiveDonutChart) {
+            executiveDonutChart.destroy();
+          }
+          const ctx = canvas.getContext("2d");
+          executiveDonutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+              labels: ['Com LI', 'Com LO', 'Com LP', 'Sem LP'],
+              datasets: [{
+                data: [liCount, loCount, lpCount, semLpCount],
+                backgroundColor: ['#10B981', '#3B82F6', '#F59E0B', '#EF4444'],
+                hoverBackgroundColor: ['#059669', '#2563EB', '#D97706', '#DC2626'],
+                borderWidth: 2,
+                borderColor: '#FFFFFF'
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              cutout: '72%',
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  callbacks: {
+                    label: function(context) {
+                      const val = context.raw || 0;
+                      const pct = totalAll ? ((val / totalAll) * 100).toFixed(1) : 0;
+                      return ` ${context.label}: ${val} obras (${pct}%)`;
+                    }
+                  }
+                }
+              }
+            }
+          });
+        } catch(e) {
+          console.warn("Chart.js render error:", e);
+        }
+      }
+
+      // 5. Render Horizontal Bars of Agencies with Active Pendencias
+      const agenciesContainer = document.getElementById("execAgenciesBarsContainer");
+      if (agenciesContainer) {
+        const agencyCounts = {};
+        currentData.forEach(p => {
+          const pend = extractAgenciesFromProject(p);
+          if (pend && pend !== "Concluído" && pend !== "Concluido" && pend !== "Nenhuma" && pend !== "-") {
+            const list = pend.split(",").map(s => s.trim()).filter(Boolean);
+            list.forEach(a => {
+              agencyCounts[a] = (agencyCounts[a] || 0) + 1;
+            });
+          }
+        });
+
+        const sortedAgencies = Object.entries(agencyCounts).sort((a, b) => b[1] - a[1]);
+        const maxAgencyCount = sortedAgencies.length > 0 ? sortedAgencies[0][1] : 1;
+
+        if (sortedAgencies.length === 0) {
+          agenciesContainer.innerHTML = `<p class="text-xs text-slate-400 italic py-3 text-center">Nenhuma pendência de interveniente em aberto no momento.</p>`;
+        } else {
+          const displayAgencies = sortedAgencies.slice(0, 8);
+          agenciesContainer.innerHTML = displayAgencies.map(([agency, count]) => {
+            const widthPct = Math.max(8, ((count / maxAgencyCount) * 100).toFixed(0));
+            const totalPct = totalAll ? ((count / totalAll) * 100).toFixed(1) : "0.0";
+            const badgeClass = getAgencyBadgeColor(agency);
+
+            return `
+              <div class="flex items-center gap-2 group/agency cursor-pointer hover:opacity-90 transition-opacity" onclick="applyAgencyFilter('${agency}')" title="Clique para filtrar por ${agency}">
+                <div class="w-28 shrink-0 flex items-center justify-start">
+                  <span class="pendencia-agency-badge inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-bold text-[10px] border shadow-2xs ${badgeClass}">
+                    <span class="w-1.5 h-1.5 rounded-full bg-current opacity-60"></span>
+                    ${agency}
+                  </span>
+                </div>
+                <div class="flex-1 bg-slate-100 rounded-full h-2.5 overflow-hidden p-0.5">
+                  <div class="bg-blue-600 h-full rounded-full transition-all duration-500 group-hover/agency:bg-blue-700" style="width: ${widthPct}%"></div>
+                </div>
+                <div class="w-20 shrink-0 text-right font-mono text-[11px]">
+                  <span class="font-bold text-slate-900">${count}</span>
+                  <span class="text-slate-400 text-[10px]"> (${totalPct}%)</span>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+      }
+    }
+
+    function applyLicenseStatusFilter(status) {
+      filters.status = status;
+      const el = document.getElementById("filterStatus");
+      if (el) el.value = status;
+      renderAll();
+    }
+
+    function applyAgencyFilter(agency) {
+      filters.orgao = agency;
+      const el = document.getElementById("filterOrgao");
+      if (el) el.value = agency;
+      renderAll();
+    }
+
+
     function renderExecutiveTable() {
       const tbodyExecutive = document.getElementById("tbodyExecutive");
       const data = getFilteredData();
+      renderExecutiveDashboard(data);
 
       if (data.length === 0) {
         tbodyExecutive.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400">Nenhum processo encontrado.</td></tr>`;
@@ -4413,28 +4981,28 @@
         const l_map = mappedLicenseLinks[item.id] || {};
         const processoUrl = item.processo_url || l_map.processo;
 
-        let bgRow = "hover:bg-[#FAF7F2]";
+        let bgRow = "hover:bg-slate-50";
 
         return `
-          <tr class="${bgRow} border-b border-[#DCD3C4]" data-id="${item.id}">
-            <td class="py-2.5 px-2.5 border border-[#DCD3C4] font-semibold text-black text-xs">${item.subeixo || ''}</td>
-            <td class="py-2.5 px-2 border border-[#DCD3C4] text-center font-mono text-black text-xs font-semibold">${item.id_code || ''}</td>
-            <td class="py-2.5 px-3 border border-[#DCD3C4]">
-              <div class="text-black font-bold text-xs leading-snug select-text">${item.empreendimento}</div>
+          <tr class="hover:bg-slate-50/90 transition-colors group border-b border-slate-300" data-id="${item.id}">
+            <td class="py-3.5 px-3.5 border-b border-slate-300 font-semibold text-slate-800 text-xs">${item.subeixo || ''}</td>
+            <td class="py-3.5 px-2 border-b border-slate-300 text-center font-mono text-slate-700 text-xs font-semibold">${item.id_code || ''}</td>
+            <td class="py-3.5 px-3.5 border-b border-slate-300">
+              <div class="text-slate-900 font-bold text-xs leading-snug select-text">${item.empreendimento}</div>
               ${getLicenseStatusBadge(item.status_licenca)}
-              ${item.processo ? `<div class="mt-1">${renderOriginalCellWithLink(item.processo, processoUrl, 'processo')}</div>` : ''}
+              ${item.processo ? `<div class="mt-1.5">${renderProcessoCell(item.processo, processoUrl)}</div>` : ''}
             </td>
-            <td class="py-2.5 px-3 border border-[#DCD3C4] bg-amber-50/20 text-black font-medium text-xs leading-relaxed editable-cell" data-field="riscos_oportunidades" data-idx="${rawIndex}">
-              ${item.riscos_oportunidades ? `<p class="leading-relaxed select-text text-black">${item.riscos_oportunidades}</p>` : '<span class="text-slate-400 italic">Sem riscos informados</span>'}
+            <td class="py-3.5 px-3.5 border-b border-slate-300 bg-amber-50/15 editable-cell" data-field="riscos_oportunidades" data-idx="${rawIndex}">
+              ${item.riscos_oportunidades ? `<div class="p-2 rounded-lg bg-amber-50/80 border border-amber-200/60 text-amber-950 text-xs leading-relaxed select-text font-medium">${item.riscos_oportunidades}</div>` : '<span class="text-slate-400 italic text-[11px]">Sem riscos informados</span>'}
             </td>
-            <td class="py-2.5 px-3 border border-[#DCD3C4] text-black whitespace-pre-line text-xs leading-relaxed editable-cell" data-field="comentarios" data-idx="${rawIndex}">
-              ${item.comentarios || ''}
+            <td class="py-3.5 px-3.5 border-b border-slate-300 text-slate-700 whitespace-pre-line text-xs leading-relaxed editable-cell min-w-[260px]" data-field="comentarios" data-idx="${rawIndex}">
+              ${item.comentarios || '<span class="text-slate-400 italic text-[11px]">Nenhum comentário</span>'}
             </td>
-            <td class="py-2.5 px-3 border border-[#DCD3C4] text-black whitespace-pre-line text-xs leading-relaxed editable-cell" data-field="providencias_exec" data-idx="${rawIndex}">
-              ${item.providencias_exec || item.providencias ? `<p class="leading-relaxed select-text text-black">${item.providencias_exec || item.providencias}</p>` : '<span class="text-slate-400 italic">Sem providências informadas</span>'}
+            <td class="py-3.5 px-3.5 border-b border-slate-300 text-slate-700 whitespace-pre-line text-xs leading-relaxed editable-cell min-w-[280px]" data-field="providencias_exec" data-idx="${rawIndex}">
+              ${item.providencias_exec || item.providencias ? `<p class="leading-relaxed select-text text-slate-800">${item.providencias_exec || item.providencias}</p>` : '<span class="text-slate-400 italic text-[11px]">Sem providências informadas</span>'}
             </td>
-            <td class="py-2.5 px-2.5 border border-[#DCD3C4] font-bold text-black text-xs text-center">
-              <span class="inline-block px-2 py-0.5 rounded bg-[#F5EFE6] border border-[#DCD3C4] font-mono text-[10px] text-black">${item.pendencia || 'Nenhuma'}</span>
+            <td class="py-3.5 px-3 border-b border-slate-300 text-center font-bold text-xs">
+              ${renderAgencyBadges(extractAgenciesFromProject(item))}
             </td>
           </tr>
         `;
@@ -4475,39 +5043,39 @@
         const liUrl = item.li_url || l_map.li;
         const loUrl = item.lo_url || l_map.lo;
 
-        const rowBg = "hover:bg-[#FAF7F2]";
+        const rowBg = "hover:bg-slate-50";
 
         return `
-          <tr class="${rowBg} transition-colors group border-b border-[#DCD3C4]" data-id="${item.id}">
-            <td class="py-2.5 px-3 border border-[#DCD3C4] font-semibold text-black text-xs">${item.subeixo || ''}</td>
-            <td class="py-2.5 px-2 border border-[#DCD3C4] text-center font-mono text-black text-xs font-semibold">${item.id_code || ''}</td>
-            <td class="py-2.5 px-3 border border-[#DCD3C4] editable-cell" data-field="empreendimento" data-idx="${rawIndex}">
-              <div class="text-black font-bold text-xs leading-snug select-text">${item.empreendimento}</div>
+          <tr class="hover:bg-slate-50/90 transition-colors group border-b border-slate-300" data-id="${item.id}">
+            <td class="py-3 px-3.5 border-b border-slate-300 font-semibold text-slate-800 text-xs">${item.subeixo || ''}</td>
+            <td class="py-3 px-2 border-b border-slate-300 text-center font-mono text-slate-700 text-xs font-semibold">${item.id_code || ''}</td>
+            <td class="py-3 px-3.5 border-b border-slate-300 editable-cell" data-field="empreendimento" data-idx="${rawIndex}">
+              <div class="text-slate-900 font-bold text-xs leading-snug select-text">${item.empreendimento}</div>
               ${getLicenseStatusBadge(item.status_licenca)}
             </td>
-            <td class="py-2.5 px-2.5 border border-[#DCD3C4] text-[11px] editable-cell" data-field="processo" data-idx="${rawIndex}">
-              ${renderOriginalCellWithLink(item.processo, processoUrl, 'processo')}
+            <td class="py-3 px-3 border-b border-slate-300 text-[11px] editable-cell" data-field="processo" data-idx="${rawIndex}">
+              ${renderProcessoCell(item.processo, processoUrl)}
             </td>
-            <td class="py-2.5 px-2 border border-[#DCD3C4] text-center text-[11px] editable-cell" data-field="tr_geral" data-idx="${rawIndex}">
-              ${renderOriginalCellWithLink(item.tr_geral, trUrl, 'text')}
+            <td class="py-3 px-2 border-b border-slate-300 text-center text-[11px] editable-cell" data-field="tr_geral" data-idx="${rawIndex}">
+              ${renderTrCell(item.tr_geral, trUrl)}
             </td>
-            <td class="py-2.5 px-2 border border-[#DCD3C4] text-center text-[11px] editable-cell" data-field="tr_funai" data-idx="${rawIndex}">
-              ${renderOriginalCellWithLink(item.tr_funai, item.tr_funai_url, 'text')}
+            <td class="py-3 px-2 border-b border-slate-300 text-center text-[11px] editable-cell" data-field="tr_funai" data-idx="${rawIndex}">
+              ${renderTrCell(item.tr_funai, item.tr_funai_url)}
             </td>
-            <td class="py-2.5 px-2 border border-[#DCD3C4] text-center text-[11px] editable-cell" data-field="tr_incra" data-idx="${rawIndex}">
-              ${renderOriginalCellWithLink(item.tr_incra, item.tr_incra_url, 'text')}
+            <td class="py-3 px-2 border-b border-slate-300 text-center text-[11px] editable-cell" data-field="tr_incra" data-idx="${rawIndex}">
+              ${renderTrCell(item.tr_incra, item.tr_incra_url)}
             </td>
-            <td class="py-2.5 px-2 border border-[#DCD3C4] text-[11px] editable-cell bg-amber-50/10" data-field="lp" data-idx="${rawIndex}">
-              ${renderOriginalCellWithLink(formatLicenseExtenso(item.lp, 'lp'), lpUrl, 'lp')}
+            <td class="py-3 px-3 border-b border-slate-300 text-[11px] editable-cell bg-rose-50/15" data-field="lp" data-idx="${rawIndex}">
+              ${renderLicenseChip(item.lp, lpUrl, 'lp')}
             </td>
-            <td class="py-2.5 px-2 border border-[#DCD3C4] text-[11px] editable-cell bg-emerald-50/10" data-field="li" data-idx="${rawIndex}">
-              ${renderOriginalCellWithLink(formatLicenseExtenso(item.li, 'li'), liUrl, 'li')}
+            <td class="py-3 px-3 border-b border-slate-300 text-[11px] editable-cell bg-emerald-50/15" data-field="li" data-idx="${rawIndex}">
+              ${renderLicenseChip(item.li, liUrl, 'li')}
             </td>
-            <td class="py-2.5 px-2 border border-[#DCD3C4] text-[11px] editable-cell bg-blue-50/10" data-field="lo" data-idx="${rawIndex}">
-              ${renderOriginalCellWithLink(formatLicenseExtenso(item.lo, 'lo'), loUrl, 'lo')}
+            <td class="py-3 px-3 border-b border-slate-300 text-[11px] editable-cell bg-blue-50/15" data-field="lo" data-idx="${rawIndex}">
+              ${renderLicenseChip(item.lo, loUrl, 'lo')}
             </td>
-            <td class="py-2.5 px-2 text-center border border-[#DCD3C4]">
-              <button class="btn-delete-row p-1 text-slate-400 hover:text-red-600 rounded hover:bg-[#F5EFE6]" data-idx="${rawIndex}" title="Excluir Processo">
+            <td class="py-3 px-2 text-center border-b border-slate-300">
+              <button class="btn-delete-row p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors" data-idx="${rawIndex}" title="Excluir Processo">
                 <svg width="14" height="14" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
               </button>
             </td>
@@ -4520,41 +5088,16 @@
 
 function getLastIssuedLicenseHtml(item) {
       const l_map = (typeof mappedLicenseLinks !== 'undefined' && mappedLicenseLinks[item.id]) ? mappedLicenseLinks[item.id] : {};
-      let licText = "";
-      let licUrl = "";
-      let bgStyle = "";
 
       if (item.lo && item.lo.trim() !== "" && item.lo.trim() !== "-") {
-        licText = formatLicenseExtenso(item.lo, 'lo');
-        licUrl = item.lo_url || l_map.lo;
-        bgStyle = "bg-[#DBEAFE] text-black border-[#93C5FD]"; // Azul claro
+        return renderLicenseChip(item.lo, item.lo_url || l_map.lo, 'lo');
       } else if (item.li && item.li.trim() !== "" && item.li.trim() !== "-") {
-        licText = formatLicenseExtenso(item.li, 'li');
-        licUrl = item.li_url || l_map.li;
-        bgStyle = "bg-[#DCFCE7] text-black border-[#86EFAC]"; // Verde claro
+        return renderLicenseChip(item.li, item.li_url || l_map.li, 'li');
       } else if (item.lp && item.lp.trim() !== "" && item.lp.trim() !== "-") {
-        licText = formatLicenseExtenso(item.lp, 'lp');
-        licUrl = item.lp_url || l_map.lp;
-        bgStyle = "bg-[#FEF9C3] text-black border-[#FDE047]"; // Amarelo claro
-      } else {
-        licText = "Sem Licença Emitida";
-        bgStyle = "bg-[#FFE4E6] text-black border-[#FDA4AF]"; // Rosa claro
+        return renderLicenseChip(item.lp, item.lp_url || l_map.lp, 'lp');
       }
 
-      if (licUrl && licUrl.startsWith("http")) {
-        return `
-          <a href="${licUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-bold border ${bgStyle} shadow-2xs hover:opacity-90 transition-all group" title="Clique para abrir o documento oficial no SEI">
-            <span class="leading-snug select-text">${licText}</span>
-            <svg width="12" height="12" class="w-3 h-3 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all text-slate-700 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-          </a>
-        `;
-      }
-
-      return `
-        <span class="inline-flex items-center px-2.5 py-1 rounded text-xs font-bold border ${bgStyle} shadow-2xs select-text">
-          ${licText}
-        </span>
-      `;
+      return `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-200 shadow-2xs"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>Sem Licença Emitida</span>`;
     }
 
     function renderTasksTable() {
@@ -4581,30 +5124,30 @@ function getLastIssuedLicenseHtml(item) {
 
       tbodyTasks.innerHTML = data.map((item) => {
         const rawIndex = projectsData.findIndex(p => p.id === item.id);
-        const rowBg = "hover:bg-[#FAF7F2]";
+        const rowBg = "hover:bg-slate-50";
 
         return `
-          <tr class="${rowBg} transition-colors group border-b border-[#DCD3C4]" data-id="${item.id}">
-            <td class="py-2.5 px-3 border border-[#DCD3C4] font-semibold text-black text-xs">${item.subeixo || ''}</td>
-            <td class="py-2.5 px-2 border border-[#DCD3C4] text-center font-mono text-black text-xs font-semibold">${item.id_code || ''}</td>
-            <td class="py-2.5 px-3 border border-[#DCD3C4] editable-cell" data-field="empreendimento" data-idx="${rawIndex}">
-              <div class="text-black font-bold text-xs leading-snug select-text">${item.empreendimento}</div>
+          <tr class="hover:bg-slate-50/90 transition-colors group border-b border-slate-300" data-id="${item.id}">
+            <td class="py-3 px-3.5 border-b border-slate-300 font-semibold text-slate-800 text-xs">${item.subeixo || ''}</td>
+            <td class="py-3 px-2 border-b border-slate-300 text-center font-mono text-slate-700 text-xs font-semibold">${item.id_code || ''}</td>
+            <td class="py-3 px-3.5 border-b border-slate-300 editable-cell" data-field="empreendimento" data-idx="${rawIndex}">
+              <div class="text-slate-900 font-bold text-xs leading-snug select-text">${item.empreendimento}</div>
             </td>
-            <td class="py-2.5 px-3 border border-[#DCD3C4] text-left">
+            <td class="py-3 px-3 border-b border-slate-300 text-left">
               ${getLastIssuedLicenseHtml(item)}
             </td>
-            <td class="py-2.5 px-3 border border-[#DCD3C4] text-black whitespace-pre-line text-[11px] leading-relaxed editable-cell min-w-[280px]" data-field="comentarios" data-idx="${rawIndex}">
-              ${item.comentarios || ''}
+            <td class="py-3 px-3.5 border-b border-slate-300 text-slate-700 whitespace-pre-line text-xs leading-relaxed editable-cell min-w-[280px]" data-field="comentarios" data-idx="${rawIndex}">
+              ${item.comentarios || '<span class="text-slate-400 italic text-[11px]">Nenhum comentário</span>'}
             </td>
-            <td class="py-2.5 px-3 border border-[#DCD3C4] bg-emerald-50/10 min-w-[380px]">
+            <td class="py-3 px-3.5 border-b border-slate-300 bg-emerald-50/15 min-w-[380px]">
               ${renderTasksChecklist(item)}
             </td>
-            <td class="py-2.5 px-2.5 border border-[#DCD3C4] font-bold text-black text-xs text-center">
-              <span class="inline-block px-2 py-0.5 rounded bg-[#F5EFE6] border border-[#DCD3C4] font-mono text-[10px] text-black">${item.pendencia || 'Nenhuma'}</span>
+            <td class="py-3 px-3 border-b border-slate-300 text-center font-bold text-xs">
+              ${renderAgencyBadges(extractAgenciesFromProject(item))}
             </td>
-            <td class="py-2.5 px-2.5 border border-[#DCD3C4] text-center font-mono text-xs text-slate-600">${item.modificado_em || '-'}</td>
-            <td class="py-2.5 px-2 text-center border border-[#DCD3C4]">
-              <button class="btn-delete-row p-1 text-slate-400 hover:text-red-600 rounded hover:bg-[#F5EFE6]" data-idx="${rawIndex}" title="Excluir Processo">
+            <td class="py-3 px-2.5 border-b border-slate-300 text-center font-mono text-xs text-slate-500">${item.modificado_em || '-'}</td>
+            <td class="py-3 px-2 text-center border-b border-slate-300">
+              <button class="btn-delete-row p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors" data-idx="${rawIndex}" title="Excluir Processo">
                 <svg width="14" height="14" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
               </button>
             </td>
@@ -4646,28 +5189,28 @@ function getLastIssuedLicenseHtml(item) {
         } else if (item.status_desempenho === "atraso" || (item.dias_diferenca && item.dias_diferenca < 0)) {
           diffBadge = `<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-red-100 text-red-800 border border-red-300">🔴 ${Math.abs(item.dias_diferenca)} dias de atraso</span>`;
         } else {
-          diffBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs text-slate-600 bg-[#F5EFE6]">⚪ Sem prazo fixo</span>`;
+          diffBadge = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs text-slate-600 bg-slate-100">⚪ Sem prazo fixo</span>`;
         }
 
         const agencyColor = getAgencyBadgeColor(item.responsavel);
 
         return `
-          <tr class="hover:bg-[#FAF7F2] transition-colors">
-            <td class="py-3 px-3 border border-[#E8E1D5] font-semibold text-slate-900 text-xs">
+          <tr class="hover:bg-slate-50 transition-colors">
+            <td class="py-3 px-3 border border-slate-200 font-semibold text-slate-900 text-xs">
               <div>${item.empreendimento}</div>
               <span class="text-[10px] text-slate-400 font-normal">${item.subeixo || ''}</span>
             </td>
-            <td class="py-3 px-3 border border-[#E8E1D5] text-slate-700 text-xs leading-relaxed">
+            <td class="py-3 px-3 border border-slate-200 text-slate-700 text-xs leading-relaxed">
               <p class="font-medium">${item.descricao}</p>
               ${item.observacoes ? `<p class="text-[11px] text-slate-500 mt-1 italic font-sans">Obs: ${item.observacoes}</p>` : ''}
             </td>
-            <td class="py-3 px-2.5 border border-[#E8E1D5] text-center">
+            <td class="py-3 px-2.5 border border-slate-200 text-center">
               <span class="px-2 py-0.5 rounded font-bold text-[10px] border ${agencyColor}">${item.responsavel}</span>
             </td>
-            <td class="py-3 px-2.5 border border-[#E8E1D5] text-center font-mono text-xs text-slate-600">${item.prazo_original || 'a definir'}</td>
-            <td class="py-3 px-2.5 border border-[#E8E1D5] text-center font-mono font-bold text-emerald-800 bg-emerald-50/40 text-xs">${item.data_conclusao}</td>
-            <td class="py-3 px-3 border border-[#E8E1D5] text-center">${diffBadge}</td>
-            <td class="py-3 px-2 border border-[#E8E1D5] text-center">
+            <td class="py-3 px-2.5 border border-slate-200 text-center font-mono text-xs text-slate-600">${item.prazo_original || 'a definir'}</td>
+            <td class="py-3 px-2.5 border border-slate-200 text-center font-mono font-bold text-emerald-800 bg-emerald-50/40 text-xs">${item.data_conclusao}</td>
+            <td class="py-3 px-3 border border-slate-200 text-center">${diffBadge}</td>
+            <td class="py-3 px-2 border border-slate-200 text-center">
               <button class="btn-reopen-task text-[11px] font-semibold text-amber-700 hover:text-amber-900 hover:underline bg-amber-50 px-2 py-1 rounded border border-amber-200 cursor-pointer" data-hid="${item.id}" title="Desmarcar e retornar para pendente">
                 ↩ Reabrir
               </button>
@@ -4712,7 +5255,7 @@ function getLastIssuedLicenseHtml(item) {
               <span>${agency}</span>
               <span class="font-mono text-slate-500">${count} processos (${pct}%)</span>
             </div>
-            <div class="w-full bg-[#F5EFE6] rounded-full h-2 overflow-hidden">
+            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
               <div class="bg-blue-600 h-2 rounded-full" style="width: ${pct}%"></div>
             </div>
           </div>
@@ -4729,10 +5272,10 @@ function getLastIssuedLicenseHtml(item) {
         let badge = item.status_prazo === "vencido" ? `<span class="bg-red-100 text-red-700 font-bold px-2 py-0.5 rounded text-[10px] border border-red-200">Vencido (${item.prazo_critico})</span>` :
           item.status_prazo === "atencao" ? `<span class="bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded text-[10px] border border-amber-200">Atenção (${item.prazo_critico})</span>` :
           item.status_prazo === "no_prazo" ? `<span class="bg-emerald-100 text-emerald-800 font-medium px-2 py-0.5 rounded text-[10px]">No Prazo (${item.prazo_critico})</span>` :
-          `<span class="bg-[#F5EFE6] text-slate-600 font-medium px-2 py-0.5 rounded text-[10px]">A Definir</span>`;
+          `<span class="bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded text-[10px]">A Definir</span>`;
 
         return `
-          <div class="p-3 bg-[#FAF7F2] border border-[#E8E1D5] rounded-lg hover:border-[#DCD3C4] transition-colors">
+          <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg hover:border-slate-300 transition-colors">
             <div class="flex items-center justify-between gap-2 mb-1">
               <span class="font-bold text-slate-800 text-xs">${item.empreendimento}</span>
               ${badge}
@@ -4936,10 +5479,10 @@ function getLastIssuedLicenseHtml(item) {
     }
 
     function attachTableEvents() {
-      document.querySelectorAll(".pendencia-badge").forEach(badge => {
+      document.querySelectorAll(".pendencia-agency-badge, .pendencia-badge").forEach(badge => {
         badge.addEventListener("click", function(e) {
           e.stopPropagation();
-          const pend = this.getAttribute("data-pend");
+          const pend = this.getAttribute("data-agency") || this.getAttribute("data-pend");
           if (!pend) return;
           const firstAgency = pend.split(",")[0].trim();
           filters.orgao = firstAgency;
@@ -5107,7 +5650,7 @@ function getLastIssuedLicenseHtml(item) {
         previewEl.className = "p-2 rounded-lg border text-xs font-bold flex items-center justify-center h-[38px] bg-red-50 text-red-800 border-red-300";
         previewEl.textContent = `🔴 Concluído com ${Math.abs(res.diffDays)} dias de atraso`;
       } else {
-        previewEl.className = "p-2 rounded-lg border text-xs font-bold flex items-center justify-center h-[38px] bg-[#FAF7F2] text-slate-700 border-[#DCD3C4]";
+        previewEl.className = "p-2 rounded-lg border text-xs font-bold flex items-center justify-center h-[38px] bg-slate-50 text-slate-700 border-slate-300";
         previewEl.textContent = `⚪ Providência sem prazo prévio`;
       }
     }
@@ -5186,9 +5729,9 @@ function getLastIssuedLicenseHtml(item) {
       currentView = viewName;
       document.querySelectorAll(".tab-btn").forEach(btn => {
         if (btn.getAttribute("data-view") === viewName) {
-          btn.className = "tab-btn px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-800 bg-[#FFFFFF] shadow-sm border border-[#E8E1D5] transition-all flex items-center gap-1.5 cursor-pointer";
+          btn.className = "tab-btn px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-900 bg-white shadow-xs border border-slate-200/80 transition-all flex items-center gap-1.5 cursor-pointer";
         } else {
-          btn.className = "tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-slate-900 transition-all flex items-center gap-1.5 cursor-pointer";
+          btn.className = "tab-btn px-3.5 py-1.5 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-white/60 transition-all flex items-center gap-1.5 cursor-pointer";
         }
       });
 
@@ -5469,7 +6012,7 @@ function getLastIssuedLicenseHtml(item) {
 
       container.innerHTML = transversalRisks.map((risk, idx) => {
         return `
-          <div class="p-3 bg-[#FFFFFF] rounded-lg border border-[#E8E1D5] shadow-2xs relative group/risk hover:border-red-300 transition-all flex flex-col justify-between" data-id="${risk.id}">
+          <div class="p-3 bg-[#FFFFFF] rounded-lg border border-slate-200 shadow-2xs relative group/risk hover:border-red-300 transition-all flex flex-col justify-between" data-id="${risk.id}">
             <div>
               <div class="flex items-start justify-between gap-2 mb-1.5">
                 <h4 class="font-bold text-slate-800 flex items-center gap-1.5 text-red-700 text-xs select-text">

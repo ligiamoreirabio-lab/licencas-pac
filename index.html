@@ -356,7 +356,11 @@
 
   </style>
   <!-- Chart.js for Executive Visual Dashboard -->
+    <!-- Chart.js for Executive Visual Dashboard -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <!-- Google Firebase App & Firestore Compat SDK (Real-time Cloud Sync) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col font-sans">
 
@@ -400,6 +404,10 @@
         <button id="btnExportCSV" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-700 hover:bg-emerald-600 text-white transition-all shadow-sm cursor-pointer" title="Exportar backup completo de todos os processos em planilha CSV (compatível com Excel)">
           <svg width="14" height="14" class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
           Exportar Backup CSV
+        </button>
+        <button id="btnCloudSync" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border border-amber-400/40 transition-all shadow-sm cursor-pointer" title="Configurar e gerenciar sincronização em nuvem em tempo real (Firebase Firestore)">
+          <span id="cloudStatusDot" class="w-2 h-2 rounded-full bg-amber-400"></span>
+          <span id="cloudSyncBtnText">Modo Local (Offline)</span>
         </button>
       </div>
 
@@ -1250,6 +1258,119 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL: SINCRONIZAÇÃO EM NUVEM (FIREBASE FIRESTORE) -->
+  <div id="modalCloudConfig" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center z-50 hidden p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden animate-fadeIn">
+      
+      <!-- Cabeçalho do Modal -->
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-sm text-white">Sincronização em Nuvem em Tempo Real</h3>
+            <p class="text-[11px] text-slate-400">Google Cloud Firestore • Acesso Simultâneo para Toda a Equipe</p>
+          </div>
+        </div>
+        <button id="btnCloseCloudModal" class="text-slate-400 hover:text-white text-lg font-bold p-1 cursor-pointer">✕</button>
+      </div>
+
+      <div class="p-6 space-y-4 text-xs max-h-[80vh] overflow-y-auto">
+
+        <!-- Status Card -->
+        <div id="cloudStatusCard" class="p-3.5 rounded-xl border border-amber-200 bg-amber-50/70 flex items-start justify-between gap-3">
+          <div class="space-y-1">
+            <div class="flex items-center gap-2">
+              <span id="cloudModalStatusBadge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full font-bold text-[11px] bg-amber-100 text-amber-800 border border-amber-300">
+                <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Desconectado (Modo Local)
+              </span>
+              <span id="cloudProjectBadge" class="text-[11px] font-mono text-slate-600 hidden"></span>
+            </div>
+            <p id="cloudStatusDescription" class="text-slate-600 text-[11px] leading-relaxed">
+              Os dados estão sendo salvos apenas na memória deste navegador (localStorage). Para que colegas de outros computadores visualizem e editem as alterações em tempo real, conecte ao Firebase Firestore abaixo.
+            </p>
+          </div>
+          <div class="text-right shrink-0">
+            <span class="text-[10px] text-slate-400 block">Última sincronização:</span>
+            <span id="cloudLastSyncTime" class="font-mono font-semibold text-slate-700 text-xs">Nunca</span>
+          </div>
+        </div>
+
+        <!-- Importador Rápido (Colar JSON / JS) -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <label class="block font-bold text-slate-800 text-xs">Importador Rápido (Cole o código do Firebase Console):</label>
+            <button type="button" id="btnToggleHelpFirebase" class="text-[11px] text-blue-600 font-semibold hover:underline cursor-pointer">📖 Ver passo a passo de como criar</button>
+          </div>
+          <div class="relative">
+            <textarea id="cloudConfigPaste" rows="3" placeholder="const firebaseConfig = { apiKey: 'AIzaSy...', authDomain: '...', projectId: '...', ... };" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-lg font-mono text-[11px] text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+            <button type="button" id="btnParseConfig" class="absolute bottom-2 right-2 px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-white rounded text-[10px] font-semibold transition-all shadow-xs cursor-pointer">
+              ⚡ Extrair e Preencher
+            </button>
+          </div>
+          <p class="text-[10px] text-slate-500">Você pode colar o objeto <code class="bg-slate-100 px-1 py-0.5 rounded text-slate-700">firebaseConfig</code> completo gerado no Console do Firebase.</p>
+        </div>
+
+        <!-- Campos Individuais -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">API Key (apiKey):</label>
+            <input type="text" id="cfgApiKey" placeholder="AIzaSy..." class="w-full p-2 bg-slate-50 border border-slate-300 rounded-lg font-mono text-[11px] text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Project ID (projectId):</label>
+            <input type="text" id="cfgProjectId" placeholder="licencas-pac-..." class="w-full p-2 bg-slate-50 border border-slate-300 rounded-lg font-mono text-[11px] text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Auth Domain (authDomain):</label>
+            <input type="text" id="cfgAuthDomain" placeholder="seu-projeto.firebaseapp.com" class="w-full p-2 bg-slate-50 border border-slate-300 rounded-lg font-mono text-[11px] text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">App ID (appId - opcional):</label>
+            <input type="text" id="cfgAppId" placeholder="1:123456789:web:..." class="w-full p-2 bg-slate-50 border border-slate-300 rounded-lg font-mono text-[11px] text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+          </div>
+        </div>
+
+        <!-- Guia Retrátil de Ajuda -->
+        <div id="cloudHelpBox" class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-2 text-[11px] text-slate-600 hidden">
+          <h4 class="font-bold text-slate-800 text-xs flex items-center gap-1.5">
+            <span>ℹ️</span> Como obter a chave no Firebase (Gratuito):
+          </h4>
+          <ol class="list-decimal list-inside space-y-1.5 pl-1 leading-relaxed">
+            <li>Acesse <a href="https://console.firebase.google.com/" target="_blank" class="text-blue-600 underline font-semibold">console.firebase.google.com</a> com sua conta Google e clique em <strong>Adicionar projeto</strong> (ex: <code>licencas-pac</code>).</li>
+            <li>No menu lateral esquerdo, clique em <strong>Cloud Firestore</strong> > <strong>Criar banco de dados</strong> > escolha a região (São Paulo ou US) e selecione <strong>Modo de Teste</strong>.</li>
+            <li>Clique na engrenagem ⚙️ (Configurações do Projeto) > aba <strong>Geral</strong> > <strong>Seus aplicativos</strong> > clique no ícone Web <strong><code>&lt;/&gt;</code></strong>.</li>
+            <li>Copie o código do <code>firebaseConfig</code> e cole na caixa acima!</li>
+          </ol>
+        </div>
+
+        <!-- Botões de Ação do Modal -->
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-slate-200">
+          <div class="flex items-center space-x-2">
+            <button type="button" id="btnDisconnectCloud" class="px-3 py-1.5 rounded-lg border border-rose-200 text-rose-700 bg-rose-50 hover:bg-rose-100 font-semibold transition-all cursor-pointer hidden">
+              Desconectar Nuvem
+            </button>
+            <button type="button" id="btnForceUpload" class="px-3 py-1.5 rounded-lg border border-slate-200 text-slate-700 bg-slate-100 hover:bg-slate-200 font-semibold transition-all cursor-pointer hidden" title="Enviar todos os processos deste computador para a nuvem">
+              ⬆️ Forçar Envio para Nuvem
+            </button>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button type="button" id="btnCancelCloudModal" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 cursor-pointer">
+              Fechar
+            </button>
+            <button type="button" id="btnSaveCloudConfig" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer">
+              <svg width="14" height="14" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Salvar e Conectar em Tempo Real
+            </button>
+          </div>
+        </div>
+
+      </div>
+
     </div>
   </div>
 
@@ -4215,7 +4336,7 @@
     ];
 
     // STORAGE V17 (Removed prioritario mentions)
-    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V23";
+    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V24";
     const HISTORY_KEY = "LICENCAS_PAC_FULL_HISTORY_V12";
     const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('licencas_pac_channel_v6') : null;
 
@@ -4404,12 +4525,21 @@
       }
     }
 
-    function saveData(broadcast = true) {
+    function saveData(broadcast = true, targetProject = null) {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(projectsData));
         localStorage.setItem(HISTORY_KEY, JSON.stringify(completedHistory));
         if (broadcast && channel) {
           channel.postMessage({ type: "DATA_UPDATED", payloadData: projectsData, payloadHistory: completedHistory, sender: "You" });
+        }
+
+        // Sincronização em Nuvem em Tempo Real (Firebase Firestore)
+        if (cloudSyncState.isConnected && firestoreDb) {
+          if (targetProject && targetProject.id) {
+            syncProjectToCloud(targetProject);
+          } else {
+            syncHistoryToCloud();
+          }
         }
       } catch (e) {
         console.error("Save storage error:", e);
@@ -5472,7 +5602,7 @@ function getLastIssuedLicenseHtml(item) {
       if (confirm(`Deseja excluir esta providência?\n"${project.providencias_list[taskIdx].descricao}"`)) {
         project.providencias_list.splice(taskIdx, 1);
         syncProjectProvidenciasText(project);
-        saveData(true);
+        saveData(true, project);
         renderAll();
         showToast("Providência excluída.", "info");
       }
@@ -5597,8 +5727,10 @@ function getLastIssuedLicenseHtml(item) {
         btn.addEventListener("click", function() {
           const idx = parseInt(this.getAttribute("data-idx"));
           if (confirm(`Tem certeza que deseja excluir o processo "${projectsData[idx].empreendimento}"?`)) {
+            const deletedProjId = projectsData[idx].id;
             projectsData.splice(idx, 1);
             saveData(true);
+            deleteProjectFromCloud(deletedProjId);
             renderAll();
             showToast("Processo removido.", "warning");
           }
@@ -5979,6 +6111,515 @@ function getLastIssuedLicenseHtml(item) {
         descricao: "A Petrobras está buscando ampliar os blocos de exploração na Bacia Sedimentar da Foz do Amazonas (margem equatorial) (algumas licenças já foram solicitadas e outras ainda serão). Entretanto, parece haver oposição do MMA a esta ampliação sem que haja a realização prévia de Avaliação Ambiental de Área Sedimentar (AAAS) para a Bacia Sedimentar."
       }
     ];
+
+    // =========================================================================
+    // MÓDULO DE SINCRONIZAÇÃO EM NUVEM EM TEMPO REAL (FIREBASE FIRESTORE)
+    // =========================================================================
+
+    // Se desejar embutir as chaves do Firebase diretamente no código para que
+    // todos os computadores acessem a nuvem automaticamente sem configurar nada:
+    const DEFAULT_FIREBASE_CONFIG = {
+      apiKey: "AIzaSyDKYUgKil8VV174XykutrJJTGKBsJIg_Sc",
+      authDomain: "licencas-pac.firebaseapp.com",
+      projectId: "licencas-pac",
+      storageBucket: "licencas-pac.firebasestorage.app",
+      messagingSenderId: "417002523935",
+      appId: "1:417002523935:web:cbbac50688dd0d5298742a",
+      measurementId: "G-QZBKBXK4X5"
+    };
+
+    const FIREBASE_CONFIG_STORAGE_KEY = "LICENCAS_PAC_FIREBASE_CONFIG";
+    let firestoreDb = null;
+    let cloudSyncState = {
+      isConnected: false,
+      isConnecting: false,
+      projectId: "",
+      lastSynced: null,
+      unsubscribeProjects: null,
+      unsubscribeHistory: null,
+      unsubscribeRisks: null,
+      isApplyingRemoteUpdate: false
+    };
+
+    function getSavedFirebaseConfig() {
+      if (DEFAULT_FIREBASE_CONFIG && DEFAULT_FIREBASE_CONFIG.apiKey && DEFAULT_FIREBASE_CONFIG.projectId) {
+        return DEFAULT_FIREBASE_CONFIG;
+      }
+      try {
+        const raw = localStorage.getItem(FIREBASE_CONFIG_STORAGE_KEY);
+        if (raw) {
+          const cfg = JSON.parse(raw);
+          if (cfg && cfg.apiKey && cfg.projectId) return cfg;
+        }
+      } catch(e) {}
+      return null;
+    }
+
+    function saveFirebaseConfigToStorage(cfg) {
+      try {
+        localStorage.setItem(FIREBASE_CONFIG_STORAGE_KEY, JSON.stringify(cfg));
+      } catch(e) {}
+    }
+
+    function removeFirebaseConfigFromStorage() {
+      try {
+        localStorage.removeItem(FIREBASE_CONFIG_STORAGE_KEY);
+      } catch(e) {}
+    }
+
+    function updateCloudSyncUI() {
+      const btn = document.getElementById("btnCloudSync");
+      const dot = document.getElementById("cloudStatusDot");
+      const text = document.getElementById("cloudSyncBtnText");
+      const badgeModal = document.getElementById("cloudModalStatusBadge");
+      const descModal = document.getElementById("cloudStatusDescription");
+      const prjBadge = document.getElementById("cloudProjectBadge");
+      const lastSync = document.getElementById("cloudLastSyncTime");
+      const btnDisconnect = document.getElementById("btnDisconnectCloud");
+      const btnForceUpload = document.getElementById("btnForceUpload");
+
+      const timeStr = cloudSyncState.lastSynced ? cloudSyncState.lastSynced.toLocaleTimeString("pt-BR") : "Nunca";
+      if (lastSync) lastSync.textContent = timeStr;
+
+      if (cloudSyncState.isConnected) {
+        if (btn) {
+          btn.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 border border-emerald-400/40 transition-all shadow-sm cursor-pointer";
+        }
+        if (dot) dot.className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
+        if (text) text.innerHTML = `<span>Nuvem Ativa</span> <span class="text-[10px] opacity-80">(Tempo Real)</span>`;
+
+        if (badgeModal) {
+          badgeModal.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full font-bold text-[11px] bg-emerald-100 text-emerald-800 border border-emerald-300";
+          badgeModal.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Conectado em Tempo Real`;
+        }
+        if (prjBadge) {
+          prjBadge.classList.remove("hidden");
+          prjBadge.textContent = `Projeto: ${cloudSyncState.projectId}`;
+        }
+        if (descModal) {
+          descModal.textContent = `Sincronização bidirecional ativa! Qualquer edição feita aqui é salva instantaneamente no Cloud Firestore e transmitida a todos os computadores da equipe.`;
+        }
+        if (btnDisconnect) btnDisconnect.classList.remove("hidden");
+        if (btnForceUpload) btnForceUpload.classList.remove("hidden");
+      } else if (cloudSyncState.isConnecting) {
+        if (btn) {
+          btn.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-400/40 transition-all shadow-sm cursor-pointer";
+        }
+        if (dot) dot.className = "w-2 h-2 rounded-full bg-blue-400 animate-ping";
+        if (text) text.textContent = "Conectando Nuvem...";
+
+        if (badgeModal) {
+          badgeModal.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full font-bold text-[11px] bg-blue-100 text-blue-800 border border-blue-300";
+          badgeModal.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping"></span> Conectando...`;
+        }
+      } else {
+        if (btn) {
+          btn.className = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border border-amber-400/40 transition-all shadow-sm cursor-pointer";
+        }
+        if (dot) dot.className = "w-2 h-2 rounded-full bg-amber-400";
+        if (text) text.textContent = "Modo Local (Offline)";
+
+        if (badgeModal) {
+          badgeModal.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full font-bold text-[11px] bg-amber-100 text-amber-800 border border-amber-300";
+          badgeModal.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Desconectado (Modo Local)`;
+        }
+        if (prjBadge) prjBadge.classList.add("hidden");
+        if (descModal) {
+          descModal.textContent = `Os dados estão sendo salvos apenas na memória deste navegador (localStorage). Para sincronizar entre todos os computadores da equipe, conecte ao Firebase Firestore abaixo.`;
+        }
+        if (btnDisconnect) btnDisconnect.classList.add("hidden");
+        if (btnForceUpload) btnForceUpload.classList.add("hidden");
+      }
+    }
+
+    function initFirebaseSync(customConfig = null) {
+      const config = customConfig || getSavedFirebaseConfig();
+
+      if (cloudSyncState.unsubscribeProjects) {
+        try { cloudSyncState.unsubscribeProjects(); } catch(e) {}
+        cloudSyncState.unsubscribeProjects = null;
+      }
+      if (cloudSyncState.unsubscribeHistory) {
+        try { cloudSyncState.unsubscribeHistory(); } catch(e) {}
+        cloudSyncState.unsubscribeHistory = null;
+      }
+      if (cloudSyncState.unsubscribeRisks) {
+        try { cloudSyncState.unsubscribeRisks(); } catch(e) {}
+        cloudSyncState.unsubscribeRisks = null;
+      }
+
+      if (!config || !config.apiKey || !config.projectId) {
+        cloudSyncState.isConnected = false;
+        cloudSyncState.isConnecting = false;
+        cloudSyncState.projectId = "";
+        firestoreDb = null;
+        updateCloudSyncUI();
+        return;
+      }
+
+      if (typeof firebase === "undefined") {
+        console.warn("Firebase SDK não carregado.");
+        cloudSyncState.isConnected = false;
+        cloudSyncState.isConnecting = false;
+        updateCloudSyncUI();
+        return;
+      }
+
+      cloudSyncState.isConnecting = true;
+      cloudSyncState.projectId = config.projectId;
+      updateCloudSyncUI();
+
+      try {
+        let app;
+        if (!firebase.apps.length) {
+          app = firebase.initializeApp(config);
+        } else {
+          app = firebase.app();
+        }
+        firestoreDb = firebase.firestore();
+
+        try {
+          firestoreDb.enablePersistence({ synchronizeTabs: true }).catch(err => {
+            // normal com múltiplas abas
+          });
+        } catch(e) {}
+
+        // 1. Escutar pac_projetos em TEMPO REAL
+        cloudSyncState.unsubscribeProjects = firestoreDb.collection("pac_projetos").onSnapshot((snapshot) => {
+          cloudSyncState.isConnecting = false;
+          cloudSyncState.isConnected = true;
+          cloudSyncState.lastSynced = new Date();
+          updateCloudSyncUI();
+
+          if (snapshot.empty) {
+            console.log("Firestore pac_projetos vazio. Executando seed inicial com 77 processos...");
+            uploadAllDataToCloud(true);
+            return;
+          }
+
+          if (cloudSyncState.isApplyingRemoteUpdate) return;
+
+          const remoteProjects = [];
+          snapshot.forEach(doc => {
+            remoteProjects.push(doc.data());
+          });
+
+          remoteProjects.forEach(p => ensureProjectIntegrity(p));
+
+          remoteProjects.sort((a, b) => {
+            const na = parseInt(a.id);
+            const nb = parseInt(b.id);
+            if (!isNaN(na) && !isNaN(nb)) return na - nb;
+            return String(a.id).localeCompare(String(b.id));
+          });
+
+          projectsData = remoteProjects;
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(projectsData));
+          } catch(e) {}
+
+          renderAll();
+          showToast(`☁️ Nuvem sincronizada em tempo real (${remoteProjects.length} processos)!`, "info");
+        }, (error) => {
+          console.error("Erro no listener pac_projetos do Firestore:", error);
+          cloudSyncState.isConnected = false;
+          cloudSyncState.isConnecting = false;
+          updateCloudSyncUI();
+          showToast(`Aviso: Erro de conexão com Firestore (${error.message || error.code})`, "warning");
+        });
+
+        // 2. Escutar histórico em tempo real
+        cloudSyncState.unsubscribeHistory = firestoreDb.collection("pac_config").doc("historico").onSnapshot((doc) => {
+          if (doc.exists) {
+            const d = doc.data();
+            if (d && Array.isArray(d.items)) {
+              completedHistory = d.items;
+              try {
+                localStorage.setItem(HISTORY_KEY, JSON.stringify(completedHistory));
+              } catch(e) {}
+              renderHistoryTable();
+              safeSetText("badgeHistoryCnt", completedHistory.length);
+            }
+          }
+        }, (err) => {
+          console.warn("Erro no listener historico:", err);
+        });
+
+        // 3. Escutar riscos transversais em tempo real
+        cloudSyncState.unsubscribeRisks = firestoreDb.collection("pac_config").doc("riscos").onSnapshot((doc) => {
+          if (doc.exists) {
+            const d = doc.data();
+            if (d && Array.isArray(d.items)) {
+              transversalRisks = d.items;
+              try {
+                localStorage.setItem(RISKS_STORAGE_KEY, JSON.stringify(transversalRisks));
+              } catch(e) {}
+              renderTransversalRisks();
+            }
+          }
+        }, (err) => {
+          console.warn("Erro no listener riscos:", err);
+        });
+
+      } catch(e) {
+        console.error("Falha ao inicializar Firebase:", e);
+        cloudSyncState.isConnected = false;
+        cloudSyncState.isConnecting = false;
+        updateCloudSyncUI();
+        showToast(`Erro ao conectar ao Firebase: ${e.message}`, "danger");
+      }
+    }
+
+    async function uploadAllDataToCloud(isInitialSeed = false) {
+      if (!firestoreDb) return;
+      cloudSyncState.isConnecting = true;
+      updateCloudSyncUI();
+
+      try {
+        const batch = firestoreDb.batch();
+        let count = 0;
+
+        projectsData.forEach(p => {
+          const cleanP = JSON.parse(JSON.stringify(p));
+          const ref = firestoreDb.collection("pac_projetos").doc(String(cleanP.id));
+          batch.set(ref, cleanP);
+          count++;
+        });
+
+        const histRef = firestoreDb.collection("pac_config").doc("historico");
+        batch.set(histRef, {
+          items: JSON.parse(JSON.stringify(completedHistory)),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        const riskRef = firestoreDb.collection("pac_config").doc("riscos");
+        batch.set(riskRef, {
+          items: JSON.parse(JSON.stringify(transversalRisks)),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        await batch.commit();
+
+        cloudSyncState.isConnecting = false;
+        cloudSyncState.isConnected = true;
+        cloudSyncState.lastSynced = new Date();
+        updateCloudSyncUI();
+
+        if (isInitialSeed) {
+          showToast(`🚀 Nuvem inicializada com sucesso com ${count} processos do PAC!`, "success");
+        } else {
+          showToast(`☁️ Todos os ${count} processos foram enviados para a nuvem!`, "success");
+        }
+      } catch(e) {
+        console.error("Erro no upload para a nuvem:", e);
+        cloudSyncState.isConnecting = false;
+        updateCloudSyncUI();
+        showToast(`Erro ao gravar na nuvem: ${e.message}`, "danger");
+      }
+    }
+
+    async function syncProjectToCloud(project) {
+      if (!firestoreDb || !cloudSyncState.isConnected || !project || !project.id) return;
+      try {
+        cloudSyncState.isApplyingRemoteUpdate = true;
+        const cleanP = JSON.parse(JSON.stringify(project));
+        await firestoreDb.collection("pac_projetos").doc(String(cleanP.id)).set(cleanP, { merge: true });
+        cloudSyncState.lastSynced = new Date();
+        updateCloudSyncUI();
+        setTimeout(() => { cloudSyncState.isApplyingRemoteUpdate = false; }, 400);
+      } catch(e) {
+        cloudSyncState.isApplyingRemoteUpdate = false;
+        console.error(`Erro ao sincronizar projeto ${project.id} na nuvem:`, e);
+      }
+    }
+
+    async function deleteProjectFromCloud(projectId) {
+      if (!firestoreDb || !cloudSyncState.isConnected || !projectId) return;
+      try {
+        cloudSyncState.isApplyingRemoteUpdate = true;
+        await firestoreDb.collection("pac_projetos").doc(String(projectId)).delete();
+        cloudSyncState.lastSynced = new Date();
+        updateCloudSyncUI();
+        setTimeout(() => { cloudSyncState.isApplyingRemoteUpdate = false; }, 400);
+      } catch(e) {
+        cloudSyncState.isApplyingRemoteUpdate = false;
+        console.error(`Erro ao excluir projeto ${projectId} na nuvem:`, e);
+      }
+    }
+
+    async function syncHistoryToCloud() {
+      if (!firestoreDb || !cloudSyncState.isConnected) return;
+      try {
+        await firestoreDb.collection("pac_config").doc("historico").set({
+          items: JSON.parse(JSON.stringify(completedHistory)),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      } catch(e) {
+        console.error("Erro ao sincronizar histórico na nuvem:", e);
+      }
+    }
+
+    async function syncRisksToCloud() {
+      if (!firestoreDb || !cloudSyncState.isConnected) return;
+      try {
+        await firestoreDb.collection("pac_config").doc("riscos").set({
+          items: JSON.parse(JSON.stringify(transversalRisks)),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      } catch(e) {
+        console.error("Erro ao sincronizar riscos na nuvem:", e);
+      }
+    }
+
+    function parseFirebaseConfigInput(text) {
+      if (!text || typeof text !== "string") return null;
+      const clean = text.trim();
+
+      try {
+        const obj = JSON.parse(clean);
+        if (obj.apiKey && obj.projectId) return obj;
+      } catch(e) {}
+
+      const extract = (key) => {
+        const re = new RegExp(`['"]?${key}['"]?\s*:\s*['"\`]([^'"\`]+)['"\`]`, "i");
+        const m = clean.match(re);
+        return m ? m[1].trim() : "";
+      };
+
+      const apiKey = extract("apiKey");
+      const projectId = extract("projectId");
+      const authDomain = extract("authDomain");
+      const storageBucket = extract("storageBucket");
+      const messagingSenderId = extract("messagingSenderId");
+      const appId = extract("appId");
+
+      if (apiKey && projectId) {
+        return {
+          apiKey,
+          projectId,
+          authDomain: authDomain || `${projectId}.firebaseapp.com`,
+          storageBucket: storageBucket || `${projectId}.appspot.com`,
+          messagingSenderId: messagingSenderId || "",
+          appId: appId || ""
+        };
+      }
+      return null;
+    }
+
+    function setupCloudModalListeners() {
+      const modal = document.getElementById("modalCloudConfig");
+      const btnOpen = document.getElementById("btnCloudSync");
+      const btnClose = document.getElementById("btnCloseCloudModal");
+      const btnCancel = document.getElementById("btnCancelCloudModal");
+      const btnToggleHelp = document.getElementById("btnToggleHelpFirebase");
+      const helpBox = document.getElementById("cloudHelpBox");
+      const btnParse = document.getElementById("btnParseConfig");
+      const btnSave = document.getElementById("btnSaveCloudConfig");
+      const btnDisconnect = document.getElementById("btnDisconnectCloud");
+      const btnForce = document.getElementById("btnForceUpload");
+
+      const pasteInput = document.getElementById("cloudConfigPaste");
+      const inApiKey = document.getElementById("cfgApiKey");
+      const inProjectId = document.getElementById("cfgProjectId");
+      const inAuthDomain = document.getElementById("cfgAuthDomain");
+      const inAppId = document.getElementById("cfgAppId");
+
+      if (btnOpen) {
+        btnOpen.addEventListener("click", () => {
+          const currentCfg = getSavedFirebaseConfig();
+          if (currentCfg) {
+            if (inApiKey) inApiKey.value = currentCfg.apiKey || "";
+            if (inProjectId) inProjectId.value = currentCfg.projectId || "";
+            if (inAuthDomain) inAuthDomain.value = currentCfg.authDomain || "";
+            if (inAppId) inAppId.value = currentCfg.appId || "";
+          }
+          updateCloudSyncUI();
+          if (modal) modal.classList.remove("hidden");
+        });
+      }
+
+      const closeModal = () => { if (modal) modal.classList.add("hidden"); };
+      if (btnClose) btnClose.addEventListener("click", closeModal);
+      if (btnCancel) btnCancel.addEventListener("click", closeModal);
+
+      if (btnToggleHelp && helpBox) {
+        btnToggleHelp.addEventListener("click", () => {
+          helpBox.classList.toggle("hidden");
+        });
+      }
+
+      if (btnParse && pasteInput) {
+        btnParse.addEventListener("click", () => {
+          const parsed = parseFirebaseConfigInput(pasteInput.value);
+          if (parsed) {
+            if (inApiKey) inApiKey.value = parsed.apiKey;
+            if (inProjectId) inProjectId.value = parsed.projectId;
+            if (inAuthDomain) inAuthDomain.value = parsed.authDomain;
+            if (inAppId) inAppId.value = parsed.appId;
+            showToast("Configuração extraída com sucesso!", "success");
+          } else {
+            showToast("Não foi possível detectar apiKey e projectId no texto colado.", "warning");
+          }
+        });
+      }
+
+      if (btnSave) {
+        btnSave.addEventListener("click", () => {
+          let apiKey = inApiKey ? inApiKey.value.trim() : "";
+          let projectId = inProjectId ? inProjectId.value.trim() : "";
+          let authDomain = inAuthDomain ? inAuthDomain.value.trim() : "";
+          let appId = inAppId ? inAppId.value.trim() : "";
+
+          if ((!apiKey || !projectId) && pasteInput && pasteInput.value.trim()) {
+            const parsed = parseFirebaseConfigInput(pasteInput.value);
+            if (parsed) {
+              apiKey = parsed.apiKey;
+              projectId = parsed.projectId;
+              authDomain = parsed.authDomain;
+              appId = parsed.appId;
+            }
+          }
+
+          if (!apiKey || !projectId) {
+            alert("Por favor, preencha ao menos a API Key (apiKey) e o ID do Projeto (projectId).");
+            return;
+          }
+
+          const cfg = {
+            apiKey,
+            projectId,
+            authDomain: authDomain || `${projectId}.firebaseapp.com`,
+            storageBucket: `${projectId}.appspot.com`,
+            appId: appId || ""
+          };
+
+          saveFirebaseConfigToStorage(cfg);
+          initFirebaseSync(cfg);
+          closeModal();
+          showToast("Configuração salva! Conectando ao Firebase Firestore...", "info");
+        });
+      }
+
+      if (btnDisconnect) {
+        btnDisconnect.addEventListener("click", () => {
+          if (confirm("Deseja desconectar a sincronização em nuvem e voltar a salvar apenas localmente neste computador?")) {
+            removeFirebaseConfigFromStorage();
+            initFirebaseSync(null);
+            closeModal();
+            showToast("Nuvem desconectada. Modo Local ativado.", "info");
+          }
+        });
+      }
+
+      if (btnForce) {
+        btnForce.addEventListener("click", () => {
+          if (confirm(`Deseja enviar todos os ${projectsData.length} processos deste computador para a nuvem? Isso atualizará o banco central.`)) {
+            uploadAllDataToCloud(false);
+          }
+        });
+      }
+    }
+
     function loadTransversalRisks() {
       try {
         const saved = localStorage.getItem(RISKS_STORAGE_KEY);
@@ -5996,6 +6637,7 @@ function getLastIssuedLicenseHtml(item) {
     function saveTransversalRisks() {
       try {
         localStorage.setItem(RISKS_STORAGE_KEY, JSON.stringify(transversalRisks));
+        syncRisksToCloud();
       } catch (e) {
         console.error("Error saving transversal risks:", e);
       }
@@ -6112,6 +6754,8 @@ function getLastIssuedLicenseHtml(item) {
     loadTransversalRisks();
     loadData();
     renderAll();
+    setupCloudModalListeners();
+    initFirebaseSync();
   </script>
 
 </body>

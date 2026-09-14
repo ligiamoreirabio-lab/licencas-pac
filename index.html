@@ -1558,7 +1558,7 @@
         else if (/INEMA/i.test(line)) resp = "INEMA/BA";
         else if (/Petrobras|Petrobrás/i.test(line)) resp = "Petrobras";
         else if (/TLSA|Concessionária|Empreendedor|Eletrobrás|GATE|DPW/i.test(line)) resp = "Empreendedor";
-        else if (/SEPPI|CC\/PR|SEPAC/i.test(line)) resp = "SEPPI/CC/PR";
+        else if (/SEPPI|CC\/PR/i.test(line)) resp = "SEPPI/CC/PR";
 
         let prazo = "a definir";
         const dateMatch = line.match(/\b(\d{2}\/\d{2}\/\d{4})\b/) || line.match(/até ([a-zA-Zç]+ de \d{4})/i) || line.match(/até (\d{2}\/\d{2}\/\d{4})/i);
@@ -1609,7 +1609,7 @@
     "status_licenca": "Com Licença de Instalação",
     "prioritario": false,
     "modificado_em": "27/08/2026 (VMT)",
-    "pendencia": "IBAMA, INFRA, SEPPI/CC/PR"
+    "pendencia": "IBAMA, INFRA"
   },
   {
     "id": "p_xlsx_3_2",
@@ -4336,7 +4336,7 @@
     ];
 
     // STORAGE V17 (Removed prioritario mentions)
-    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V24";
+    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V25";
     const HISTORY_KEY = "LICENCAS_PAC_FULL_HISTORY_V12";
     const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('licencas_pac_channel_v6') : null;
 
@@ -4357,7 +4357,7 @@
       { name: "INEMA/BA", rx: /\bINEMA\b/i },
       { name: "DNOCS", rx: /\bDNOCS\b/i },
       { name: "FCP", rx: /\b(FCP|Palmares)\b/i },
-      { name: "SEPPI/CC/PR", rx: /\b(SEPPI|SEPAC|CC\/PR|Casa Civil)\b/i },
+      { name: "SEPPI/CC/PR", rx: /\b(SEPPI|CC\/PR)\b/i },
       { name: "Empreendedor", rx: /\b(TLSA|Concessionária|Concessionaria|Empreendedor|Eletrobrás|Eletrobras|GATE|DPW|Rumo)\b/i }
     ];
 
@@ -5531,7 +5531,7 @@ function getLastIssuedLicenseHtml(item) {
       task.prazo = newDeadline;
 
       syncProjectProvidenciasText(project);
-      saveData(true);
+      saveData(true, project);
       document.getElementById("modalEditDeadline").classList.add("hidden");
       renderAll();
       showToast("Providência e prazo atualizados com sucesso!", "success");
@@ -5585,7 +5585,7 @@ function getLastIssuedLicenseHtml(item) {
       project.providencias_list.push(newTask);
       syncProjectProvidenciasText(project);
 
-      saveData(true);
+      saveData(true, project);
       document.getElementById("modalAddTask").classList.add("hidden");
       activeProjectIdForNewTask = null;
       renderAll();
@@ -5705,7 +5705,7 @@ function getLastIssuedLicenseHtml(item) {
             if (newVal !== currentVal) {
               projectsData[idx][field] = newVal;
               projectsData[idx].modificado_em = getTodayFormatted();
-              saveData(true);
+              saveData(true, projectsData[idx]);
               showToast(`Célula "${field}" atualizada!`, "success");
             }
             renderAll();
@@ -5819,7 +5819,8 @@ function getLastIssuedLicenseHtml(item) {
       project.providencias_list = project.providencias_list.filter(t => t.id !== task.id);
       syncProjectProvidenciasText(project);
 
-      saveData(true);
+      saveData(true, project);
+      syncHistoryToCloud();
       document.getElementById("completeTaskModal").classList.add("hidden");
       renderAll();
 
@@ -5852,7 +5853,8 @@ function getLastIssuedLicenseHtml(item) {
       }
 
       completedHistory.splice(idx, 1);
-      saveData(true);
+      saveData(true, targetProject);
+      syncHistoryToCloud();
       renderAll();
       showToast("Providência reaberta e retornada à lista de pendências!", "warning");
     }
@@ -6082,7 +6084,7 @@ function getLastIssuedLicenseHtml(item) {
       };
 
       projectsData.unshift(newProj);
-      saveData(true);
+      saveData(true, newProj);
       document.getElementById("newProjectModal").classList.add("hidden");
       renderAll();
       showToast(`Processo "${empreendimento}" cadastrado com sucesso!`, "success");
@@ -6307,6 +6309,9 @@ function getLastIssuedLicenseHtml(item) {
           remoteProjects.forEach(p => ensureProjectIntegrity(p));
 
           remoteProjects.sort((a, b) => {
+            const ra = parseInt(a.row_excel) || 0;
+            const rb = parseInt(b.row_excel) || 0;
+            if (ra !== rb && ra > 0 && rb > 0) return ra - rb;
             const na = parseInt(a.id);
             const nb = parseInt(b.id);
             if (!isNaN(na) && !isNaN(nb)) return na - nb;
@@ -6419,17 +6424,22 @@ function getLastIssuedLicenseHtml(item) {
     }
 
     async function syncProjectToCloud(project) {
-      if (!firestoreDb || !cloudSyncState.isConnected || !project || !project.id) return;
+      if (!firestoreDb || !cloudSyncState.isConnected || !project || !project.id) {
+        console.warn("[CloudSync] syncProjectToCloud ignorado: firestoreDb=", !!firestoreDb, "isConnected=", cloudSyncState.isConnected);
+        return;
+      }
       try {
         cloudSyncState.isApplyingRemoteUpdate = true;
         const cleanP = JSON.parse(JSON.stringify(project));
         await firestoreDb.collection("pac_projetos").doc(String(cleanP.id)).set(cleanP, { merge: true });
         cloudSyncState.lastSynced = new Date();
         updateCloudSyncUI();
+        console.log(`[CloudSync] Sucesso ao gravar projeto ${project.id} na nuvem.`);
         setTimeout(() => { cloudSyncState.isApplyingRemoteUpdate = false; }, 400);
       } catch(e) {
         cloudSyncState.isApplyingRemoteUpdate = false;
         console.error(`Erro ao sincronizar projeto ${project.id} na nuvem:`, e);
+        showToast(`Erro ao salvar na nuvem: ${e.message}`, "danger");
       }
     }
 

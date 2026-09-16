@@ -546,6 +546,10 @@
           <option value="Petrobras">Pendência: Petrobras</option>
           <option value="Empreendedor">Pendência: Empreendedor</option>
           <option value="INFRA">Pendência: INFRA S.A.</option>
+          <option value="ANTT">Pendência: ANTT</option>
+          <option value="SUST/MT">Pendência: SUST/MT</option>
+          <option value="SEPAC/CC">Pendência: SEPAC/CC</option>
+          <option value="SEPPI/CC">Pendência: SEPPI/CC</option>
           <option value="MPOR">Pendência: MPOR</option>
           <option value="APS">Pendência: APS (Santos)</option>
           <option value="NESA">Pendência: NESA (Belo Monte)</option>
@@ -554,8 +558,7 @@
           <option value="INEMA/BA">Pendência: INEMA/BA</option>
           <option value="DNOCS">Pendência: DNOCS</option>
           <option value="FCP">Pendência: FCP (Palmares)</option>
-          <option value="SEPPI/CC/PR">Pendência: SEPPI/CC/PR</option>
-          <option value="Nenhuma">Pendência: Nenhuma / Concluído</option>
+                    <option value="Nenhuma">Pendência: Nenhuma / Concluído</option>
         </select>
 
         <!-- Clear Filters -->
@@ -1132,8 +1135,20 @@
               <option value="IPHAN">IPHAN</option>
               <option value="ICMBio">ICMBio</option>
               <option value="Petrobras">Petrobras</option>
+              <option value="INFRA">INFRA</option>
+              <option value="ANTT">ANTT</option>
+              <option value="SUST/MT">SUST/MT</option>
+              <option value="SEPAC/CC">SEPAC/CC</option>
+              <option value="SEPPI/CC">SEPPI/CC</option>
+              <option value="MPOR">MPOR</option>
+              <option value="APS">APS</option>
+              <option value="NESA">NESA</option>
+              <option value="FEMARH">FEMARH</option>
+              <option value="SETRANS/PI">SETRANS/PI</option>
+              <option value="INEMA/BA">INEMA/BA</option>
+              <option value="DNOCS">DNOCS</option>
+              <option value="FCP">FCP</option>
               <option value="Empreendedor">Empreendedor</option>
-              <option value="SEPPI/CC/PR">SEPPI/CC/PR</option>
               <option value="Outro">Outro</option>
             </select>
           </div>
@@ -1225,14 +1240,17 @@
               <option value="ICMBio">ICMBio</option>
               <option value="Petrobras">Petrobras</option>
               <option value="INFRA">INFRA</option>
+              <option value="ANTT">ANTT</option>
+              <option value="SUST/MT">SUST/MT</option>
+              <option value="SEPAC/CC">SEPAC/CC</option>
+              <option value="SEPPI/CC">SEPPI/CC</option>
               <option value="MPOR">MPOR</option>
               <option value="APS">APS</option>
               <option value="NESA">NESA</option>
               <option value="FEMARH">FEMARH</option>
               <option value="SETRANS/PI">SETRANS/PI</option>
               <option value="INEMA/BA">INEMA/BA</option>
-              <option value="SEPPI/CC/PR">SEPPI/CC/PR</option>
-              <option value="Empreendedor">Empreendedor</option>
+                            <option value="Empreendedor">Empreendedor</option>
               <option value="Outro">Outro</option>
             </select>
           </div>
@@ -1553,6 +1571,10 @@
         else if (/NESA/i.test(line)) resp = "NESA";
         else if (/FEMARH/i.test(line)) resp = "FEMARH";
         else if (/INFRA|VALEC/i.test(line)) resp = "INFRA";
+        else if (/ANTT/i.test(line)) resp = "ANTT";
+        else if (/SUST\/MT|SUST-MT|SUST/i.test(line)) resp = "SUST/MT";
+        else if (/SEPAC\/CC|SEPAC/i.test(line)) resp = "SEPAC/CC";
+        else if (/SEPPI\/CC|SEPPI/i.test(line)) resp = "SEPPI/CC";
         else if (/DNOCS/i.test(line)) resp = "DNOCS";
         else if (/SETRANS|DER\/PI/i.test(line)) resp = "SETRANS/PI";
         else if (/INEMA/i.test(line)) resp = "INEMA/BA";
@@ -4336,7 +4358,7 @@
     ];
 
     // STORAGE V17 (Removed prioritario mentions)
-    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V25";
+    const STORAGE_KEY = "LICENCAS_PAC_FULL_DATABASE_V27";
     const HISTORY_KEY = "LICENCAS_PAC_FULL_HISTORY_V12";
     const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('licencas_pac_channel_v6') : null;
 
@@ -4348,6 +4370,10 @@
       { name: "ICMBio", rx: /\bICMBio\b/i },
       { name: "DNIT", rx: /\bDNIT\b/i },
       { name: "INFRA", rx: /\b(INFRA|VALEC)\b/i },
+      { name: "ANTT", rx: /\bANTT\b/i },
+      { name: "SUST/MT", rx: /\b(SUST\/MT|SUST-MT|SUST)\b/i },
+      { name: "SEPAC/CC", rx: /\b(SEPAC\/CC|SEPAC)\b/i },
+      { name: "SEPPI/CC", rx: /\b(SEPPI\/CC|SEPPI\/CC\/PR|SEPPI)\b/i },
       { name: "MPOR", rx: /\bMPOR\b/i },
       { name: "APS", rx: /\bAPS\b/i },
       { name: "NESA", rx: /\bNESA\b/i },
@@ -4357,7 +4383,6 @@
       { name: "INEMA/BA", rx: /\bINEMA\b/i },
       { name: "DNOCS", rx: /\bDNOCS\b/i },
       { name: "FCP", rx: /\b(FCP|Palmares)\b/i },
-      { name: "SEPPI/CC/PR", rx: /\b(SEPPI|CC\/PR)\b/i },
       { name: "Empreendedor", rx: /\b(TLSA|Concessionária|Concessionaria|Empreendedor|Eletrobrás|Eletrobras|GATE|DPW|Rumo)\b/i }
     ];
 
@@ -4374,18 +4399,16 @@
       if (!project) return "Nenhuma";
       const tasks = project.providencias_list || [];
 
-      // If structured tasks exist
+      // Se houver tarefas estruturadas no checklist, extrai ESTRITAMENTE os órgãos destacados como responsáveis
       if (tasks.length > 0) {
         const openTasks = tasks.filter(t => !t.concluida);
         if (openTasks.length === 0) return "Concluído";
 
         const found = new Set();
         openTasks.forEach(t => {
-          if (t.responsavel && t.responsavel !== "Outro" && t.responsavel !== "A definir" && t.responsavel.trim() !== "") {
+          if (t.responsavel && t.responsavel !== "A definir" && t.responsavel.trim() !== "") {
             found.add(t.responsavel.trim());
           }
-          const inDesc = extractAgenciesFromText(t.descricao || "");
-          inDesc.forEach(a => found.add(a));
         });
 
         if (found.size > 0) {
@@ -4447,7 +4470,10 @@
       if (a.includes("INEMA")) return "bg-fuchsia-100 text-fuchsia-800 border-fuchsia-200";
       if (a.includes("DNOCS")) return "bg-slate-100 text-slate-800 border-slate-300";
       if (a.includes("FCP") || a.includes("PALMARES")) return "bg-yellow-100 text-yellow-900 border-yellow-300";
-      if (a.includes("SEPPI") || a.includes("SEPAC") || a.includes("CC/PR")) return "bg-lime-100 text-lime-900 border-lime-300";
+      if (a.includes("ANTT")) return "bg-blue-100 text-blue-900 border-blue-300 font-bold";
+      if (a.includes("SUST")) return "bg-emerald-100 text-emerald-900 border-emerald-300 font-bold";
+      if (a.includes("SEPAC")) return "bg-lime-100 text-lime-900 border-lime-300 font-bold";
+      if (a.includes("SEPPI")) return "bg-teal-100 text-teal-900 border-teal-300 font-bold";
       if (a.includes("EMPREENDEDOR") || a.includes("TLSA") || a.includes("CONCESSION")) return "bg-orange-100 text-orange-800 border-orange-200";
       return "bg-slate-100 text-slate-800 border-slate-300";
     }

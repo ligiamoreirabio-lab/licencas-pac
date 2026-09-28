@@ -330,13 +330,171 @@
     ::-webkit-scrollbar-thumb { background: #D0C5B4; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #B0A390; }
 
+    @page {
+      size: A4 landscape;
+      margin: 6mm 8mm 6mm 8mm;
+    }
+
+    :root {
+      --print-font-size: 7.8pt;
+    }
+
     @media print {
-      .no-print { display: none !important; }
-      body { background: white !important; font-size: 8pt !important; }
-      table { width: 100% !important; border-collapse: collapse !important; page-break-inside: auto; }
-      tr { page-break-inside: avoid; page-break-after: auto; }
-      thead { display: table-header-group; }
-      .print-exact { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      /* Esconde elementos de navegação e controles interativos */
+      .no-print,
+      header,
+      #viewTabs,
+      .sticky,
+      nav,
+      select,
+      input,
+      .btn-add-task,
+      .btn-edit-task,
+      .btn-delete-task,
+      .btn-delete-row,
+      .modal-backdrop,
+      #modalAddTask,
+      #modalTransversalRisk,
+      #modalEditDeadline,
+      #modalCloudConfig,
+      #modalPrintSettings,
+      #toastContainer {
+        display: none !important;
+      }
+
+      /* Tipografia e Fundo */
+      html, body {
+        background-color: #FFFFFF !important;
+        background: #FFFFFF !important;
+        color: #0F172A !important;
+        font-size: var(--print-font-size, 7.8pt) !important;
+        line-height: 1.3 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      /* Resets de containers e margens */
+      main {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .view-content,
+      .executive-table-container,
+      #viewTasks > div,
+      #viewMaster > div {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        background: transparent !important;
+      }
+
+      /* CRÍTICO: Desbloqueia containers com scroll para imprimir todas as páginas sem cortes */
+      .overflow-x-auto,
+      .overflow-y-auto,
+      [class*="overflow-"],
+      .max-h-\[calc\(100vh-280px\)\] {
+        overflow: visible !important;
+        max-height: none !important;
+        height: auto !important;
+      }
+
+      /* Tabela e Cabeçalho Repetível */
+      table {
+        width: 100% !important;
+        max-width: 100% !important;
+        border-collapse: collapse !important;
+        table-layout: fixed !important;
+        page-break-inside: auto !important;
+        margin-top: 4px !important;
+      }
+
+      thead {
+        display: table-header-group !important;
+      }
+
+      tr {
+        page-break-inside: avoid !important;
+        page-break-after: auto !important;
+      }
+
+      th, td {
+        padding: 4px 5px !important;
+        font-size: var(--print-font-size, 7.8pt) !important;
+        line-height: 1.25 !important;
+        border-bottom: 1px solid #CBD5E1 !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+        min-width: 0 !important;
+        vertical-align: top !important;
+      }
+
+      th {
+        background-color: #F1F5F9 !important;
+        color: #1E293B !important;
+        font-weight: 700 !important;
+        border-bottom: 2px solid #94A3B8 !important;
+        text-transform: uppercase !important;
+      }
+
+      /* Proporções Exatas para Tabela Executiva (8 colunas = 100%) */
+      #tableExecutive th:nth-child(1), #tableExecutive td:nth-child(1) { width: 9% !important; }
+      #tableExecutive th:nth-child(2), #tableExecutive td:nth-child(2) { width: 5% !important; text-align: center !important; }
+      #tableExecutive th:nth-child(3), #tableExecutive td:nth-child(3) { width: 17% !important; }
+      #tableExecutive th:nth-child(4), #tableExecutive td:nth-child(4) { width: 7% !important; text-align: center !important; }
+      #tableExecutive th:nth-child(5), #tableExecutive td:nth-child(5) { width: 18% !important; }
+      #tableExecutive th:nth-child(6), #tableExecutive td:nth-child(6) { width: 20% !important; }
+      #tableExecutive th:nth-child(7), #tableExecutive td:nth-child(7) { width: 18% !important; }
+      #tableExecutive th:nth-child(8), #tableExecutive td:nth-child(8) { width: 6% !important; text-align: center !important; }
+
+      /* Proporções Exatas para Tabela de Providências & Prazos (8 colunas = 100%, coluna Ações escondida) */
+      #tableTasks th:nth-child(9), #tableTasks td:nth-child(9) { display: none !important; }
+      #tableTasks th:nth-child(1), #tableTasks td:nth-child(1) { width: 9% !important; }
+      #tableTasks th:nth-child(2), #tableTasks td:nth-child(2) { width: 5% !important; text-align: center !important; }
+      #tableTasks th:nth-child(3), #tableTasks td:nth-child(3) { width: 18% !important; }
+      #tableTasks th:nth-child(4), #tableTasks td:nth-child(4) { width: 12% !important; }
+      #tableTasks th:nth-child(5), #tableTasks td:nth-child(5) { width: 22% !important; }
+      #tableTasks th:nth-child(6), #tableTasks td:nth-child(6) { width: 22% !important; }
+      #tableTasks th:nth-child(7), #tableTasks td:nth-child(7) { width: 6% !important; text-align: center !important; }
+      #tableTasks th:nth-child(8), #tableTasks td:nth-child(8) { width: 6% !important; text-align: center !important; }
+
+      /* Fidelidade de Cores e Badges */
+      .pendencia-agency-badge, span[class*="bg-"] {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        font-size: 6.8pt !important;
+        padding: 1px 3px !important;
+      }
+
+      .task-item {
+        padding: 2px 4px !important;
+        margin-bottom: 2px !important;
+        font-size: 7.2pt !important;
+        background: #F8FAFC !important;
+        border: 1px solid #E2E8F0 !important;
+      }
+
+      .print\:inline, .print-inline { display: inline !important; }
+      .print\:block, .print-block { display: block !important; }
+      .print\:hidden { display: none !important; }
+
+      body.print-hide-dashboard #execDashboardContainer {
+        display: none !important;
+      }
+
+      #transversalRisksContainer {
+        page-break-inside: avoid !important;
+      }
     }
 
       /* NOVAS CORES DE PREENCHIMENTO E FONTE PRETA */
@@ -393,15 +551,19 @@
           <svg width="14" height="14"  class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
           Novo Processo
         </button>
-        <button id="btnExportPDF" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white transition-all shadow-sm" title="Exportar layout da Tabela Executiva da Casa Civil em PDF">
+        <button id="btnExportPDF" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white transition-all shadow-sm cursor-pointer" title="Exportar layout da Tabela Executiva da Casa Civil em PDF (Modo Paisagem)">
           <svg width="14" height="14"  class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
           Exportar PDF Executivo
         </button>
-        <button id="btnExportMasterPDF" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition-all shadow-sm" title="Exportar a Tabela Mestra Técnica completa em PDF">
+        <button id="btnExportTasksPDF" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-700 hover:bg-emerald-600 text-white transition-all shadow-sm cursor-pointer" title="Exportar a Tabela de Providências, Checklist e Prazos em PDF (Modo Paisagem)">
+          <svg width="14" height="14"  class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+          Exportar PDF Providências
+        </button>
+        <button id="btnExportMasterPDF" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition-all shadow-sm cursor-pointer" title="Exportar a Tabela Mestra Técnica completa em PDF">
           <svg width="14" height="14"  class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           Exportar PDF Mestra
         </button>
-        <button id="btnExportCSV" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-700 hover:bg-emerald-600 text-white transition-all shadow-sm cursor-pointer" title="Exportar backup completo de todos os processos em planilha CSV (compatível com Excel)">
+        <button id="btnExportCSV" class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-700 hover:bg-slate-600 text-white transition-all shadow-sm cursor-pointer" title="Exportar backup completo de todos os processos em planilha CSV (compatível com Excel)">
           <svg width="14" height="14" class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
           Exportar Backup CSV
         </button>
@@ -596,12 +758,63 @@
             </div>
           </div>
 
-          <div class="text-right">
-            <div class="inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1 rounded-full text-xs font-semibold text-slate-700" id="execUpdateDate">
-              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              Posição Oficial: 28/08/2026
+          <div class="text-right flex flex-col items-end gap-1.5">
+            <div class="flex items-center gap-2">
+              <button onclick="openPrintModal('executive')" class="no-print inline-flex items-center gap-1.5 px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-2xs transition-all cursor-pointer" title="Exportar Tabela Executiva em PDF Paisagem">
+                <svg width="14" height="14" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                Exportar PDF Paisagem
+              </button>
+              <div class="inline-flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1 rounded-full text-xs font-semibold text-slate-700" id="execUpdateDate">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                Posição Oficial: 28/08/2026
+              </div>
             </div>
-            <div class="text-[11px] font-medium text-slate-500 mt-1">Monitoramento Estratégico para Tomada de Decisão</div>
+            <div class="text-[11px] font-medium text-slate-500">Monitoramento Estratégico para Tomada de Decisão</div>
+          </div>
+        </div>
+
+        <!-- PAINEL DE FILTRO E SELEÇÃO DE EMPREENDIMENTOS DA TABELA EXECUTIVA -->
+        <div class="no-print mb-6 bg-gradient-to-r from-blue-50/90 via-indigo-50/60 to-slate-50 border border-blue-200/90 rounded-2xl p-4 shadow-2xs" id="execProjectSelectionPanel">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            
+            <div class="flex items-center space-x-3.5">
+              <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+              </div>
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <h3 class="font-extrabold text-slate-900 text-sm tracking-tight">Filtro de Empreendimentos da Tabela Executiva</h3>
+                  <span id="execSelectionBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border font-mono bg-blue-100 text-blue-900 border-blue-300 shadow-2xs">
+                    0 selecionados
+                  </span>
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">Selecione previamente quais empreendimentos deverão constar nesta Tabela Executiva e no PDF</p>
+              </div>
+            </div>
+
+            <!-- Botões de Ação Rápida -->
+            <div class="flex items-center flex-wrap gap-2">
+              <button onclick="openExecProjectSelectorModal()" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-sm transition-all cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                Selecionar Empreendimentos
+              </button>
+
+              <button onclick="selectAllExecutiveProjects()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer" title="Marcar todos os empreendimentos para exibição na Tabela Executiva">
+                <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                Selecionar Todos
+              </button>
+
+              <button onclick="clearSelectedExecutiveProjects()" class="inline-flex items-center gap-1.5 px-3 py-2 bg-white hover:bg-rose-50 text-slate-600 hover:text-rose-700 border border-slate-300 hover:border-rose-300 rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer" title="Desmarcar todos os empreendimentos da Tabela Executiva">
+                <svg class="w-3.5 h-3.5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                Limpar
+              </button>
+            </div>
+
+          </div>
+
+          <!-- Barra de Chips dos Empreendimentos Selecionados -->
+          <div id="execSelectedChipsContainer" class="mt-3 pt-3 border-t border-blue-200/60 flex flex-wrap items-center gap-1.5 text-xs">
+            <span class="text-slate-400 italic text-[11px]">Nenhum empreendimento selecionado ainda. Clique em "Selecionar Empreendimentos" ou "Selecionar Todos" para definir a pauta executiva.</span>
           </div>
         </div>
 
@@ -736,6 +949,7 @@
                 <th class="py-3 px-3 w-24">Subeixo</th>
                 <th class="py-3 px-2 w-16 text-center">ID</th>
                 <th class="py-3 px-3 w-56 min-w-[200px]">Empreendimento</th>
+                <th class="py-3 px-2.5 w-28 text-center font-bold">Interfaces</th>
                 <th class="py-3 px-3 min-w-[240px] w-72 bg-amber-50/20">Riscos e Oportunidades</th>
                 <th class="py-3 px-3 min-w-[260px]">Comentários</th>
                 <th class="py-3 px-3 min-w-[280px]">Providência(s)</th>
@@ -814,7 +1028,11 @@
             <span class="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-mono font-bold" id="tasksRowCount">77 processos</span>
           </div>
           <div class="flex items-center space-x-2 text-xs text-slate-600">
-            <span>⚡ Checklist interativo • Clique no checkbox para dar baixa • Clique no prazo para alterar data</span>
+            <span class="no-print">⚡ Checklist interativo • Clique no checkbox para dar baixa</span>
+            <button onclick="openPrintModal('tasks')" class="no-print inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-700 hover:bg-emerald-600 text-white rounded-lg text-xs font-semibold shadow-2xs transition-all cursor-pointer" title="Exportar Tabela de Providências & Prazos em PDF Paisagem">
+              <svg width="14" height="14" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+              Exportar PDF Paisagem
+            </button>
           </div>
         </div>
 
@@ -830,7 +1048,7 @@
                 <th class="py-3 px-3.5 border-b border-slate-200 min-w-[380px] bg-emerald-50/30">Providência(s) & Checklist</th>
                 <th class="py-3 px-3 border-b border-slate-200 w-36 text-center">Pendência</th>
                 <th class="py-3 px-2.5 border-b border-slate-200 w-28 text-center">Modificado em</th>
-                <th class="py-3 px-2 text-center w-14 border-b border-slate-200">Ações</th>
+                <th class="py-3 px-2 text-center w-14 border-b border-slate-200 no-print">Ações</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-300 bg-[#FFFFFF]" id="tbodyTasks"></tbody>
@@ -1387,6 +1605,173 @@
           </div>
         </div>
 
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: AJUSTE E EXPORTAÇÃO EM PDF (MODO PAISAGEM) -->
+  <div id="modalPrintSettings" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+      
+      <!-- Modal Header -->
+      <div class="px-5 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-sm leading-tight text-white">Exportar Relatório em PDF</h3>
+            <p class="text-[11px] text-slate-300">Configuração otimizada para formato horizontal (A4 Paisagem)</p>
+          </div>
+        </div>
+        <button id="btnClosePrintModal" class="text-slate-400 hover:text-white text-lg font-bold p-1 cursor-pointer">✕</button>
+      </div>
+
+      <div class="p-5 space-y-4 text-xs">
+        
+        <!-- Seleção do Relatório -->
+        <div>
+          <label class="block font-bold text-slate-700 uppercase tracking-wider text-[11px] mb-2">Relatório / Tabela a Exportar:</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="printViewSelectorContainer">
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 hover:border-blue-500 hover:bg-blue-50/40 cursor-pointer transition-all has-[:checked]:border-blue-600 has-[:checked]:bg-blue-50/70 has-[:checked]:ring-1 has-[:checked]:ring-blue-500">
+              <input type="radio" name="printTargetView" value="executive" class="text-blue-600 focus:ring-blue-500" checked>
+              <div>
+                <div class="font-bold text-slate-900 text-xs">Tabela Executiva</div>
+                <div class="text-[10px] text-slate-500">Casa Civil / SEPAC (8 colunas)</div>
+              </div>
+            </label>
+            <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/40 cursor-pointer transition-all has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50/70 has-[:checked]:ring-1 has-[:checked]:ring-emerald-500">
+              <input type="radio" name="printTargetView" value="tasks" class="text-emerald-600 focus:ring-emerald-500">
+              <div>
+                <div class="font-bold text-slate-900 text-xs">Providências & Prazos</div>
+                <div class="text-[10px] text-slate-500">Gestão Operacional (8 colunas)</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Ajuste de Escala / Tamanho do Conteúdo -->
+        <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80 space-y-2">
+          <div class="flex items-center justify-between">
+            <label class="font-bold text-slate-800 text-xs">Ajuste de Escala & Densidade do Texto:</label>
+            <span id="printScaleLabel" class="font-mono font-bold text-[11px] text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">Compacto (7.8pt) • Recomendado</span>
+          </div>
+          <p class="text-[11px] text-slate-500 leading-relaxed">
+            Ajuste a escala para garantir que todas as colunas caibam perfeitamente na largura da folha A4 Paisagem sem quebras:
+          </p>
+          <div class="grid grid-cols-3 gap-2 pt-1">
+            <button type="button" class="btn-scale-preset py-2 px-2.5 rounded-lg border border-slate-300 font-semibold text-center hover:bg-white text-xs cursor-pointer transition-all" data-size="7.0pt" data-label="Ultra Compacto (7.0pt) • Máximo de Linhas">
+              Ultra Compacto<br><span class="text-[10px] font-normal text-slate-500">7.0pt</span>
+            </button>
+            <button type="button" class="btn-scale-preset py-2 px-2.5 rounded-lg border border-blue-600 bg-blue-50/80 font-bold text-center text-blue-900 text-xs cursor-pointer transition-all ring-1 ring-blue-500" data-size="7.8pt" data-label="Compacto (7.8pt) • Recomendado">
+              Compacto ⭐<br><span class="text-[10px] font-semibold text-blue-700">7.8pt (Ideal)</span>
+            </button>
+            <button type="button" class="btn-scale-preset py-2 px-2.5 rounded-lg border border-slate-300 font-semibold text-center hover:bg-white text-xs cursor-pointer transition-all" data-size="8.5pt" data-label="Normal (8.5pt) • Fonte Padrão">
+              Normal<br><span class="text-[10px] font-normal text-slate-500">8.5pt</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Opções Adicionais de Exibição -->
+        <div class="space-y-2 pt-1">
+          <label class="flex items-center gap-2 cursor-pointer text-slate-700 text-xs select-none">
+            <input type="checkbox" id="chkPrintLandscape" checked disabled class="rounded text-blue-600">
+            <span class="font-semibold text-slate-900">Orientação Paisagem (Landscape A4)</span>
+            <span class="text-[10px] text-slate-400 font-mono">(automático via CSS @page)</span>
+          </label>
+
+          <label id="optPrintExecutiveDashboard" class="flex items-center gap-2 cursor-pointer text-slate-700 text-xs select-none">
+            <input type="checkbox" id="chkIncludeDashboard" class="rounded text-blue-600">
+            <span>Incluir cards de estatísticas e gráficos no topo da Tabela Executiva</span>
+          </label>
+        </div>
+
+        <!-- Dica Amigável de Impressão do Navegador -->
+        <div class="p-3 bg-blue-50/70 rounded-xl border border-blue-200/80 text-blue-900 text-[11px] leading-relaxed flex items-start gap-2.5">
+          <svg class="w-4 h-4 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <div>
+            <span class="font-bold">Dica para o PDF perfeito:</span> Na janela de impressão que abrir, certifique-se de selecionar o destino <strong>"Salvar como PDF"</strong> e ativar a opção <strong>"Gráficos de segundo plano"</strong> (para que as cores oficiais das badges e intervenientes apareçam com fidelidade).
+          </div>
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="flex items-center justify-end space-x-2.5 pt-3 border-t border-slate-200">
+          <button type="button" id="btnCancelPrintModal" class="px-4 py-2 rounded-xl border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 cursor-pointer transition-colors">
+            Cancelar
+          </button>
+          <button type="button" id="btnConfirmPrint" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold flex items-center gap-1.5 shadow-md hover:shadow-lg transition-all cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+            Gerar PDF Paisagem
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: SELETOR DE EMPREENDIMENTOS PARA A TABELA EXECUTIVA -->
+  <div id="modalExecProjectSelector" class="no-print fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl max-w-3xl w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh] animate-in fade-in zoom-in-95 duration-150">
+      
+      <!-- Modal Header -->
+      <div class="px-5 py-4 bg-slate-900 text-white flex items-center justify-between shrink-0">
+        <div class="flex items-center space-x-3">
+          <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-sm font-bold">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-sm leading-tight text-white">Selecionar Empreendimentos para a Tabela Executiva</h3>
+            <p class="text-[11px] text-slate-300">Marque as obras que deverão aparecer na Tabela Executiva e no PDF</p>
+          </div>
+        </div>
+        <button id="btnCloseExecSelectorModal" onclick="closeExecProjectSelectorModal()" class="text-slate-400 hover:text-white text-lg font-bold p-1 cursor-pointer">✕</button>
+      </div>
+
+      <!-- Toolbar: Search & Quick Filters -->
+      <div class="p-4 bg-slate-50 border-b border-slate-200/80 space-y-3 shrink-0">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex-1 min-w-[240px] relative">
+            <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input type="text" id="inputSearchExecSelector" oninput="onExecSelectorSearchInput(this.value)" placeholder="Buscar por nome da obra, código ou processo..." class="w-full pl-9 pr-3 py-1.5 bg-white border border-slate-300 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          </div>
+          <div class="flex items-center space-x-1.5">
+            <button type="button" onclick="modalSelectAllVisible()" class="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-lg text-xs font-semibold transition-colors cursor-pointer">
+              ✓ Marcar Filtrados
+            </button>
+            <button type="button" onclick="modalClearAllVisible()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 rounded-lg text-xs font-semibold transition-colors cursor-pointer">
+              ✕ Desmarcar Filtrados
+            </button>
+          </div>
+        </div>
+
+        <!-- Subeixo Pills -->
+        <div class="flex flex-wrap items-center gap-1 text-[11px]" id="execSelectorSubeixoPills">
+          <!-- Gerado dinamicamente via JS -->
+        </div>
+      </div>
+
+      <!-- Scrollable Checklist of Projects -->
+      <div class="p-4 overflow-y-auto flex-1 divide-y divide-slate-100 space-y-1" id="execSelectorProjectsList">
+        <!-- Gerado dinamicamente via JS -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3 shrink-0">
+        <div class="text-xs">
+          <span class="text-slate-500">Selecionados:</span>
+          <strong id="modalExecSelectedCount" class="text-blue-700 text-sm font-bold font-mono ml-1">0</strong>
+          <span class="text-slate-400 text-xs"> de <span id="modalExecTotalCount">77</span> obras</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button type="button" onclick="closeExecProjectSelectorModal()" class="px-4 py-2 rounded-xl border border-slate-300 text-slate-700 font-semibold hover:bg-white text-xs cursor-pointer transition-colors">
+            Fechar
+          </button>
+          <button type="button" onclick="closeExecProjectSelectorModal()" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-md hover:shadow-lg transition-all cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+            Aplicar à Tabela Executiva
+          </button>
+        </div>
       </div>
 
     </div>
@@ -4942,7 +5327,7 @@
       const container = document.getElementById("execDashboardContainer");
       if (!container) return;
 
-      const currentData = (customData && customData.length > 0) ? customData : projectsData;
+      const currentData = (customData !== undefined) ? customData : (selectedExecutiveProjectIds.length > 0 ? getExecutiveFilteredData() : []);
       const totalAll = currentData.length;
       const liCount = currentData.filter(p => p.status_licenca === "Com Licença de Instalação").length;
       const loCount = currentData.filter(p => p.status_licenca === "Com Licença de Operação").length;
@@ -5002,18 +5387,26 @@
 
       // 3. Render Stacked Progress Bar
       const stackedBar = document.getElementById("execStackedProgressBar");
-      if (stackedBar && totalAll) {
-        const liPct = ((liCount / totalAll) * 100).toFixed(1);
-        const loPct = ((loCount / totalAll) * 100).toFixed(1);
-        const lpSegmentPct = ((lpCount / totalAll) * 100).toFixed(1);
-        const semLpSegmentPct = ((semLpCount / totalAll) * 100).toFixed(1);
+      if (stackedBar) {
+        if (totalAll > 0) {
+          const liPct = ((liCount / totalAll) * 100).toFixed(1);
+          const loPct = ((loCount / totalAll) * 100).toFixed(1);
+          const lpSegmentPct = ((lpCount / totalAll) * 100).toFixed(1);
+          const semLpSegmentPct = ((semLpCount / totalAll) * 100).toFixed(1);
 
-        stackedBar.innerHTML = `
-          <div style="width: ${liPct}%" class="bg-emerald-500 h-full rounded-l-full transition-all duration-500" title="LI: ${liCount} obras (${liPct}%)"></div>
-          <div style="width: ${loPct}%" class="bg-blue-500 h-full transition-all duration-500" title="LO: ${loCount} obras (${loPct}%)"></div>
-          <div style="width: ${lpSegmentPct}%" class="bg-amber-500 h-full transition-all duration-500" title="LP: ${lpCount} obras (${lpSegmentPct}%)"></div>
-          <div style="width: ${semLpSegmentPct}%" class="bg-rose-500 h-full rounded-r-full transition-all duration-500" title="Sem LP: ${semLpCount} obras (${semLpSegmentPct}%)"></div>
-        `;
+          stackedBar.innerHTML = `
+            <div style="width: ${liPct}%" class="bg-emerald-500 h-full rounded-l-full transition-all duration-500" title="LI: ${liCount} obras (${liPct}%)"></div>
+            <div style="width: ${loPct}%" class="bg-blue-500 h-full transition-all duration-500" title="LO: ${loCount} obras (${loPct}%)"></div>
+            <div style="width: ${lpSegmentPct}%" class="bg-amber-500 h-full transition-all duration-500" title="LP: ${lpCount} obras (${lpSegmentPct}%)"></div>
+            <div style="width: ${semLpSegmentPct}%" class="bg-rose-500 h-full rounded-r-full transition-all duration-500" title="Sem LP: ${semLpCount} obras (${semLpSegmentPct}%)"></div>
+          `;
+        } else {
+          stackedBar.innerHTML = `
+            <div class="w-full h-full bg-slate-100 rounded-full flex items-center justify-center text-[10px] text-slate-400 font-medium">
+              Nenhum empreendimento selecionado
+            </div>
+          `;
+        }
       }
 
       // 4. Initialize or update Chart.js Donut
@@ -5027,11 +5420,11 @@
           executiveDonutChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-              labels: ['Com LI', 'Com LO', 'Com LP', 'Sem LP'],
+              labels: totalAll > 0 ? ['Com LI', 'Com LO', 'Com LP', 'Sem LP'] : ['Nenhuma obra'],
               datasets: [{
-                data: [liCount, loCount, lpCount, semLpCount],
-                backgroundColor: ['#10B981', '#3B82F6', '#F59E0B', '#EF4444'],
-                hoverBackgroundColor: ['#059669', '#2563EB', '#D97706', '#DC2626'],
+                data: totalAll > 0 ? [liCount, loCount, lpCount, semLpCount] : [1],
+                backgroundColor: totalAll > 0 ? ['#10B981', '#3B82F6', '#F59E0B', '#EF4444'] : ['#E2E8F0'],
+                hoverBackgroundColor: totalAll > 0 ? ['#059669', '#2563EB', '#D97706', '#DC2626'] : ['#CBD5E1'],
                 borderWidth: 2,
                 borderColor: '#FFFFFF'
               }]
@@ -5043,6 +5436,7 @@
               plugins: {
                 legend: { display: false },
                 tooltip: {
+                  enabled: totalAll > 0,
                   callbacks: {
                     label: function(context) {
                       const val = context.raw || 0;
@@ -5121,14 +5515,392 @@
       renderAll();
     }
 
+    function hasTrInterface(val) {
+      if (val === null || val === undefined || val === '') return false;
+      if (typeof val === 'number' && !isNaN(val)) return true;
+      if (typeof val !== 'string') return false;
+      const clean = val.trim().toLowerCase();
+      if (!clean || clean === '-' || clean === '—' || clean === '–' || clean === 'nil' || clean === '#name?') return false;
+      if (clean === 'n/a' || clean === 'na' || clean === 'não' || clean === 'nao' || clean === 'não se aplica' || clean === 'nao se aplica' || clean === 'sem') return false;
+      return true;
+    }
+
+    function renderInterfacesCell(item) {
+      if (!item) return `<span class="text-slate-300 font-mono text-xs font-semibold">-</span>`;
+      const hasFunai = hasTrInterface(item.tr_funai);
+      const hasIncra = hasTrInterface(item.tr_incra);
+
+      if (!hasFunai && !hasIncra) {
+        return `<span class="text-slate-300 font-mono text-xs font-semibold">-</span>`;
+      }
+
+      const badges = [];
+      if (hasFunai) {
+        const desc = item.tr_funai ? String(item.tr_funai).replace(/"/g, '&quot;') : '';
+        badges.push(`<span class="inline-block px-1.5 py-0.5 rounded font-bold text-[10px] border shadow-2xs ${getAgencyBadgeColor('FUNAI')}" title="Data TR FUNAI: ${desc}">FUNAI</span>`);
+      }
+      if (hasIncra) {
+        const desc = item.tr_incra ? String(item.tr_incra).replace(/"/g, '&quot;') : '';
+        badges.push(`<span class="inline-block px-1.5 py-0.5 rounded font-bold text-[10px] border shadow-2xs ${getAgencyBadgeColor('INCRA')}" title="Data TR INCRA: ${desc}">INCRA</span>`);
+      }
+
+      return `
+        <div class="flex flex-wrap items-center justify-center gap-1">
+          ${badges.join('')}
+        </div>
+      `;
+    }
+
+    // ==========================================
+    // SELEÇÃO DE EMPREENDIMENTOS DA TABELA EXECUTIVA
+    // ==========================================
+    const EXEC_SELECTED_STORAGE_KEY = "LICENCAS_PAC_EXECUTIVE_SELECTED_IDS";
+    let selectedExecutiveProjectIds = [];
+
+    function loadSelectedExecutiveProjects() {
+      try {
+        const saved = localStorage.getItem(EXEC_SELECTED_STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) {
+            selectedExecutiveProjectIds = parsed;
+          }
+        }
+      } catch (e) {
+        console.error("Erro ao carregar empreendimentos selecionados:", e);
+        selectedExecutiveProjectIds = [];
+      }
+    }
+
+    function saveSelectedExecutiveProjects() {
+      try {
+        localStorage.setItem(EXEC_SELECTED_STORAGE_KEY, JSON.stringify(selectedExecutiveProjectIds));
+      } catch (e) {
+        console.error("Erro ao salvar empreendimentos selecionados:", e);
+      }
+    }
+
+    function selectAllExecutiveProjects() {
+      selectedExecutiveProjectIds = projectsData.map(p => p.id);
+      saveSelectedExecutiveProjects();
+      updateExecSelectionUI();
+      renderExecutiveTable();
+      const modal = document.getElementById("modalExecProjectSelector");
+      if (modal && !modal.classList.contains("hidden")) {
+        renderExecSelectorList();
+      }
+      showToast(`Todos os ${selectedExecutiveProjectIds.length} empreendimentos foram selecionados para a Tabela Executiva.`, "success");
+    }
+
+    function clearSelectedExecutiveProjects() {
+      selectedExecutiveProjectIds = [];
+      saveSelectedExecutiveProjects();
+      updateExecSelectionUI();
+      renderExecutiveTable();
+      const modal = document.getElementById("modalExecProjectSelector");
+      if (modal && !modal.classList.contains("hidden")) {
+        renderExecSelectorList();
+      }
+      showToast("Seleção da Tabela Executiva limpa. Nenhum empreendimento selecionado.", "info");
+    }
+
+    function toggleExecutiveProject(id, forceState) {
+      const idx = selectedExecutiveProjectIds.indexOf(id);
+      const isCurrentlySelected = idx !== -1;
+      const targetState = (forceState !== undefined) ? forceState : !isCurrentlySelected;
+
+      if (targetState && !isCurrentlySelected) {
+        selectedExecutiveProjectIds.push(id);
+      } else if (!targetState && isCurrentlySelected) {
+        selectedExecutiveProjectIds.splice(idx, 1);
+      }
+
+      saveSelectedExecutiveProjects();
+      updateExecSelectionUI();
+      renderExecutiveTable();
+
+      const modal = document.getElementById("modalExecProjectSelector");
+      if (modal && !modal.classList.contains("hidden")) {
+        safeSetText("modalExecSelectedCount", selectedExecutiveProjectIds.length);
+        const chk = document.getElementById(`chk_exec_proj_${id}`);
+        if (chk) chk.checked = targetState;
+      }
+    }
+
+    function updateExecSelectionUI() {
+      const badge = document.getElementById("execSelectionBadge");
+      const chipsContainer = document.getElementById("execSelectedChipsContainer");
+      const count = selectedExecutiveProjectIds.length;
+      const total = projectsData.length;
+
+      if (badge) {
+        badge.textContent = `${count} de ${total} selecionados`;
+        if (count === 0) {
+          badge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold border font-mono bg-rose-50 text-rose-800 border-rose-200 shadow-2xs";
+        } else if (count === total) {
+          badge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold border font-mono bg-emerald-50 text-emerald-800 border-emerald-300 shadow-2xs";
+        } else {
+          badge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold border font-mono bg-blue-100 text-blue-900 border-blue-300 shadow-2xs";
+        }
+      }
+
+      if (chipsContainer) {
+        if (count === 0) {
+          chipsContainer.innerHTML = `<span class="text-slate-400 italic text-[11px]">Nenhum empreendimento selecionado ainda. Clique em "Selecionar Empreendimentos" ou "Selecionar Todos" para definir a pauta executiva.</span>`;
+        } else {
+          const maxChips = 10;
+          const displayIds = selectedExecutiveProjectIds.slice(0, maxChips);
+          const remainder = count - maxChips;
+
+          const chipsHtml = displayIds.map(id => {
+            const p = projectsData.find(x => x.id === id);
+            if (!p) return '';
+            return `
+              <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-white border border-blue-200 text-slate-800 text-[11px] font-medium shadow-2xs hover:border-blue-400 transition-colors">
+                <span class="font-bold text-[10px] text-blue-700 uppercase tracking-tight">${p.subeixo || ''}:</span>
+                <span class="truncate max-w-[160px]" title="${p.empreendimento}">${p.empreendimento}</span>
+                <button type="button" onclick="toggleExecutiveProject('${p.id}', false)" class="text-slate-400 hover:text-rose-600 font-bold ml-0.5 cursor-pointer transition-colors" title="Remover da pauta">✕</button>
+              </span>
+            `;
+          }).join('');
+
+          const moreBtn = remainder > 0 ? `
+            <button type="button" onclick="openExecProjectSelectorModal()" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-700 text-[11px] font-bold cursor-pointer transition-colors">
+              +${remainder} outros...
+            </button>
+          ` : '';
+
+          chipsContainer.innerHTML = chipsHtml + moreBtn;
+        }
+      }
+    }
+
+    // Modal Selector State
+    let execSelectorFilterSearch = "";
+    let execSelectorFilterSubeixo = "ALL";
+
+    function openExecProjectSelectorModal() {
+      const modal = document.getElementById("modalExecProjectSelector");
+      if (!modal) return;
+
+      execSelectorFilterSearch = "";
+      execSelectorFilterSubeixo = "ALL";
+      const input = document.getElementById("inputSearchExecSelector");
+      if (input) input.value = "";
+
+      renderExecSelectorSubeixoPills();
+      renderExecSelectorList();
+      modal.classList.remove("hidden");
+      if (input) setTimeout(() => input.focus(), 100);
+    }
+
+    function closeExecProjectSelectorModal() {
+      const modal = document.getElementById("modalExecProjectSelector");
+      if (modal) modal.classList.add("hidden");
+      renderExecutiveTable();
+    }
+
+    function renderExecSelectorSubeixoPills() {
+      const container = document.getElementById("execSelectorSubeixoPills");
+      if (!container) return;
+
+      const subeixos = Array.from(new Set(projectsData.map(p => p.subeixo).filter(Boolean))).sort();
+      const allPills = ["ALL", ...subeixos];
+
+      container.innerHTML = allPills.map(s => {
+        const isSelected = execSelectorFilterSubeixo === s;
+        const label = s === "ALL" ? "Todos os Subeixos" : s;
+        const activeClass = isSelected 
+          ? "bg-blue-600 text-white font-bold border-blue-600 shadow-xs" 
+          : "bg-white hover:bg-slate-100 text-slate-700 font-medium border-slate-300";
+        return `
+          <button type="button" onclick="setExecSelectorSubeixoFilter('${s}')" class="px-2.5 py-1 rounded-lg border text-xs cursor-pointer transition-colors ${activeClass}">
+            ${label}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function setExecSelectorSubeixoFilter(subeixo) {
+      execSelectorFilterSubeixo = subeixo;
+      renderExecSelectorSubeixoPills();
+      renderExecSelectorList();
+    }
+
+    function onExecSelectorSearchInput(val) {
+      execSelectorFilterSearch = (val || "").trim().toLowerCase();
+      renderExecSelectorList();
+    }
+
+    function getExecSelectorVisibleProjects() {
+      return projectsData.filter(p => {
+        if (execSelectorFilterSubeixo !== "ALL" && p.subeixo !== execSelectorFilterSubeixo) {
+          return false;
+        }
+        if (execSelectorFilterSearch) {
+          const s = execSelectorFilterSearch;
+          const match = (
+            (p.empreendimento && p.empreendimento.toLowerCase().includes(s)) ||
+            (p.id_code && p.id_code.toLowerCase().includes(s)) ||
+            (p.subeixo && p.subeixo.toLowerCase().includes(s)) ||
+            (p.processo && p.processo.toLowerCase().includes(s))
+          );
+          if (!match) return false;
+        }
+        return true;
+      });
+    }
+
+    function renderExecSelectorList() {
+      const listContainer = document.getElementById("execSelectorProjectsList");
+      if (!listContainer) return;
+
+      safeSetText("modalExecSelectedCount", selectedExecutiveProjectIds.length);
+      safeSetText("modalExecTotalCount", projectsData.length);
+
+      const visible = getExecSelectorVisibleProjects();
+
+      if (visible.length === 0) {
+        listContainer.innerHTML = `
+          <div class="py-12 text-center text-slate-400">
+            <p class="text-xs font-semibold">Nenhum empreendimento encontrado para a busca/filtro.</p>
+          </div>
+        `;
+        return;
+      }
+
+      listContainer.innerHTML = visible.map(p => {
+        const isChecked = selectedExecutiveProjectIds.includes(p.id);
+        const activeBg = isChecked ? "bg-blue-50/70 border-blue-200" : "bg-white hover:bg-slate-50 border-slate-100";
+        return `
+          <div onclick="toggleExecutiveProject('${p.id}')" class="flex items-center justify-between p-2.5 rounded-xl border ${activeBg} cursor-pointer transition-colors group">
+            <div class="flex items-center space-x-3 min-w-0 pr-2">
+              <input type="checkbox" id="chk_exec_proj_${p.id}" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); toggleExecutiveProject('${p.id}', this.checked)" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300 cursor-pointer shrink-0">
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">${p.subeixo || ''}</span>
+                  <span class="text-xs font-mono font-semibold text-slate-500">${p.id_code || ''}</span>
+                  <span class="text-xs font-bold text-slate-900 group-hover:text-blue-700 transition-colors">${p.empreendimento}</span>
+                </div>
+                ${p.processo ? `<div class="text-[11px] text-slate-400 mt-0.5 truncate">Proc: ${p.processo}</div>` : ''}
+              </div>
+            </div>
+            <div class="shrink-0 flex items-center gap-2">
+              ${getLicenseStatusBadge(p.status_licenca)}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function modalSelectAllVisible() {
+      const visible = getExecSelectorVisibleProjects();
+      visible.forEach(p => {
+        if (!selectedExecutiveProjectIds.includes(p.id)) {
+          selectedExecutiveProjectIds.push(p.id);
+        }
+      });
+      saveSelectedExecutiveProjects();
+      updateExecSelectionUI();
+      renderExecSelectorList();
+      showToast(`${visible.length} empreendimentos marcados.`, "info");
+    }
+
+    function modalClearAllVisible() {
+      const visible = getExecSelectorVisibleProjects();
+      const visibleIds = new Set(visible.map(p => p.id));
+      selectedExecutiveProjectIds = selectedExecutiveProjectIds.filter(id => !visibleIds.has(id));
+      saveSelectedExecutiveProjects();
+      updateExecSelectionUI();
+      renderExecSelectorList();
+      showToast(`${visible.length} empreendimentos desmarcados.`, "info");
+    }
+
+    function getExecutiveFilteredData() {
+      return projectsData.filter(item => {
+        if (!selectedExecutiveProjectIds.includes(item.id)) return false;
+
+        if (filters.search) {
+          const s = filters.search.toLowerCase();
+          const match = (
+            (item.empreendimento && item.empreendimento.toLowerCase().includes(s)) ||
+            (item.id_code && item.id_code.toLowerCase().includes(s)) ||
+            (item.processo && item.processo.toLowerCase().includes(s)) ||
+            (item.comentarios && item.comentarios.toLowerCase().includes(s)) ||
+            (item.providencias && item.providencias.toLowerCase().includes(s)) ||
+            (item.pendencia && item.pendencia.toLowerCase().includes(s)) ||
+            (item.riscos_oportunidades && item.riscos_oportunidades.toLowerCase().includes(s))
+          );
+          if (!match) return false;
+        }
+        if (filters.subeixo !== "ALL" && item.subeixo !== filters.subeixo) return false;
+        if (filters.status !== "ALL" && item.status_licenca !== filters.status) return false;
+        if (filters.orgao !== "ALL") {
+          if (filters.orgao === "Nenhuma") {
+            const isConcl = !item.pendencia || item.pendencia === "Nenhuma" || /concluído|concluido/i.test(item.pendencia);
+            if (!isConcl) return false;
+          } else {
+            if (!item.pendencia || !item.pendencia.toUpperCase().includes(filters.orgao.toUpperCase())) return false;
+          }
+        }
+        return true;
+      });
+    }
 
     function renderExecutiveTable() {
       const tbodyExecutive = document.getElementById("tbodyExecutive");
-      const data = getFilteredData();
+      if (!tbodyExecutive) return;
+
+      updateExecSelectionUI();
+
+      if (selectedExecutiveProjectIds.length === 0) {
+        renderExecutiveDashboard([]);
+        tbodyExecutive.innerHTML = `
+          <tr>
+            <td colspan="8" class="py-14 text-center text-slate-500 bg-slate-50/50">
+              <div class="max-w-md mx-auto space-y-3">
+                <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center mx-auto shadow-xs">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                </div>
+                <h4 class="font-bold text-slate-800 text-sm">Nenhum empreendimento selecionado para a Tabela Executiva</h4>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                  Esta tabela executiva apresenta apenas as obras previamente selecionadas para a pauta da Casa Civil. Clique abaixo para escolher as obras que deseja monitorar ou imprimir.
+                </p>
+                <div class="flex items-center justify-center gap-2 pt-2">
+                  <button type="button" onclick="openExecProjectSelectorModal()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-sm transition-all cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                    Selecionar Empreendimentos
+                  </button>
+                  <button type="button" onclick="selectAllExecutiveProjects()" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer">
+                    Selecionar Todos (${projectsData.length})
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        `;
+        renderTransversalRisks();
+        return;
+      }
+
+      const data = getExecutiveFilteredData();
       renderExecutiveDashboard(data);
 
       if (data.length === 0) {
-        tbodyExecutive.innerHTML = `<tr><td colspan="7" class="py-8 text-center text-slate-400">Nenhum processo encontrado.</td></tr>`;
+        tbodyExecutive.innerHTML = `
+          <tr>
+            <td colspan="8" class="py-10 text-center text-slate-500 bg-slate-50/50">
+              <div class="max-w-md mx-auto space-y-2">
+                <p class="font-bold text-slate-700 text-xs">Nenhum dos ${selectedExecutiveProjectIds.length} empreendimentos selecionados corresponde aos filtros atuais (busca/subeixo/órgão).</p>
+                <div class="flex items-center justify-center gap-2 pt-1">
+                  <button type="button" onclick="clearAllAppFilters()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold shadow-xs cursor-pointer">Limpar Filtros Gerais</button>
+                  <button type="button" onclick="openExecProjectSelectorModal()" class="px-3 py-1.5 bg-white border border-slate-300 text-slate-700 rounded-lg text-xs font-semibold hover:bg-slate-50 cursor-pointer">Alterar Seleção</button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        `;
+        renderTransversalRisks();
         return;
       }
 
@@ -5137,16 +5909,22 @@
         const l_map = mappedLicenseLinks[item.id] || {};
         const processoUrl = item.processo_url || l_map.processo;
 
-        let bgRow = "hover:bg-slate-50";
-
         return `
           <tr class="hover:bg-slate-50/90 transition-colors group border-b border-slate-300" data-id="${item.id}">
             <td class="py-3.5 px-3.5 border-b border-slate-300 font-semibold text-slate-800 text-xs">${item.subeixo || ''}</td>
             <td class="py-3.5 px-2 border-b border-slate-300 text-center font-mono text-slate-700 text-xs font-semibold">${item.id_code || ''}</td>
             <td class="py-3.5 px-3.5 border-b border-slate-300">
-              <div class="text-slate-900 font-bold text-xs leading-snug select-text">${item.empreendimento}</div>
+              <div class="flex items-start justify-between gap-1.5">
+                <div class="text-slate-900 font-bold text-xs leading-snug select-text flex-1">${item.empreendimento}</div>
+                <button type="button" onclick="toggleExecutiveProject('${item.id}', false)" class="no-print opacity-0 group-hover:opacity-100 text-slate-400 hover:text-rose-600 p-0.5 rounded transition-opacity cursor-pointer shrink-0" title="Remover da Tabela Executiva">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+              </div>
               ${getLicenseStatusBadge(item.status_licenca)}
               ${item.processo ? `<div class="mt-1.5">${renderProcessoCell(item.processo, processoUrl)}</div>` : ''}
+            </td>
+            <td class="py-3.5 px-2.5 border-b border-slate-300 text-center font-bold text-xs">
+              ${renderInterfacesCell(item)}
             </td>
             <td class="py-3.5 px-3.5 border-b border-slate-300 bg-amber-50/15 editable-cell" data-field="riscos_oportunidades" data-idx="${rawIndex}">
               ${item.riscos_oportunidades ? `<div class="p-2 rounded-lg bg-amber-50/80 border border-amber-200/60 text-amber-950 text-xs leading-relaxed select-text font-medium">${item.riscos_oportunidades}</div>` : '<span class="text-slate-400 italic text-[11px]">Sem riscos informados</span>'}
@@ -5302,7 +6080,7 @@ function getLastIssuedLicenseHtml(item) {
               ${renderAgencyBadges(extractAgenciesFromProject(item))}
             </td>
             <td class="py-3 px-2.5 border-b border-slate-300 text-center font-mono text-xs text-slate-500">${item.modificado_em || '-'}</td>
-            <td class="py-3 px-2 text-center border-b border-slate-300">
+            <td class="py-3 px-2 text-center border-b border-slate-300 no-print">
               <button class="btn-delete-row p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors" data-idx="${rawIndex}" title="Excluir Processo">
                 <svg width="14" height="14" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
               </button>
@@ -5908,14 +6686,127 @@ function getLastIssuedLicenseHtml(item) {
       });
     });
 
+    let currentPrintFontSize = "7.8pt";
+    try {
+      const savedFontSize = localStorage.getItem("LICENCAS_PAC_PRINT_FONT_SIZE");
+      if (savedFontSize) currentPrintFontSize = savedFontSize;
+    } catch(e) {}
+
+    function updatePrintModalOptions(targetView) {
+      const optExec = document.getElementById("optPrintExecutiveDashboard");
+      if (optExec) {
+        if (targetView === "executive") {
+          optExec.classList.remove("hidden");
+        } else {
+          optExec.classList.add("hidden");
+        }
+      }
+    }
+
+    function openPrintModal(defaultView = "executive") {
+      const modal = document.getElementById("modalPrintSettings");
+      if (!modal) {
+        switchView(defaultView);
+        setTimeout(() => window.print(), 250);
+        return;
+      }
+
+      const radio = document.querySelector(`input[name="printTargetView"][value="${defaultView}"]`);
+      if (radio) radio.checked = true;
+
+      updatePrintModalOptions(defaultView);
+
+      // Restore saved font size button styling
+      document.querySelectorAll(".btn-scale-preset").forEach(btn => {
+        if (btn.getAttribute("data-size") === currentPrintFontSize) {
+          btn.className = "btn-scale-preset py-2 px-2.5 rounded-lg border border-blue-600 bg-blue-50/80 font-bold text-center text-blue-900 text-xs cursor-pointer transition-all ring-1 ring-blue-500";
+          safeSetText("printScaleLabel", btn.getAttribute("data-label"));
+        } else {
+          btn.className = "btn-scale-preset py-2 px-2.5 rounded-lg border border-slate-300 font-semibold text-center hover:bg-white text-xs cursor-pointer transition-all";
+        }
+      });
+
+      modal.classList.remove("hidden");
+    }
+
+    function closePrintModal() {
+      const modal = document.getElementById("modalPrintSettings");
+      if (modal) modal.classList.add("hidden");
+    }
+
+    // Radio change listener to toggle executive dashboard checkbox
+    document.querySelectorAll(`input[name="printTargetView"]`).forEach(r => {
+      r.addEventListener("change", function() {
+        updatePrintModalOptions(this.value);
+      });
+    });
+
+    // Preset scale button listener
+    document.querySelectorAll(".btn-scale-preset").forEach(btn => {
+      btn.addEventListener("click", function() {
+        currentPrintFontSize = this.getAttribute("data-size");
+        try { localStorage.setItem("LICENCAS_PAC_PRINT_FONT_SIZE", currentPrintFontSize); } catch(e) {}
+
+        document.querySelectorAll(".btn-scale-preset").forEach(b => {
+          b.className = "btn-scale-preset py-2 px-2.5 rounded-lg border border-slate-300 font-semibold text-center hover:bg-white text-xs cursor-pointer transition-all";
+        });
+        this.className = "btn-scale-preset py-2 px-2.5 rounded-lg border border-blue-600 bg-blue-50/80 font-bold text-center text-blue-900 text-xs cursor-pointer transition-all ring-1 ring-blue-500";
+
+        safeSetText("printScaleLabel", this.getAttribute("data-label"));
+      });
+    });
+
+    safeAddListener("btnClosePrintModal", "click", closePrintModal);
+    safeAddListener("btnCancelPrintModal", "click", closePrintModal);
+
+    // Close on backdrop click
+    const printModal = document.getElementById("modalPrintSettings");
+    if (printModal) {
+      printModal.addEventListener("click", function(e) {
+        if (e.target === this) closePrintModal();
+      });
+    }
+
+    safeAddListener("btnConfirmPrint", "click", () => {
+      const selRadio = document.querySelector(`input[name="printTargetView"]:checked`);
+      const targetView = selRadio ? selRadio.value : "executive";
+
+      if (targetView === "executive" && selectedExecutiveProjectIds.length === 0) {
+        closePrintModal();
+        showToast("Selecione ao menos um empreendimento para a Tabela Executiva antes de gerar o PDF.", "warning");
+        openExecProjectSelectorModal();
+        return;
+      }
+
+      const chkDashboard = document.getElementById("chkIncludeDashboard");
+      if (targetView === "executive" && chkDashboard && !chkDashboard.checked) {
+        document.body.classList.add("print-hide-dashboard");
+      } else {
+        document.body.classList.remove("print-hide-dashboard");
+      }
+
+      document.documentElement.style.setProperty("--print-font-size", currentPrintFontSize);
+
+      closePrintModal();
+      switchView(targetView);
+
+      showToast("Abrindo visualização de impressão em PDF (A4 Paisagem)...", "info");
+
+      setTimeout(() => {
+        window.print();
+      }, 350);
+    });
+
     safeAddListener("btnExportPDF", "click", () => {
-      switchView("executive");
-      setTimeout(() => window.print(), 250);
+      openPrintModal("executive");
+    });
+
+    safeAddListener("btnExportTasksPDF", "click", () => {
+      openPrintModal("tasks");
     });
 
     safeAddListener("btnExportMasterPDF", "click", () => {
-      switchView("master");
-      setTimeout(() => window.print(), 250);
+      openPrintModal("master");
     });
     safeAddListener("btnExportCSV", "click", exportBackupCSV);
     function exportBackupCSV() {
@@ -5923,6 +6814,7 @@ function getLastIssuedLicenseHtml(item) {
         "Subeixo",
         "ID",
         "Empreendimento",
+        "Interfaces",
         "Status Licença",
         "Processo",
         "Processo (Link)",
@@ -5956,6 +6848,7 @@ function getLastIssuedLicenseHtml(item) {
           p.subeixo || "",
           p.id_code || "",
           p.empreendimento || "",
+          [hasTrInterface(p.tr_funai) ? "FUNAI" : "", hasTrInterface(p.tr_incra) ? "INCRA" : ""].filter(Boolean).join(" / ") || "Nenhuma",
           p.status_licenca || "",
           p.processo || "",
           p.processo_url || l_map.processo || "",
@@ -6787,7 +7680,15 @@ function getLastIssuedLicenseHtml(item) {
       showToast("Risco transversal salvo com sucesso!", "success");
     });
 
+    const modalExecSelector = document.getElementById("modalExecProjectSelector");
+    if (modalExecSelector) {
+      modalExecSelector.addEventListener("click", function(e) {
+        if (e.target === this) closeExecProjectSelectorModal();
+      });
+    }
+
     loadTransversalRisks();
+    loadSelectedExecutiveProjects();
     loadData();
     renderAll();
     setupCloudModalListeners();
